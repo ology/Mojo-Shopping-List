@@ -73,6 +73,7 @@
             % if ($item->{note}) {
         - <%= $item->{note} %>
             % }
+            % unless ($item->{assigned}) {
         <form name="move_item" action="/move_item" method="post">
             <input type="hidden" name="item" value="<%= $item->{id} %>">
             <input type="hidden" name="list" value="<%= $list %>">
@@ -85,6 +86,7 @@
                 % }
             % }
             </select>
+            % }
         </form>
       </div>
     </div>
