@@ -14,11 +14,11 @@
     % if ($item->{title}) {
         <b><%= $item->{title} %></b>
     % } else {
-            % $i++;
-            % my $msg = "$i. ";
-            % $msg .= "$item->{quantity} x ";
-            % $msg .= $item->{name};
-            % $msg .= " - $item->{note}" if $item->{note};
+        % $i++;
+        % my $msg = "$i. ";
+        % $msg .= "$item->{quantity} x ";
+        % $msg .= $item->{name};
+        % $msg .= " - $item->{note}" if $item->{note};
         <%= $msg %>
     % }
     </li>
