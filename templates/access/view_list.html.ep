@@ -105,7 +105,7 @@
 % for my $letter ('A' .. 'Z') {
 <a href="#<%= $letter %>" class="button" style="width: 40px; border: 1px solid #bbb;"><%= $letter %></a>
 % }
-<a href="/view_items" class="button" title="View items"><input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn"></a>
+<a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" class="button" title="View items"><input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn"></a>
 </div>
 
 % if (@$off_items) {
