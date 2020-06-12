@@ -1,0 +1,23 @@
+% layout 'default';
+% title 'Print list';
+
+<a href="/lists" class="button" title="Return to lists">
+    <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
+</a>
+&nbsp; <b><%= $name %></b>
+<p><%= scalar @$on_items %> items for $<%= $cost %></p>
+<p></p>
+<ol>
+    % for my $item (@$on_items) {
+    <li>
+        % if ($item->{title}) {
+        <b><%= $item->{title} %></b>
+        % } else {
+        <%= $item->{name} %>
+            % if ($item->{note}) {
+        - <%= $item->{note} %>
+            % }
+        % }
+    </li>
+    % }
+</ol>
