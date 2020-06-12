@@ -7,13 +7,15 @@
 &nbsp; <b><%= $name %></b>
 <p><%= scalar @$on_items %> items for $<%= $cost %></p>
 <p></p>
+% my $i = 0;
 <ul>
     % for my $item (@$on_items) {
     <li>
         % if ($item->{title}) {
         <b><%= $item->{title} %></b>
         % } else {
-        <%= $item->{name} %>
+            % $i++;
+        <%= $i . '. ' . $item->{name} %>
             % if ($item->{note}) {
         - <%= $item->{note} %>
             % }
