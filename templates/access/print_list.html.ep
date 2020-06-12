@@ -1,5 +1,5 @@
 % layout 'default';
-% title 'Print list';
+% title $name;
 
 <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" class="button" title="Return to list">
     <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
