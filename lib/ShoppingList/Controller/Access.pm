@@ -408,7 +408,10 @@ sub view_items {
     }
     else {
     }
-    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
+    $self->render(
+        list => $v->param('list'),
+        sort => $v->param('sort'),
+    );
 }
 
 1;
