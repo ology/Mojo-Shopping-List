@@ -15,10 +15,12 @@
         <b><%= $item->{title} %></b>
     % } else {
             % $i++;
-        <%= $i . '. ' . $item->{quantity} . ' ' . $item->{name} %>
-        % if ($item->{note}) {
-        - <%= $item->{note} %>
-        % }
+            % my $msg = '';
+            % $msg .= "$i. ";
+            % $msg .= "$item->{quantity} x ";
+            % $msg .= $item->{name};
+            % $msg .= " - $item->{note}" if $item->{note};
+        <%= $msg %>
     % }
     </li>
 % }
