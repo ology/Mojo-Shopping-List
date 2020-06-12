@@ -1,0 +1,32 @@
+% layout 'default';
+% title 'Lists';
+<p>
+%= tag b => 'Shopping lists'
+</p>
+%= include 'access/_flash'
+
+<form method="post">
+    <input type="text" name="name" placeholder="New list name">
+    <button type="submit" title="New list"><input type="image" src="/images/plus-colored.png" class="img-btn"></button>
+</form>
+&nbsp; | &nbsp;
+<a href="/search_items" class="button" title="Search items"><input type="image" src="/images/magnifying-glass-colored.png" class="img-btn"></a>
+<p>
+<ul>
+% while (my $list = $lists->next) {
+    <li>
+        <form action="/update_list" method="post">
+            <input type="hidden" name="list" value="<%= $list->id %>">
+            <input type="text" name="name" placeholder="List name" value="<%= $list->name %>">
+            <button type="submit" title="New list name"><input type="image" src="/images/incoming-colored.png" class="img-btn" onchange="this.form.submit();"></button>
+        </form>
+        <a href="/delete_list?list=<%= $list->id %>" class="button" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;">
+            <input type="image" src="/images/minus-colored.png" class="img-btn" title="Delete list">
+        </a>
+        <a href="/view_list?list=<%= $list->id %>" class="button">
+            <input type="image" src="/images/forward-colored.png" class="img-btn" title="Go to list">
+        </a>
+    </li>
+% }
+</ul>
+%= link_to Logout => 'logout'

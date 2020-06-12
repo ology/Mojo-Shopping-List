@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/skeleton.css" />
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title><%= title %></title>
+  </head>
+  <body><%= content %></body>
+</html>

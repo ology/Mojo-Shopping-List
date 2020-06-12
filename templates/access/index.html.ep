@@ -1,0 +1,13 @@
+% layout 'default';
+% title 'Login';
+%= tag h1 => 'Login'
+%= include 'access/_flash'
+%= form_for login => (method => 'post') => begin
+    %= label_for username => 'Username:'
+    %= text_field 'username'
+    %= tag 'br'
+    %= label_for password => 'Password:'
+    %= password_field 'password'
+    %= tag 'br'
+    %= submit_button 'Login'
+%= end

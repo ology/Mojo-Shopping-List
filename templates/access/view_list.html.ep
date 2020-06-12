@@ -1,0 +1,201 @@
+% layout 'default';
+% title 'View list';
+%= include 'access/_flash'
+
+<button onclick="topFunction()" id="top_button" title="Go to top">^</button> 
+
+<a href="/lists" class="button" title="Return to lists">
+    <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
+</a>
+<a href="/print_list?list=<%= $list %>&sort=<%= $sort %>" class="button" title="Print list">
+    <input type="image" name="go" src="/images/print-colored.png" class="img-btn">
+</a>
+
+<form action="/view_list" method="get">
+    <input type="hidden" name="list" value="<%= $list %>">
+    Sort: <select name="sort" onchange="this.form.submit();">
+        <option value="added"
+% if ($sort eq 'added') {
+        selected
+% }
+        >Added</option>
+        <option value="alpha"
+% if ($sort eq 'alpha') {
+        selected
+% }
+        >Alpha</option>
+        <option value="category"
+% if ($sort eq 'category') {
+        selected
+% }
+        >Category</option>
+    </select>
+</form>
+&nbsp; <b><%= $name %></b>
+% if (@$on_items) {
+<p><%= scalar @$on_items %> / <%= scalar @$off_items %> items for $<%= $cost %></p>
+<p>
+<ul>
+    % for my $item (@$on_items) {
+    <li>
+        % if ($item->{title}) {
+        <b><%= $item->{title} %></b>
+        % } else {
+        <div class="border-rounded green-background">
+  <div class="tablewrapper">
+    <div class="table">
+      <div class="row">
+        <div class="cell">
+        <form action="/update_item" method="post">
+            <input type="checkbox" name="active" onchange="this.form.submit();" checked title="Remove item from list">
+            <input type="hidden" name="list" value="<%= $list %>">
+            <input type="hidden" name="sort" value="<%= $sort %>">
+            <input type="hidden" name="item" value="<%= $item->{id} %>">
+            <input type="hidden" name="note" value="<%= $item->{note} %>">
+            <input type="hidden" name="category" value="<%= $item->{category} %>">
+            <input type="hidden" name="cost" value="<%= $item->{cost} %>">
+            <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
+        </form>
+        </div>
+        <div class="cell">
+        <form action="/update_item" method="post">
+            <input type="hidden" name="active" value="1">
+            <input type="hidden" name="list" value="<%= $list %>">
+            <input type="hidden" name="sort" value="<%= $sort %>">
+            <input type="hidden" name="item" value="<%= $item->{id} %>">
+            <input type="hidden" name="note" value="<%= $item->{note} %>">
+            <input type="hidden" name="category" value="<%= $item->{category} %>">
+            <input type="hidden" name="cost" value="<%= $item->{cost} %>">
+            <input type="number" name="quantity" placeholder="#" value="<%= $item->{quantity} %>" style=width:4em;">
+        </form>
+        <%= $item->{name} %>
+            % if ($item->{note}) {
+        - <%= $item->{note} %>
+            % }
+        <form name="move_item" action="/move_item" method="post">
+            <input type="hidden" name="item" value="<%= $item->{id} %>">
+            <input type="hidden" name="list" value="<%= $list %>">
+            <input type="hidden" name="sort" value="<%= $sort %>">
+            <select name="move_shop_list" onchange="this.form.submit();">
+                <option value="">Move to...</option>
+            % for my $shop_list (@$shop_lists) {
+                % if ($shop_list->{name} ne $name) {
+                <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
+                % }
+            % }
+            </select>
+        </form>
+      </div>
+    </div>
+  </div>
+        </div>
+        % }
+    </li>
+    % }
+</ul>
+% } else {
+<p>No items yet.</p>
+% }
+
+<div>
+<a href="#Letters" id="letters"></a>
+% for my $letter ('A' .. 'Z') {
+<a href="#<%= $letter %>" class="button" style="width: 40px; border: 1px solid #bbb;"><%= $letter %></a>
+% }
+<a href="/search_items" class="button" title="Search items"><input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn"></a>
+</div>
+
+% if (@$off_items) {
+<p></p>
+<div>
+<div>
+<ul>
+    % for my $item (@$off_items) {
+    <li>
+        % if ($item->{title}) {
+        <b><%= $item->{title} %></b>
+        % } else {
+<a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
+<div class="border-rounded yellow-background">
+  <div class="tablewrapper">
+    <div class="table">
+      <div class="row">
+        <div class="cell">
+        <form action="/update_item" method="post">
+            <input type="checkbox" name="active" id="active" value="<%= $item->{id} %>" onchange="this.form.submit();" title="Add item to list">
+            <input type="hidden" name="list" value="<%= $list %>">
+            <input type="hidden" name="sort" value="<%= $sort %>">
+            <input type="hidden" name="item" value="<%= $item->{id} %>">
+            <input type="hidden" name="note" value="<%= $item->{note} %>">
+            <input type="hidden" name="category" value="<%= $item->{category} %>">
+            <input type="hidden" name="cost" value="<%= $item->{cost} %>">
+            <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
+        </form>
+        </div>
+        <div class="cell">
+        <form action="/update_item" method="post">
+            <input type="hidden" name="active" value="0">
+            <input type="hidden" name="item" value="<%= $item->{id} %>">
+            <input type="hidden" name="list" value="<%= $list %>">
+            <input type="hidden" name="sort" value="<%= $sort %>">
+            <input type="text" name="name" placeholder="Item name" value="<%= $item->{name} %>">
+            <input type="text" name="note" placeholder="Note" value="<%= $item->{note} %>">
+            <input type="text" name="category" placeholder="Category" value="<%= $item->{category} %>" list="category">
+            <input type="text" name="cost" placeholder="Cost" value="<%= $item->{cost} %>" size="6">
+            <input type="hidden" name="quantity" placeholder="Quantity" value="<%= $item->{quantity} %>">
+            <datalist id="category">
+        % for my $cat (@$cats) {
+                <option><%= $cat %></option>
+        % }
+            </datalist>
+            <select name="assign">
+                <option value="">Assign...</option>
+        % for my $shop_list (@$shop_lists) {
+            % if ($shop_list->{name} ne $name) {
+                <option value="<%= $shop_list->{id} %>"
+                % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
+                selected
+                % }
+                ><%= $shop_list->{name} %></option>
+            % }
+        % }
+            </select>
+            <button type="submit" title="Update item"><input type="image" name="new" src="/images/incoming-colored.png" class="img-btn" onchange="this.form.submit();"></button>
+        </form>
+        <a href="/delete_item?item=<%= $item->{id} %>&list=<%= $list %>&sort=<%= $sort %>" class="button" onclick="if(!confirm('Are you sure you want to remove this item forever?')) return false;" title="Delete item">
+            <input type="image" name="delete" src="/images/minus-colored.png" class="img-btn">
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    % }
+    </li>
+    % }
+</ul>
+</div>
+</div>
+% }
+
+%= link_to Logout => 'logout'
+
+<script>
+mybutton = document.getElementById("top_button");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+function topFunction() {
+    var letters = document.getElementById('letters');
+    letters.scrollIntoView();
+}
+</script>
