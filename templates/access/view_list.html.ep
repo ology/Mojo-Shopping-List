@@ -151,13 +151,11 @@
             <select name="assign">
                 <option value="">Assign...</option>
         % for my $shop_list (@$shop_lists) {
-            % if ($shop_list->{name} ne $name) {
                 <option value="<%= $shop_list->{id} %>"
-                % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
+            % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
                 selected
-                % }
-                ><%= $shop_list->{name} %></option>
             % }
+                ><%= $shop_list->{name} %></option>
         % }
             </select>
             <button type="submit" title="Update item"><input type="image" name="new" src="/images/incoming-colored.png" class="img-btn" onchange="this.form.submit();"></button>
