@@ -15,7 +15,7 @@
         <b><%= $item->{title} %></b>
     % } else {
             % $i++;
-        <%= $i . '. ' . $item->{name} %>
+        <%= $i . '. ' . $item->{quantity} . ' ' . $item->{name} %>
         % if ($item->{note}) {
         - <%= $item->{note} %>
         % }
