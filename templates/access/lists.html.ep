@@ -9,8 +9,6 @@
     <input type="text" name="name" placeholder="New list name">
     <button type="submit" title="New list"><input type="image" src="/images/plus-colored.png" class="img-btn"></button>
 </form>
-&nbsp; | &nbsp;
-<a href="/view_items" class="button" title="View items"><input type="image" src="/images/magnifying-glass-colored.png" class="img-btn"></a>
 <p>
 <ul>
 % while (my $list = $lists->next) {
