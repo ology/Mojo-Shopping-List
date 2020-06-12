@@ -1,5 +1,5 @@
 % layout 'default';
-% title 'View list';
+% title $name;
 %= include 'access/_flash'
 
 <button onclick="topFunction()" id="top_button" title="Go to top">^</button> 
