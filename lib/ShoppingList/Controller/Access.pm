@@ -236,7 +236,7 @@ sub update_item {
     $v->optional('category');
     $v->optional('cost');
     $v->optional('quantity');
-    $v->optional('assign');
+    $v->optional('assigned');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
@@ -248,7 +248,7 @@ sub update_item {
         else {
             $result->list_id(undef);
         }
-        $result->assigned($v->param('assign'));
+        $result->assigned($v->param('assigned'));
         $result->name($v->param('name')) if $v->param('name');
         $result->note($v->param('note'));
         $result->category($v->param('category'));

@@ -55,6 +55,7 @@
             <input type="hidden" name="category" value="<%= $item->{category} %>">
             <input type="hidden" name="cost" value="<%= $item->{cost} %>">
             <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
+            <input type="hidden" name="assigned" value="<%= $item->{assigned} %>">
         </form>
         </div>
         <div class="cell">
@@ -130,6 +131,7 @@
             <input type="hidden" name="category" value="<%= $item->{category} %>">
             <input type="hidden" name="cost" value="<%= $item->{cost} %>">
             <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
+            <input type="hidden" name="assigned" value="<%= $item->{assigned} %>">
         </form>
         </div>
         <div class="cell">
@@ -148,7 +150,7 @@
                 <option><%= $cat %></option>
         % }
             </datalist>
-            <select name="assign">
+            <select name="assigned">
                 <option value="">Assign...</option>
         % for my $shop_list (@$shop_lists) {
                 <option value="<%= $shop_list->{id} %>"
