@@ -205,6 +205,112 @@ sub view_list {
     );
 }
 
+sub print_list {
+    my ($self) = @_;
+    my $sort = '';
+    my $on = [];
+    my $off = [];
+    my $shop_lists = [];
+    my $cats = [];
+    my $name = '';
+    my $cost = 0;
+    my $v = $self->validation;
+    $v->required('list');
+    $v->optional('sort')->in('added', 'alpha', 'category');
+    if ($v->has_error) {
+        $self->flash(error => ERROR_MSG);
+        return $self->redirect_to('lists');
+    }
+    else {
+        my $on_items = [];
+        my $off_items = [];
+        $sort = $v->param('sort') || 'added';
+        my $order = {};
+        if ($sort eq 'added') {
+            $order = { order_by => 'id' };
+        }
+        elsif ($sort eq 'alpha') {
+            $order = { order_by => { '-asc' => \'LOWER(name)' } },
+        }
+        elsif ($sort eq 'category') {
+            $order = { order_by => { '-asc' => \'LOWER(category)' } },
+        }
+        my %on_cats;
+        my %off_cats;
+        my $result = $self->schema->resultset('List')->find($v->param('list'));
+        $name = $result->name;
+        my $items = $result->items->search({}, { %$order });
+        while (my $item = $items->next) {
+            my $struct = {
+                id       => $item->id,
+                name     => $item->name,
+                category => $item->category,
+                note     => $item->note,
+                quantity => $item->quantity,
+                cost     => $item->cost,
+                list_id  => $item->list_id,
+                assigned => $item->assigned,
+            };
+            push @$on_items, $struct;
+            $cost += $item->cost * $item->quantity
+                if $item->cost && $item->quantity;
+            if ($sort eq 'category') {
+                my $cat = $item->category ? ucfirst(lc $item->category) : 'Uncategorized';
+                push @{ $on_cats{$cat} }, $struct;
+            }
+        }
+        $items = $self->schema->resultset('Item')->search(
+            {
+                account_id => $self->session->{auth},
+                list_id    => undef,
+            },
+            {
+                %$order,
+            }
+        );
+        while (my $item = $items->next) {
+            next if $item->assigned && $item->assigned != $v->param('list');
+            my $struct = {
+                id       => $item->id,
+                name     => $item->name,
+                category => $item->category,
+                note     => $item->note,
+                quantity => $item->quantity,
+                cost     => $item->cost,
+                list_id  => $item->list_id,
+                assigned => $item->assigned,
+            };
+            push @$off_items, $struct;
+            if ($sort eq 'category') {
+                my $cat = $item->category ? ucfirst(lc $item->category) : 'Uncategorized';
+                push @{ $off_cats{$cat} }, $struct;
+            }
+        }
+        if ($sort eq 'category') {
+            for my $cat ( sort { $a cmp $b } keys %on_cats ) {
+                push @$on, { title => $cat };
+                push @$on, $_ for @{ $on_cats{$cat} };
+            }
+            for my $cat ( sort { $a cmp $b } keys %off_cats ) {
+                push @$off, { title => $cat };
+                push @$off, $_ for @{ $off_cats{$cat} };
+            }
+        }
+        else {
+            $on = $on_items;
+            $off = $off_items;
+        }
+    }
+    $self->render(
+        list       => $v->param('list'),
+        name       => $name,
+        on_items   => $on,
+        off_items  => $off,
+        sort       => $sort,
+        cost       => sprintf('%.2f', $cost),
+    );
+}
+
 sub new_item {
     my ($self) = @_;
     my $v = $self->validation;
