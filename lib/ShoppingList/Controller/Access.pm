@@ -398,4 +398,17 @@ sub move_item {
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
 
+sub view_items {
+    my ($self) = @_;
+    my $v = $self->validation;
+    $v->required('list');
+    $v->optional('sort');
+    if ($v->has_error) {
+        $self->flash(error => ERROR_MSG);
+    }
+    else {
+    }
+    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
+}
+
 1;
