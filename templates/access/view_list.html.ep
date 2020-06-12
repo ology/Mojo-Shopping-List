@@ -74,11 +74,11 @@
         - <%= $item->{note} %>
             % }
             % unless ($item->{assigned}) {
-        <form name="move_item" action="/move_item" method="post">
+        <form action="/move_item" method="post">
             <input type="hidden" name="item" value="<%= $item->{id} %>">
             <input type="hidden" name="list" value="<%= $list %>">
             <input type="hidden" name="sort" value="<%= $sort %>">
-            <select name="move_shop_list" onchange="this.form.submit();">
+            <select name="move_to_list" onchange="this.form.submit();">
                 <option value="">Move to...</option>
             % for my $shop_list (@$shop_lists) {
                 % if ($shop_list->{name} ne $name) {

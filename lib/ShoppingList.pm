@@ -41,6 +41,7 @@ sub startup {
   $auth->post('/new_item')->to('access#new_item');
   $auth->post('/update_item')->to('access#update_item');
   $auth->get('/delete_item')->to('access#delete_item');
+  $auth->post('/move_item')->to('access#move_item');
 }
 
 1;
