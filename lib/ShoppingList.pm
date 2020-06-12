@@ -5,10 +5,10 @@ use Mojo::Base 'Mojolicious';
 sub startup {
   my $self = shift;
 
+  $self->plugin('Helper');
+
   # Load configuration from hash returned by config file
   my $config = $self->plugin('Config');
-
-  $self->plugin('Helper');
 
   # Configure the application
   $self->secrets($config->{secrets});
