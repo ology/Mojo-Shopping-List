@@ -302,12 +302,12 @@ sub print_list {
         }
     }
     $self->render(
-        list       => $v->param('list'),
-        name       => $name,
-        on_items   => $on,
-        off_items  => $off,
-        sort       => $sort,
-        cost       => sprintf('%.2f', $cost),
+        list      => $v->param('list'),
+        name      => $name,
+        on_items  => $on,
+        off_items => $off,
+        sort      => $sort,
+        cost      => sprintf('%.2f', $cost),
     );
 }
 
