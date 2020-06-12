@@ -139,6 +139,7 @@ sub view_list {
             }
         );
         while (my $item = $items->next) {
+            next if $item->assigned && $item->assigned != $v->param('list');
             my $struct = {
                 id       => $item->id,
                 name     => $item->name,
