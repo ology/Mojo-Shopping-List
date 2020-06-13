@@ -103,7 +103,7 @@ sub view_list {
             $order = { order_by => { '-asc' => \'LOWER(name)' } },
         }
         elsif ($sort eq 'category') {
-            $order = { order_by => { '-asc' => \'LOWER(category)' } },
+            $order = { order_by => { '-asc' => [\'LOWER(category)', \'LOWER(name)'] } },
         }
         my %on_cats;
         my %off_cats;
@@ -233,7 +233,7 @@ sub print_list {
             $order = { order_by => { '-asc' => \'LOWER(name)' } },
         }
         elsif ($sort eq 'category') {
-            $order = { order_by => { '-asc' => \'LOWER(category)' } },
+            $order = { order_by => { '-asc' => [\'LOWER(category)', \'LOWER(name)'] } },
         }
         my %on_cats;
         my %off_cats;
