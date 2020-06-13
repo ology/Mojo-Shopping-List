@@ -410,25 +410,15 @@ sub view_items {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
-        $list_items = $self->schema->resultset('Item')->search(
+        my $all_items = $self->schema->resultset('Item')->search(
             {
                 account_id => $self->session->{auth},
-                -or => [
-                    name     => { like => $query },
-                    note     => { like => $query },
-                    category => { like => $query },
-                ],
-            },
-            {
-                order_by => { '-asc' => \'LOWER(name)' },
             }
         );
-        while (my $item = $list_items->next) {
+        while (my $item = $all_items->next) {
             push @$names, $item->name;
         }
-        $list_items->reset;
-        my $categories = $list_items->search(
+        my $categories = $all_items->search(
             {},
             {
                 distinct => 1,
@@ -450,6 +440,19 @@ sub view_items {
         while (my $list = $lists->next) {
             push @$shop_lists, { id => $list->id, name => $list->name };
         }
+        my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
+        $list_items = $all_items->search(
+            {
+                -or => [
+                    name     => { like => $query },
+                    note     => { like => $query },
+                    category => { like => $query },
+                ],
+            },
+            {
+                order_by => { '-asc' => \'LOWER(name)' },
+            }
+        );
     }
     $self->render(
         list       => $v->param('list'),
