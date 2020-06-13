@@ -365,6 +365,23 @@ sub update_item {
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
 
+sub update_item_list {
+    my ($self) = @_;
+    my $v = $self->validation;
+    $v->required('item');
+    $v->required('list');
+    $v->required('query');
+    $v->optional('move_to_list');
+    if ($v->has_error) {
+        $self->flash(error => ERROR_MSG)
+    }
+    else {
+        my $result = $self->schema->resultset('Item')->find($v->param('item'));
+        $result->update({ list_id => $v->param('move_to_list') });
+    }
+    return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
+}
+
 sub delete_item {
     my ($self) = @_;
     my $v = $self->validation;
