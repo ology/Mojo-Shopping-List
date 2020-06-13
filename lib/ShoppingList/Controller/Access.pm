@@ -216,7 +216,7 @@ sub print_list {
     my $cost = 0;
     my $v = $self->validation;
     $v->required('list');
-    $v->optional('sort')->in('added', 'alpha', 'category');
+    $v->optional('sort');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
@@ -224,7 +224,7 @@ sub print_list {
     else {
         my $on_items = [];
         my $off_items = [];
-        $sort = $v->param('sort') || 'added';
+        $sort = $v->param('sort') || 'alpha';
         my $order = {};
         if ($sort eq 'added') {
             $order = { order_by => 'id' };
