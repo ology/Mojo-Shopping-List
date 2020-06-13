@@ -103,12 +103,14 @@
 <p>No items yet.</p>
 % }
 
+% if ($sort eq 'alpha') {
 <div>
 <a href="#Letters" id="letters"></a>
 % for my $letter ('A' .. 'Z') {
 <a href="#<%= $letter %>" class="button" style="width: 40px; border: 1px solid #bbb;"><%= $letter %></a>
 % }
 </div>
+% }
 
 % if (@$off_items) {
 <p></p>
