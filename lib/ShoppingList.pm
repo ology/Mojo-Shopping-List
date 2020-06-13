@@ -7,29 +7,20 @@ sub startup {
 
   $self->plugin('Helper');
 
-  # Load configuration from hash returned by config file
   my $config = $self->plugin('Config');
 
-  # Configure the application
   $self->secrets($config->{secrets});
 
-  # Router
   my $r = $self->routes;
 
-  # Authorization
   my $auth = $r->under('/' => sub {
     my ($self) = @_;
-
     my $session = $self->session('auth') // '';
-
-    return 1
-        if $session;
-
+    return 1 if $session;
     $self->render(text => 'Denied!');
     return 0;
   });
 
-  # Routes
   $r->get('/')->to('access#index')->name('login');
   $r->post('/')->to('access#login');
   $r->get('/logout')->to('access#logout')->name('logout');
