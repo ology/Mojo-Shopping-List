@@ -32,5 +32,7 @@ for my $datum (keys %$data) {
         name       => $data->{$datum}{name},
         category   => $data->{$datum}{category},
         note       => $data->{$datum}{note},
+        cost       => $data->{$datum}{cost},
+        assigned   => $data->{$datum}{shop_list_id},
     });
 }
