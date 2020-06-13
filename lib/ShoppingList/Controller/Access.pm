@@ -410,8 +410,8 @@ sub view_items {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $result = $self->schema->resultset('Account')->find($self->session->{auth});
-        my $all_items = $result->items;
+        my $account = $self->schema->resultset('Account')->find($self->session->{auth});
+        my $all_items = $account->items;
         while (my $item = $all_items->next) {
             push @$names, $item->name;
         }
@@ -426,10 +426,8 @@ sub view_items {
         while (my $cat = $categories->next) {
             push @$cats, $cat->category;
         }
-        my $lists = $self->schema->resultset('List')->search(
-            {
-                account_id => $self->session->{auth},
-            },
+        my $lists = $account->lists->search(
+            {},
             {
                 order_by => { '-asc' => \'LOWER(name)' },
             }
