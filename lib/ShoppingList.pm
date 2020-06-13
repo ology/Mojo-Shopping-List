@@ -24,11 +24,11 @@ sub startup {
   $r->get('/')->to('access#index')->name('login');
   $r->post('/')->to('access#login');
   $r->get('/logout')->to('access#logout')->name('logout');
-  $auth->get('/lists')->to('access#lists')->name('lists');
+  $auth->get('/lists')->to('access#lists');
   $auth->post('/lists')->to('access#new_list');
   $auth->post('/update_list')->to('access#update_list');
   $auth->get('/delete_list')->to('access#delete_list');
-  $auth->get('/view_list')->to('access#view_list')->name('view_list');
+  $auth->get('/view_list')->to('access#view_list');
   $auth->get('/print_list')->to('access#print_list');
   $auth->post('/new_item')->to('access#new_item');
   $auth->post('/update_item')->to('access#update_item');
