@@ -7,12 +7,10 @@ sub index { shift->render }
 
 sub login {
     my ($self) = @_;
-
     if (my $user = $self->auth($self->param('username'), $self->param('password'))) {
         $self->session(auth => $user->id);
         return $self->redirect_to('lists');
     }
-
     $self->flash(error => 'Invalid login');
     return $self->redirect_to('login');
 }
