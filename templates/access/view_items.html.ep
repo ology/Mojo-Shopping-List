@@ -63,16 +63,21 @@
         <form action="/item_list" method="post">
             <input type="hidden" name="item_id" value="<%= $item->id %>">
             <input type="hidden" name="query" value="<%= $query %>">
+        % if ($item->assigned) {
+            % my $result = $self->schema->resultset('List')->find($item->assigned);
+            [<%= $result->name %>]
+        % } else {
             <select name="shop_list" onchange="this.form.submit();">
                 <option value="">Move to...</option>
-        % for my $shop_list (@$shop_lists) {
+            % for my $shop_list (@$shop_lists) {
                 <option value="<%= $shop_list->{id} %>"
-            % if ($item->list_id && $shop_list->{id} == $item->list_id) {
+                % if ($item->list_id && $shop_list->{id} == $item->list_id) {
                     selected="selected"
-            % }
+                % }
                 ><%= $shop_list->{name} %></option>
-        % }
+            % }
             </select>
+        % }
         </form>
         % if ($item->list_id) {
         <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="button">
