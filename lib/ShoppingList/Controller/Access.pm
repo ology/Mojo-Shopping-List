@@ -328,9 +328,11 @@ sub update_item {
         $self->flash(error => ERROR_MSG)
     }
     else {
+        my $quantity = $v->param('quantity');
         my $result = $self->schema->resultset('Item')->find($v->param('item'));
         if ($v->param('active')) {
             $result->list_id($v->param('list'));
+            $quantity ||= 1;
         }
         else {
             $result->list_id(undef);
@@ -340,7 +342,7 @@ sub update_item {
         $result->note($v->param('note'));
         $result->category($v->param('category'));
         $result->cost($v->param('cost'));
-        $result->quantity($v->param('quantity'));
+        $result->quantity($quantity);
         $result->update;
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
