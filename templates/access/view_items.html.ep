@@ -60,14 +60,15 @@
         <div class="border-rounded yellow-background">
         % }
         <%= $item->name %> : <%= $item->category %>
-        <form action="/item_list" method="post">
-            <input type="hidden" name="item_id" value="<%= $item->id %>">
-            <input type="hidden" name="query" value="<%= $query %>">
         % if ($item->assigned) {
             % my $result = $self->schema->resultset('List')->find($item->assigned);
             [ <%= $result->name %> ]
         % } else {
-            <select name="shop_list" onchange="this.form.submit();">
+        <form action="/update_item_list" method="post">
+            <input type="hidden" name="item" value="<%= $item->id %>">
+            <input type="hidden" name="list" value="<%= $list %>">
+            <input type="hidden" name="query" value="<%= $query %>">
+            <select name="move_to_list" onchange="this.form.submit();">
                 <option value="">Move to...</option>
             % for my $shop_list (@$shop_lists) {
                 <option value="<%= $shop_list->{id} %>"
@@ -77,8 +78,8 @@
                 ><%= $shop_list->{name} %></option>
             % }
             </select>
-        % }
         </form>
+        % }
         % if ($item->list_id) {
         <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="button">
             <input type="image" name="go" src="/images/forward-colored.png" class="img-btn" title="Go to list">
