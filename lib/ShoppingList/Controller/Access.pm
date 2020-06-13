@@ -412,12 +412,13 @@ sub view_items {
         $self->flash(error => ERROR_MSG);
     }
     else {
+        my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
         $list_items = $self->schema->resultset('Item')->search(
             {
                 account_id => $self->session->{auth},
                 -or => [
-                    name     => { like => '%' . $v->param('query') . '%' },
-                    category => { like => '%' . $v->param('query') . '%' },
+                    name     => { like => $query },
+                    category => { like => $query },
                 ],
             },
             {
