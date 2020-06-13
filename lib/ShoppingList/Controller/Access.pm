@@ -435,6 +435,7 @@ sub view_items {
                 account_id => $self->session->{auth},
                 -or => [
                     name     => { like => $query },
+                    note     => { like => $query },
                     category => { like => $query },
                 ],
             },
