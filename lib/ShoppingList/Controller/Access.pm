@@ -311,25 +311,6 @@ sub print_list {
     );
 }
 
-sub new_item {
-    my ($self) = @_;
-    my $v = $self->validation;
-    $v->required('list');
-    $v->required('name');
-    $v->optional('sort');
-    if ($v->has_error) {
-        $self->flash(error => ERROR_MSG);
-    }
-    else {
-        $self->schema->resultset('Item')->create({
-            name       => $v->param('name'),
-            list_id    => $v->param('list'),
-            account_id => $self->session->{auth},
-        });
-    }
-    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
-}
-
 sub update_item {
     my ($self) = @_;
     my $v = $self->validation;
@@ -479,6 +460,34 @@ sub view_items {
         cats       => $cats,
         items      => $list_items,
     );
+}
+
+sub new_item {
+    my ($self) = @_;
+    my $v = $self->validation;
+    $v->required('list');
+    $v->required('name');
+    $v->optional('sort');
+    $v->optional('note');
+    $v->optional('category');
+    $v->optional('cost');
+    $v->optional('quantity');
+    $v->optional('shop_list');
+    if ($v->has_error) {
+        $self->flash(error => ERROR_MSG);
+    }
+    else {
+        $self->schema->resultset('Item')->create({
+            account_id => $self->session->{auth},
+            name       => $v->param('name'),
+            note       => $v->param('note'),
+            category   => $v->param('category'),
+            cost       => $v->param('cost'),
+            quantity   => $v->param('quantity'),
+            list_id    => $v->param('shop_list'),
+        });
+    }
+    return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
 }
 
 1;
