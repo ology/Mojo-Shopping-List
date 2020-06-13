@@ -5,9 +5,9 @@ use warnings;
 use lib 'lib';
 use Schema;
 
-my $config = do 'shopping_list.conf';
-
 my ($name, $pass) = @ARGV;
+
+my $config = do 'shopping_list.conf';
 
 my $schema = Schema->connect($config->{database}, '', '');
 
