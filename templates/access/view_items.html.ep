@@ -59,7 +59,7 @@
         % } else {
         <div class="border-rounded yellow-background">
         % }
-        <%= $item->name %> : <%= $item->category %>
+        <%= $item->name %> - <%= $item->note %> : <%= $item->category %>
         % if ($item->assigned) {
             % my $result = $self->schema->resultset('List')->find($item->assigned);
             [ <%= $result->name %> ]
