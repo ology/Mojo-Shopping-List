@@ -21,6 +21,8 @@
       </div>
       <div class="cell">
 <form action="/new_item" method="post">
+    <input type="hidden" name="list" value="<%= $list %>">
+    <input type="hidden" name="sort" value="<%= $sort %>">
     <input type="text" name="name" placeholder="Item name" list="item_names">
     <datalist id="item_names">
 % for my $name (@$names) {
