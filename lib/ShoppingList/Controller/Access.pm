@@ -86,7 +86,7 @@ sub view_list {
     my $cost = 0;
     my $v = $self->validation;
     $v->required('list');
-    $v->optional('sort')->in('added', 'alpha', 'category');
+    $v->optional('sort');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
