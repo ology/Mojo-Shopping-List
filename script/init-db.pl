@@ -14,7 +14,7 @@ unlink $db_file
 unlink $db_file . '.journal'
     if -e $db_file . '.journal';
 
-my $schema = Schema->connect('dbi:SQLite:dbname=' . $db_file, '', '');
+my $schema = Schema->connect('DBI:SQLite:dbname=' . $db_file, '', '');
 
 $schema->deploy({ add_drop_table => 1 });
 
