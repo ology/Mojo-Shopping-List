@@ -415,6 +415,10 @@ sub view_items {
         $list_items = $self->schema->resultset('Item')->search(
             {
                 account_id => $self->session->{auth},
+                -or => [
+                    name     => { like => '%' . $v->param('query') . '%' },
+                    category => { like => '%' . $v->param('query') . '%' },
+                ],
             },
             {
                 order_by => { '-asc' => \'LOWER(name)' },
