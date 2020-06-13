@@ -94,7 +94,7 @@ sub view_list {
     else {
         my $on_items = [];
         my $off_items = [];
-        $sort = $v->param('sort') || 'added';
+        $sort = $v->param('sort') || 'alpha';
         my $order = {};
         if ($sort eq 'added') {
             $order = { order_by => 'id' };
