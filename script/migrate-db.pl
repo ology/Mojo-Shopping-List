@@ -33,6 +33,5 @@ for my $datum (keys %$data) {
         category   => $data->{$datum}{category},
         note       => $data->{$datum}{note},
         cost       => $data->{$datum}{cost},
-        $data->{$datum}{shop_list_id} ? (assigned => $data->{$datum}{shop_list_id}) : (),
     });
 }
