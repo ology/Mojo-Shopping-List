@@ -59,7 +59,7 @@
         % } else {
         <div class="border-rounded yellow-background">
         % }
-        <%= $item->name %> - <%= $item->category %>
+        <%= $item->name %> : <%= $item->category %>
         <form action="/item_list" method="post">
             <input type="hidden" name="item_id" value="<%= $item->id %>">
             <input type="hidden" name="query" value="<%= $query %>">
