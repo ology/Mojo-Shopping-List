@@ -36,7 +36,7 @@
 % }
     </datalist>
     <input type="text" name="note" placeholder="Note">
-    <input type="number" name="quantity" size="3" placeholder="Quantity">
+    <input type="text" name="quantity" size="3" placeholder="Quantity">
     <input type="text" name="cost" size="5" placeholder="Cost">
     <select name="shop_list">
         <option value="">List...</option>
