@@ -1,0 +1,84 @@
+% layout 'default';
+% title 'View Items';
+%= include 'access/_flash'
+
+<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" class="button" title="Return to list">
+    <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
+</a>
+
+<form action="/search_items" method="post">
+    <input type="text" name="query" value="<%= $query %>" placeholder="Search">
+    <button type="submit" title="Search items"><input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn"></button>
+</form>
+
+<p></p>
+<div class="tablewrapper">
+  <div class="table">
+    <div class="row">
+      <div class="cell" style="width:38px;">
+      </div>
+      <div class="cell">
+<form action="/new_item" method="post">
+    <input type="text" name="name" placeholder="Item name" list="item_names">
+    <datalist id="item_names">
+% for my $name (@$names) {
+        <option><%= $name %></option>
+% }
+    </datalist>
+    <input type="text" name="category" placeholder="Category" list="category">
+    <datalist id="category">
+% for my $cat (@$cats) {
+        <option><%= $cat %></option>
+% }
+    </datalist>
+    <input type="text" name="note" placeholder="Note">
+    <input type="text" name="quantity" placeholder="Quantity">
+    <input type="text" name="cost" placeholder="Cost">
+    <select name="shop_list">
+        <option value="">List...</option>
+% for my $shop_list (@$shop_lists) {
+        <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
+% }
+    </select>
+    <button type="submit" title="New item"><input type="image" name="new" src="/images/plus-colored.png" class="img-btn" onchange="this.form.submit();"></button>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
+
+% if ($items) {
+<p></p>
+<ul>
+    % while (my $item = $items->next) {
+    <li>
+        % if ($item->list_id) {
+        <div class="border-rounded green-background">
+        % } else {
+        <div class="border-rounded yellow-background">
+        % }
+        <%= $item->name %> - <%= $item->category %>
+        <form action="/item_list" method="post">
+            <input type="hidden" name="item_id" value="<%= $item->id %>">
+            <input type="hidden" name="query" value="<%= $query %>">
+            <select name="shop_list" onchange="this.form.submit();">
+                <option value="">Move to...</option>
+        % for my $shop_list (@$shop_lists) {
+                <option value="<%= $shop_list->{id} %>"
+            % if ($shop_list->{id} == $item->list_id) {
+                    selected="selected"
+            % }
+                ><%= $shop_list->{name} %></option>
+        % }
+            </select>
+        </form>
+        % if ($item->list_id) {
+        <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="button">
+            <input type="image" name="go" src="/images/forward-colored.png" class="img-btn" title="Go to list">
+        </a>
+        % }
+        </div>
+    </li>
+    % }
+</ul>
+% }
