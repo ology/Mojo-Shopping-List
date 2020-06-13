@@ -400,17 +400,61 @@ sub move_item {
 
 sub view_items {
     my ($self) = @_;
+    my $names = [];
+    my $cats = [];
+    my $shop_lists = [];
+    my $list_items;
     my $v = $self->validation;
     $v->required('list');
     $v->optional('sort');
+    $v->optional('query');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
     else {
+        $list_items = $self->schema->resultset('Item')->search(
+            {
+                account_id => $self->session->{auth},
+            },
+            {
+                order_by => { '-asc' => \'LOWER(name)' },
+            }
+        );
+        while (my $item = $list_items->next) {
+            push @$names, $item->name;
+        }
+        $list_items->reset;
+        my $categories = $list_items->search(
+            {},
+            {
+                distinct => 1,
+                columns  => [qw/category/],
+                order_by => { '-asc' => 'category' },
+            }
+        );
+        while (my $cat = $categories->next) {
+            push @$cats, $cat->category;
+        }
+        my $lists = $self->schema->resultset('List')->search(
+            {
+                account_id => $self->session->{auth},
+            },
+            {
+                order_by => { '-asc' => \'LOWER(name)' },
+            }
+        );
+        while (my $list = $lists->next) {
+            push @$shop_lists, { id => $list->id, name => $list->name };
+        }
     }
     $self->render(
-        list => $v->param('list'),
-        sort => $v->param('sort'),
+        list       => $v->param('list'),
+        sort       => $v->param('sort'),
+        query      => $v->param('query'),
+        names      => $names,
+        shop_lists => $shop_lists,
+        cats       => $cats,
+        items      => $list_items,
     );
 }
 
