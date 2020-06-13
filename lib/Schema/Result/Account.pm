@@ -19,5 +19,6 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key('id');
 
 __PACKAGE__->has_many(lists => 'Schema::Result::List', 'account_id');
+__PACKAGE__->has_many(items => 'Schema::Result::Item', 'account_id');
 
 1;
