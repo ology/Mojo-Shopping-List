@@ -6,7 +6,9 @@
     <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
 </a>
 
-<form action="/search_items" method="post">
+<form action="/view_items" method="get">
+    <input type="hidden" name="list" value="<%= $list %>">
+    <input type="hidden" name="sort" value="<%= $sort %>">
     <input type="text" name="query" value="<%= $query %>" placeholder="Search">
     <button type="submit" title="Search items"><input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn"></button>
 </form>
