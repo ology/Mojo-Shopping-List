@@ -65,7 +65,7 @@
             <input type="hidden" name="query" value="<%= $query %>">
         % if ($item->assigned) {
             % my $result = $self->schema->resultset('List')->find($item->assigned);
-            [<%= $result->name %>]
+            [ <%= $result->name %> ]
         % } else {
             <select name="shop_list" onchange="this.form.submit();">
                 <option value="">Move to...</option>
