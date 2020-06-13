@@ -410,11 +410,8 @@ sub view_items {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $all_items = $self->schema->resultset('Item')->search(
-            {
-                account_id => $self->session->{auth},
-            }
-        );
+        my $result = $self->schema->resultset('Account')->find($self->session->{auth});
+        my $all_items = $result->items;
         while (my $item = $all_items->next) {
             push @$names, $item->name;
         }
