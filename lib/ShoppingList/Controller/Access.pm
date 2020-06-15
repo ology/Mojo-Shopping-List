@@ -31,7 +31,7 @@ sub lists {
 sub new_list {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('name');
+    $v->required('name', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
@@ -47,8 +47,8 @@ sub new_list {
 sub update_list {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('list');
-    $v->required('name');
+    $v->required('list', 'not_empty');
+    $v->required('name', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
@@ -62,7 +62,7 @@ sub update_list {
 sub delete_list {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('list');
+    $v->required('list', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
@@ -83,7 +83,7 @@ sub view_list {
     my $name = '';
     my $cost = 0;
     my $v = $self->validation;
-    $v->required('list');
+    $v->required('list', 'not_empty');
     $v->optional('sort');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
@@ -213,7 +213,7 @@ sub print_list {
     my $name = '';
     my $cost = 0;
     my $v = $self->validation;
-    $v->required('list');
+    $v->required('list', 'not_empty');
     $v->optional('sort');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
@@ -312,8 +312,8 @@ sub print_list {
 sub update_item {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('list');
-    $v->required('item');
+    $v->required('list', 'not_empty');
+    $v->required('item', 'not_empty');
     $v->optional('active');
     $v->optional('sort');
     $v->optional('name');
@@ -349,9 +349,9 @@ sub update_item {
 sub update_item_list {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('item');
-    $v->required('list');
-    $v->required('query');
+    $v->required('item', 'not_empty');
+    $v->required('list', 'not_empty');
+    $v->required('query', 'not_empty');
     $v->optional('move_to_list');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
@@ -366,9 +366,9 @@ sub update_item_list {
 sub delete_item {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('list');
-    $v->required('item');
-    $v->optional('sort');
+    $v->required('list', 'not_empty');
+    $v->required('item', 'not_empty');
+    $v->optional('sort', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
@@ -382,9 +382,9 @@ sub delete_item {
 sub move_item {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('list');
-    $v->required('item');
-    $v->required('move_to_list');
+    $v->required('list', 'not_empty');
+    $v->required('item', 'not_empty');
+    $v->required('move_to_list', 'not_empty');
     $v->optional('sort');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
@@ -403,7 +403,7 @@ sub view_items {
     my $shop_lists = [];
     my $list_items;
     my $v = $self->validation;
-    $v->required('list');
+    $v->required('list', 'not_empty');
     $v->optional('sort');
     $v->optional('query');
     if ($v->has_error) {
@@ -463,8 +463,8 @@ sub view_items {
 sub new_item {
     my ($self) = @_;
     my $v = $self->validation;
-    $v->required('list');
-    $v->required('name');
+    $v->required('list', 'not_empty');
+    $v->required('name', 'not_empty');
     $v->optional('sort');
     $v->optional('note');
     $v->optional('category');
