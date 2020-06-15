@@ -108,6 +108,7 @@ sub view_list {
         my $result = $self->schema->resultset('List')->find($v->param('list'));
         $name = $result->name;
         my $items = $result->items->search({}, { %$order });
+        # Add the on-items & categories
         while (my $item = $items->next) {
             my $struct = {
                 id       => $item->id,
@@ -127,6 +128,7 @@ sub view_list {
                 push @{ $on_cats{$cat} }, $struct;
             }
         }
+        # Add the off-items & categories
         $items = $self->schema->resultset('Item')->search(
             {
                 account_id => $self->session->{auth},
