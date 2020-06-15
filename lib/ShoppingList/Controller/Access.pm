@@ -351,7 +351,8 @@ sub update_item_list {
     my $v = $self->validation;
     $v->required('item', 'not_empty');
     $v->required('list', 'not_empty');
-    $v->required('query', 'not_empty');
+    $v->optional('query');
+    $v->optional('sort');
     $v->optional('move_to_list');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
@@ -368,7 +369,7 @@ sub delete_item {
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->required('item', 'not_empty');
-    $v->optional('sort', 'not_empty');
+    $v->optional('sort');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
