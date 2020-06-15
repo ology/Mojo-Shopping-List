@@ -314,14 +314,14 @@ sub update_item {
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->required('item', 'not_empty');
-    $v->optional('active');
+    $v->optional('active', 'not_empty');
     $v->optional('sort');
-    $v->optional('name');
-    $v->optional('note');
-    $v->optional('category');
-    $v->optional('cost');
-    $v->optional('quantity');
-    $v->optional('assigned');
+    $v->optional('name', 'not_empty');
+    $v->optional('note', 'not_empty');
+    $v->optional('category', 'not_empty');
+    $v->optional('cost', 'not_empty');
+    $v->optional('quantity', 'not_empty');
+    $v->optional('assigned', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
@@ -353,7 +353,7 @@ sub update_item_list {
     $v->required('list', 'not_empty');
     $v->optional('query');
     $v->optional('sort');
-    $v->optional('move_to_list');
+    $v->optional('move_to_list', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
