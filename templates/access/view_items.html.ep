@@ -98,3 +98,6 @@
     % }
 </ul>
 % }
+
+%= tag 'p'
+%= link_to Logout => 'logout'
