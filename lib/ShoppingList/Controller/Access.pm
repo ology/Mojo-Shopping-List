@@ -450,7 +450,7 @@ sub view_items {
             {
                 order_by => { '-asc' => \'LOWER(name)' },
             }
-        );
+        ) if $v->param('query');
     }
     $self->render(
         list       => $v->param('list'),
