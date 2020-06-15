@@ -467,11 +467,11 @@ sub new_item {
     $v->required('list', 'not_empty');
     $v->required('name', 'not_empty');
     $v->optional('sort');
-    $v->optional('note');
-    $v->optional('category');
-    $v->optional('cost');
-    $v->optional('quantity');
-    $v->optional('shop_list');
+    $v->optional('note', 'not_empty');
+    $v->optional('category', 'not_empty');
+    $v->optional('cost', 'not_empty');
+    $v->optional('quantity', 'not_empty');
+    $v->optional('shop_list', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
