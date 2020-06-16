@@ -227,6 +227,7 @@ sub view_list {
         shop_lists => $shop_lists,
         cats       => $cats,
         suggest    => $suggestion,
+        suggestion => $v->param('suggestion') + 1,
     );
 }
 

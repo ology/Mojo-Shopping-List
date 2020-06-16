@@ -35,7 +35,7 @@
     </select>
 </form>
 
-<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggestion=1" class="button" title="Make a suggestion">
+<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggestion=<%= $suggestion %>" class="button" title="Make a suggestion">
     <input type="image" name="suggestion" src="/images/faq.png" class="img-btn">
 </a>
 
