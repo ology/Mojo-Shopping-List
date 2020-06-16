@@ -82,9 +82,11 @@ sub view_list {
     my $cats = [];
     my $name = '';
     my $cost = 0;
+    my $suggestion;
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
+    $v->optional('suggestion');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
@@ -192,6 +194,28 @@ sub view_list {
         while (my $list = $lists->next) {
             push @$shop_lists, { id => $list->id, name => $list->name };
         }
+        if ($v->param('suggestion')) {
+            $suggestion = 'Nothing to suggest';
+            my $item_ids = [ map { $_->{id} } @$on_items ];
+            my $result = $self->schema->resultset('ItemCount')->search(
+                {
+                    account_id => $self->session->{auth},
+                    item_id    => { -not_in => $item_ids },
+                },
+                {
+                    order_by => { '-desc' => 'count' },
+                }
+            )->first;
+            if ($result) {
+                $result = $self->schema->resultset('Item')->search(
+                    {
+                        id         => $result->item_id,
+                        account_id => $self->session->{auth},
+                    }
+                )->first;
+                $suggestion = $result->name . '?';
+            }
+        }
     }
     $self->render(
         list       => $v->param('list'),
@@ -202,6 +226,7 @@ sub view_list {
         cost       => sprintf('%.2f', $cost),
         shop_lists => $shop_lists,
         cats       => $cats,
+        suggest    => $suggestion,
     );
 }
 
@@ -333,6 +358,22 @@ sub update_item {
         if ($v->param('active')) {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
+            my $item_count = $self->schema->resultset('ItemCount')->search(
+                {
+                    account_id => $self->session->{auth},
+                    item_id    => $result->id,
+                },
+            )->first;
+            if ($item_count) {
+                $item_count->update({ count => $item_count->count + 1 });
+            }
+            else {
+                $self->schema->resultset('ItemCount')->create({
+                    count      => 1,
+                    account_id => $self->session->{auth},
+                    item_id    => $result->id,
+                });
+            }
         }
         else {
             $result->list_id(undef);
@@ -478,7 +519,7 @@ sub new_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        $self->schema->resultset('Item')->create({
+        my $item = $self->schema->resultset('Item')->create({
             account_id => $self->session->{auth},
             name       => $v->param('name'),
             note       => $v->param('note'),
@@ -487,6 +528,13 @@ sub new_item {
             quantity   => $v->param('quantity'),
             list_id    => $v->param('shop_list'),
         });
+        if ($v->param('shop_list')) {
+            $self->schema->resultset('ItemCount')->create({
+                count      => 1,
+                account_id => $self->session->{auth},
+                item_id    => $item->id,
+            });
+        }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
 }
