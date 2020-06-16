@@ -35,7 +35,11 @@
     </select>
 </form>
 
-&nbsp; <b><%= $name %></b>
+<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggestion=1" class="button" title="Make a suggestion">
+    <input type="image" name="suggestion" src="/images/faq.png" class="img-btn">
+</a>
+
+<b><%= $name %></b>
 
 % if (@$on_items) {
 <p><%= scalar @$on_items %> / <%= scalar @$off_items %> items for $<%= $cost %></p>
@@ -190,6 +194,10 @@
 %= link_to Logout => 'logout'
 
 <script>
+% if ($suggest) {
+    alert('<%= $suggest %>');
+% }
+
 mybutton = document.getElementById("top_button");
 
 // When the user scrolls down 20px from the top of the document, show the button
