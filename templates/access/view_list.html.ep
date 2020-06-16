@@ -34,7 +34,9 @@
         >Category</option>
     </select>
 </form>
+
 &nbsp; <b><%= $name %></b>
+
 % if (@$on_items) {
 <p><%= scalar @$on_items %> / <%= scalar @$off_items %> items for $<%= $cost %></p>
 <p>
