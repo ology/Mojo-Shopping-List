@@ -210,7 +210,7 @@ sub view_list {
                     item_id    => { -not_in => $item_ids },
                 },
                 {
-                    order_by => { '-desc' => 'count' },
+                    order_by => { -desc => 'count' },
                 }
             );
             while (my $result = $results->next) {
