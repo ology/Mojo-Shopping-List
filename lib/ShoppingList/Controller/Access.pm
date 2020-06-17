@@ -212,12 +212,7 @@ sub view_list {
                 }
             );
             while (my $result = $results->next) {
-                my $item = $self->schema->resultset('Item')->search(
-                    {
-                        id         => $result->item_id,
-                        account_id => $self->session->{auth},
-                    }
-                )->first;
+                my $item = $self->schema->resultset('Item')->find($result->item_id);
                 $suggestion = $item->name . '?';
                 push @$exclude, $result->item_id;
                 last;
