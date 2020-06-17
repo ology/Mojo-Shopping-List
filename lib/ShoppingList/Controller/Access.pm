@@ -1,7 +1,6 @@
 package ShoppingList::Controller::Access;
 use Mojo::Base 'Mojolicious::Controller';
 
-use Data::Dumper::Compact 'ddc';
 use List::Util qw(any);
 
 use constant ERROR_MSG => 'Invalid fields';
