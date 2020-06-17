@@ -202,7 +202,7 @@ sub view_list {
                 @$exclude,
                 map { $_->{id} } @$on_items,
             ];
-            my $results = $self->schema->resultset('ItemCount')->search(
+            my $result = $self->schema->resultset('ItemCount')->search(
                 {
                     account_id => $self->session->{auth},
                     item_id    => { -not_in => $item_ids },
@@ -210,12 +210,11 @@ sub view_list {
                 {
                     order_by => { -desc => 'count' },
                 }
-            );
-            while (my $result = $results->next) {
+            )->first;
+            if ($result) {
                 my $item = $self->schema->resultset('Item')->find($result->item_id);
                 $suggest = $item->name . '?';
                 push @$exclude, $result->item_id;
-                last;
             }
             if ($suggest) {
                 $self->cookie(exclude => join(',', @$exclude));
