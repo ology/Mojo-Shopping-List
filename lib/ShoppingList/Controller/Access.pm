@@ -1,6 +1,9 @@
 package ShoppingList::Controller::Access;
 use Mojo::Base 'Mojolicious::Controller';
 
+use Data::Dumper::Compact 'ddc';
+use List::Util qw(any);
+
 use constant ERROR_MSG => 'Invalid fields';
 
 sub index { shift->render }
@@ -195,8 +198,13 @@ sub view_list {
             push @$shop_lists, { id => $list->id, name => $list->name };
         }
         if ($v->param('suggestion')) {
-            $suggestion = 'Nothing to suggest';
-            my $item_ids = [ map { $_->{id} } @$on_items ];
+            my $exclude_cookie = $self->cookie('exclude') || '';
+            my $exclude = [ split /,/, $exclude_cookie ];
+            $suggestion = '';
+            my $item_ids = [
+                @$exclude,
+                map { $_->{id} } @$on_items,
+            ];
             my $results = $self->schema->resultset('ItemCount')->search(
                 {
                     account_id => $self->session->{auth},
@@ -206,10 +214,8 @@ sub view_list {
                     order_by => { '-desc' => 'count' },
                 }
             );
-            my $i = 0;
             while (my $result = $results->next) {
-                $i++;
-                next unless $i >= $v->param('suggestion');
+                next if any { $_ == $result->item_id } @$exclude;
                 my $item = $self->schema->resultset('Item')->search(
                     {
                         id         => $result->item_id,
@@ -217,7 +223,15 @@ sub view_list {
                     }
                 )->first;
                 $suggestion = $item->name . '?';
+                push @$exclude, $result->item_id;
                 last;
+            }
+            if (!$suggestion) {
+                $suggestion = 'Nothing to suggest';
+                $self->cookie(exclude => '');
+            }
+            else {
+                $self->cookie(exclude => join(',', @$exclude));
             }
         }
     }
@@ -231,7 +245,6 @@ sub view_list {
         shop_lists => $shop_lists,
         cats       => $cats,
         suggest    => $suggestion,
-        suggestion => $v->param('suggestion') + 1,
     );
 }
 
@@ -424,6 +437,8 @@ sub delete_item {
     else {
         my $result = $self->schema->resultset('Item')->find($v->param('item'));
         $result->delete;
+        $result = $self->schema->resultset('ItemCount')->search({ item_id => $v->param('item') })->first;
+        $result->delete if $result;
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
