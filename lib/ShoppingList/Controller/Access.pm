@@ -197,7 +197,7 @@ sub view_list {
         if ($v->param('suggestion')) {
             $suggestion = 'Nothing to suggest';
             my $item_ids = [ map { $_->{id} } @$on_items ];
-            my $result = $self->schema->resultset('ItemCount')->search(
+            my $results = $self->schema->resultset('ItemCount')->search(
                 {
                     account_id => $self->session->{auth},
                     item_id    => { -not_in => $item_ids },
@@ -205,15 +205,19 @@ sub view_list {
                 {
                     order_by => { '-desc' => 'count' },
                 }
-            )->first;
-            if ($result) {
-                $result = $self->schema->resultset('Item')->search(
+            );
+            my $i = 0;
+            while (my $result = $results->next) {
+                $i++;
+                next unless $i >= $v->param('suggestion');
+                my $item = $self->schema->resultset('Item')->search(
                     {
                         id         => $result->item_id,
                         account_id => $self->session->{auth},
                     }
                 )->first;
-                $suggestion = $result->name . '?';
+                $suggestion = $item->name . '?';
+                last;
             }
         }
     }
