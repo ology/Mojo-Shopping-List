@@ -1,8 +1,6 @@
 package ShoppingList::Controller::Access;
 use Mojo::Base 'Mojolicious::Controller';
 
-use List::Util qw(any);
-
 use constant ERROR_MSG => 'Invalid fields';
 
 sub index { shift->render }
@@ -214,7 +212,6 @@ sub view_list {
                 }
             );
             while (my $result = $results->next) {
-                next if any { $_ == $result->item_id } @$exclude;
                 my $item = $self->schema->resultset('Item')->search(
                     {
                         id         => $result->item_id,
