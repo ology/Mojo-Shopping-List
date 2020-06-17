@@ -376,6 +376,7 @@ sub update_item {
         if ($v->param('active')) {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
+            unless ($v->param('quantity') != $result->quantity) {
             my $item_count = $self->schema->resultset('ItemCount')->search(
                 {
                     account_id => $self->session->{auth},
@@ -391,6 +392,7 @@ sub update_item {
                     account_id => $self->session->{auth},
                     item_id    => $result->id,
                 });
+            }
             }
         }
         else {
