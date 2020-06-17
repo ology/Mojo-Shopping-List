@@ -16,7 +16,7 @@
 
 <form action="/view_list" method="get">
     <input type="hidden" name="list" value="<%= $list %>">
-    Sort: <select name="sort" onchange="this.form.submit();">
+    <select name="sort" onchange="this.form.submit();">
         <option value="added"
 % if ($sort eq 'added') {
         selected
