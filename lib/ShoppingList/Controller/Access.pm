@@ -217,12 +217,12 @@ sub view_list {
                 push @$exclude, $result->item_id;
                 last;
             }
-            if (!$suggest) {
-                $suggest = 'Nothing to suggest';
-                $self->cookie(exclude => '');
+            if ($suggest) {
+                $self->cookie(exclude => join(',', @$exclude));
             }
             else {
-                $self->cookie(exclude => join(',', @$exclude));
+                $suggest = 'Nothing to suggest';
+                $self->cookie(exclude => '');
             }
         }
     }
