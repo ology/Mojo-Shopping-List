@@ -82,11 +82,11 @@ sub view_list {
     my $cats = [];
     my $name = '';
     my $cost = 0;
-    my $suggestion;
+    my $suggest;
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
-    $v->optional('suggestion');
+    $v->optional('suggest');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
@@ -194,10 +194,10 @@ sub view_list {
         while (my $list = $lists->next) {
             push @$shop_lists, { id => $list->id, name => $list->name };
         }
-        if ($v->param('suggestion')) {
+        if ($v->param('suggest')) {
             my $exclude_cookie = $self->cookie('exclude') || '';
             my $exclude = [ split /,/, $exclude_cookie ];
-            $suggestion = '';
+            $suggest = '';
             my $item_ids = [
                 @$exclude,
                 map { $_->{id} } @$on_items,
@@ -213,12 +213,12 @@ sub view_list {
             );
             while (my $result = $results->next) {
                 my $item = $self->schema->resultset('Item')->find($result->item_id);
-                $suggestion = $item->name . '?';
+                $suggest = $item->name . '?';
                 push @$exclude, $result->item_id;
                 last;
             }
-            if (!$suggestion) {
-                $suggestion = 'Nothing to suggest';
+            if (!$suggest) {
+                $suggest = 'Nothing to suggest';
                 $self->cookie(exclude => '');
             }
             else {
@@ -235,7 +235,7 @@ sub view_list {
         cost       => sprintf('%.2f', $cost),
         shop_lists => $shop_lists,
         cats       => $cats,
-        suggest    => $suggestion,
+        suggest    => $suggest,
     );
 }
 
