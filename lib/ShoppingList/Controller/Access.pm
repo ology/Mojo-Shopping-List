@@ -197,14 +197,19 @@ sub view_list {
         if ($v->param('suggest')) {
             my $exclude_cookie = $self->cookie('exclude') || '';
             my $exclude = [ split /,/, $exclude_cookie ];
-            my $item_ids = [
-                @$exclude,
-                map { $_->{id} } @$on_items,
-            ];
+            my $list_items = $self->schema->resultset('Item')->search(
+                {
+                    account_id => $self->session->{auth},
+                    list_id    => { '!=' => undef },
+                }
+            );
+            while (my $item = $list_items->next) {
+                push @$exclude, $item->id;
+            }
             my $result = $self->schema->resultset('ItemCount')->search(
                 {
                     account_id => $self->session->{auth},
-                    item_id    => { -not_in => $item_ids },
+                    item_id    => { -not_in => $exclude },
                 },
                 {
                     order_by => { -desc => 'count' },
