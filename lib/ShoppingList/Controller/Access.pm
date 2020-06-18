@@ -366,17 +366,7 @@ sub update_item {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
             if ($v->param('quantity') == $result->quantity) {
-                my $item_count = $self->schema->resultset('ItemCount')->find($result->id);
-                if ($item_count) {
-                    $item_count->update({ count => $item_count->count + 1 });
-                }
-                else {
-                    $self->schema->resultset('ItemCount')->create({
-                        count      => 1,
-                        account_id => $self->session->{auth},
-                        item_id    => $result->id,
-                    });
-                }
+                $self->schema->resultset('ItemCount')->update_or_create($self->session->{auth}, $result->id);
             }
         }
         else {
@@ -408,17 +398,7 @@ sub update_item_list {
         my $result = $self->schema->resultset('Item')->find($v->param('item'));
         $result->update({ list_id => $v->param('move_to_list') });
         if ($v->param('move_to_list')) {
-            my $item_count = $self->schema->resultset('ItemCount')->find($result->id);
-            if ($item_count) {
-                $item_count->update({ count => $item_count->count + 1 });
-            }
-            else {
-                $self->schema->resultset('ItemCount')->create({
-                    count      => 1,
-                    account_id => $self->session->{auth},
-                    item_id    => $result->id,
-                });
-            }
+            $self->schema->resultset('ItemCount')->update_or_create($self->session->{auth}, $result->id);
         }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
@@ -548,11 +528,7 @@ sub new_item {
             list_id    => $v->param('shop_list'),
         });
         if ($v->param('shop_list')) {
-            $self->schema->resultset('ItemCount')->create({
-                count      => 1,
-                account_id => $self->session->{auth},
-                item_id    => $item->id,
-            });
+            $self->schema->resultset('ItemCount')->update_or_create($self->session->{auth}, $item->id);
         }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
