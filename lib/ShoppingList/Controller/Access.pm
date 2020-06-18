@@ -24,7 +24,7 @@ sub logout {
 sub lists {
     my ($self) = @_;
     my $account = $self->schema->resultset('Account')->find($self->session->{auth});
-    my $lists = $account->lists->search({}, { order_by => { '-asc' => \'LOWER(name)' } });
+    my $lists = $account->lists->search({}, { order_by => { -asc => \'LOWER(name)' } });
     $self->render(lists => $lists);
 }
 
@@ -100,10 +100,10 @@ sub view_list {
             $order = { order_by => 'id' };
         }
         elsif ($sort eq 'alpha') {
-            $order = { order_by => { '-asc' => \'LOWER(name)' } },
+            $order = { order_by => { -asc => \'LOWER(name)' } },
         }
         elsif ($sort eq 'category') {
-            $order = { order_by => { '-asc' => [\'LOWER(category)', \'LOWER(name)'] } },
+            $order = { order_by => { -asc => [\'LOWER(category)', \'LOWER(name)'] } },
         }
         my %on_cats;
         my %off_cats;
@@ -177,7 +177,7 @@ sub view_list {
             {
                 distinct => 1,
                 columns  => [qw/category/],
-                order_by => { '-asc' => 'category' },
+                order_by => { -asc => 'category' },
             }
         );
         while (my $cat = $categories->next) {
@@ -188,7 +188,7 @@ sub view_list {
                 account_id => $self->session->{auth},
             },
             {
-                order_by => { '-asc' => 'name' },
+                order_by => { -asc => 'name' },
             }
         );
         while (my $list = $lists->next) {
@@ -263,10 +263,10 @@ sub print_list {
             $order = { order_by => 'id' };
         }
         elsif ($sort eq 'alpha') {
-            $order = { order_by => { '-asc' => \'LOWER(name)' } },
+            $order = { order_by => { -asc => \'LOWER(name)' } },
         }
         elsif ($sort eq 'category') {
-            $order = { order_by => { '-asc' => [\'LOWER(category)', \'LOWER(name)'] } },
+            $order = { order_by => { -asc => [\'LOWER(category)', \'LOWER(name)'] } },
         }
         my %on_cats;
         my %off_cats;
@@ -476,7 +476,7 @@ sub view_items {
             {
                 distinct => 1,
                 columns  => [qw/category/],
-                order_by => { '-asc' => 'category' },
+                order_by => { -asc => 'category' },
             }
         );
         while (my $cat = $categories->next) {
@@ -485,7 +485,7 @@ sub view_items {
         my $lists = $account->lists->search(
             {},
             {
-                order_by => { '-asc' => \'LOWER(name)' },
+                order_by => { -asc => \'LOWER(name)' },
             }
         );
         while (my $list = $lists->next) {
@@ -501,7 +501,7 @@ sub view_items {
                 ],
             },
             {
-                order_by => { '-asc' => \'LOWER(name)' },
+                order_by => { -asc => \'LOWER(name)' },
             }
         ) if $v->param('query');
     }
