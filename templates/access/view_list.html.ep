@@ -76,7 +76,7 @@
             <input type="hidden" name="note" value="<%= $item->{note} %>">
             <input type="hidden" name="category" value="<%= $item->{category} %>">
             <input type="hidden" name="cost" value="<%= $item->{cost} %>">
-            <input type="number" name="quantity" placeholder="#" value="<%= $item->{quantity} %>" style=width:4em;">
+            <input type="number" name="quantity" placeholder="#" value="<%= $item->{quantity} %>" style="width:4em;">
         </form>
         <%= $item->{name} %>
             % if ($item->{note}) {
