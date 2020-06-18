@@ -191,7 +191,9 @@
 % }
 
 %= tag 'p'
-%= link_to Logout => 'logout'
+<%= link_to Logout => 'logout' %>
+|
+<a href="/reset?list=<%= $list %>&sort=<%= $sort %>">Reset</a>
 
 <script>
 % if ($suggest) {

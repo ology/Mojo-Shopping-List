@@ -539,4 +539,10 @@ sub new_item {
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
 }
 
+sub reset {
+    my ($self) = @_;
+    $self->cookie(exclude => '');
+    return $self->redirect_to('/view_list?list=' . $self->param('list') . '&sort=' . $self->param('sort'));
+}
+
 1;
