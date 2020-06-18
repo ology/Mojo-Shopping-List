@@ -366,12 +366,7 @@ sub update_item {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
             unless ($v->param('quantity') != $result->quantity) {
-                my $item_count = $self->schema->resultset('ItemCount')->search(
-                    {
-                        account_id => $self->session->{auth},
-                        item_id    => $result->id,
-                    },
-                )->first;
+                my $item_count = $self->schema->resultset('ItemCount')->find($result->id);
                 if ($item_count) {
                     $item_count->update({ count => $item_count->count + 1 });
                 }
@@ -413,12 +408,7 @@ sub update_item_list {
         my $result = $self->schema->resultset('Item')->find($v->param('item'));
         $result->update({ list_id => $v->param('move_to_list') });
         if ($v->param('move_to_list')) {
-            my $item_count = $self->schema->resultset('ItemCount')->search(
-                {
-                    account_id => $self->session->{auth},
-                    item_id    => $result->id,
-                },
-            )->first;
+            my $item_count = $self->schema->resultset('ItemCount')->find($result->id);
             if ($item_count) {
                 $item_count->update({ count => $item_count->count + 1 });
             }
