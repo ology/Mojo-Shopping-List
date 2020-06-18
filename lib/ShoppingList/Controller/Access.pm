@@ -365,7 +365,7 @@ sub update_item {
         if ($v->param('active')) {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
-            unless ($v->param('quantity') != $result->quantity) {
+            if ($v->param('quantity') == $result->quantity) {
                 my $item_count = $self->schema->resultset('ItemCount')->find($result->id);
                 if ($item_count) {
                     $item_count->update({ count => $item_count->count + 1 });
