@@ -412,6 +412,24 @@ sub update_item_list {
     else {
         my $result = $self->schema->resultset('Item')->find($v->param('item'));
         $result->update({ list_id => $v->param('move_to_list') });
+        if ($v->param('move_to_list')) {
+            my $item_count = $self->schema->resultset('ItemCount')->search(
+                {
+                    account_id => $self->session->{auth},
+                    item_id    => $result->id,
+                },
+            )->first;
+            if ($item_count) {
+                $item_count->update({ count => $item_count->count + 1 });
+            }
+            else {
+                $self->schema->resultset('ItemCount')->create({
+                    count      => 1,
+                    account_id => $self->session->{auth},
+                    item_id    => $result->id,
+                });
+            }
+        }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
 }
