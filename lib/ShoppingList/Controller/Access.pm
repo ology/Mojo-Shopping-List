@@ -82,7 +82,7 @@ sub view_list {
     my $cats = [];
     my $name = '';
     my $cost = 0;
-    my $suggest;
+    my $suggest = '';
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
@@ -197,7 +197,6 @@ sub view_list {
         if ($v->param('suggest')) {
             my $exclude_cookie = $self->cookie('exclude') || '';
             my $exclude = [ split /,/, $exclude_cookie ];
-            $suggest = '';
             my $item_ids = [
                 @$exclude,
                 map { $_->{id} } @$on_items,
