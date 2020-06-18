@@ -366,22 +366,22 @@ sub update_item {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
             unless ($v->param('quantity') != $result->quantity) {
-            my $item_count = $self->schema->resultset('ItemCount')->search(
-                {
-                    account_id => $self->session->{auth},
-                    item_id    => $result->id,
-                },
-            )->first;
-            if ($item_count) {
-                $item_count->update({ count => $item_count->count + 1 });
-            }
-            else {
-                $self->schema->resultset('ItemCount')->create({
-                    count      => 1,
-                    account_id => $self->session->{auth},
-                    item_id    => $result->id,
-                });
-            }
+                my $item_count = $self->schema->resultset('ItemCount')->search(
+                    {
+                        account_id => $self->session->{auth},
+                        item_id    => $result->id,
+                    },
+                )->first;
+                if ($item_count) {
+                    $item_count->update({ count => $item_count->count + 1 });
+                }
+                else {
+                    $self->schema->resultset('ItemCount')->create({
+                        count      => 1,
+                        account_id => $self->session->{auth},
+                        item_id    => $result->id,
+                    });
+                }
             }
         }
         else {
