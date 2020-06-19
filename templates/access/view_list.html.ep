@@ -2,7 +2,7 @@
 % title $name;
 %= include 'access/_flash'
 
-<button onclick="topFunction()" id="top_button" title="Go to top">^</button> 
+<button onclick="topFunction()" id="top_button" title="Go to top" style="height: 45px; line-height: 20px;">^</button> 
 
 <a href="/lists" class="button" title="Return to lists">
     <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
