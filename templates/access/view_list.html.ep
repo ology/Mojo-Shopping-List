@@ -4,59 +4,54 @@
 
 <button onclick="topFunction()" id="top_button" title="Go to top">^</button> 
 
-<a href="/lists" class="button" title="Return to lists">
-    <input type="image" name="return" src="/images/backward-colored.png" class="img-btn">
-</a>
-<a href="/print_list?list=<%= $list %>&sort=<%= $sort %>" class="button" title="Print list">
-    <input type="image" name="print" src="/images/print-colored.png" class="img-btn">
-</a>
-<a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" class="button" title="View items">
-    <input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn">
-</a>
+<div class="container">
 
-<form action="/view_list" method="get">
-    <input type="hidden" name="list" value="<%= $list %>">
-    <select name="sort" onchange="this.form.submit();">
-        <option value="added"
-% if ($sort eq 'added') {
-        selected
-% }
-        >Added</option>
-        <option value="alpha"
-% if ($sort eq 'alpha') {
-        selected
-% }
-        >Alpha</option>
-        <option value="category"
-% if ($sort eq 'category') {
-        selected
-% }
-        >Category</option>
-    </select>
-</form>
+<div class="form-row">
+  <a href="/lists" type="button" class="btn" title="Return to lists"><i class="fa fa-arrow-left fa-2x"></i></a>
+  <a href="/print_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn" title="Print list"><i class="fa fa-print fa-2x"></i></a>
+  <a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn" title="View items"><i class="fa fa-search-plus fa-2x"></i></a>
+  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggest=1" type="button" class="btn" title="Make a suggestion"><i class="fa fa-question fa-2x"></i></a>
 
-<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggest=1" class="button" title="Make a suggestion">
-    <input type="image" name="suggest" src="/images/question-mark-colored.png" class="img-btn">
-</a>
+  <div class="dropdown" style="margin-top: 5px;">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=added">Added</a>
+      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=alpha">Alpha</a>
+      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=category">Category</a>
+    </div>
+  </div>
 
-<b><%= $name %></b>
+  <span style="font-weight: bold; margin: 10px;"><%= $name %></span>
+</div>
+
+<p></p>
 
 % if (@$on_items) {
+
 <p><%= scalar @$on_items %> / <%= scalar @$off_items %> items for $<%= $cost %></p>
-<p>
-<ul>
+<p></p>
+
     % for my $item (@$on_items) {
-    <li>
+
         % if ($item->{title}) {
+
         <b><%= $item->{title} %></b>
+
         % } else {
-        <div class="border-rounded green-background">
-  <div class="tablewrapper">
-    <div class="table">
-      <div class="row">
-        <div class="cell">
-        <form action="/update_item" method="post">
-            <input type="checkbox" name="active" onchange="this.form.submit();" checked title="Remove item from list">
+
+<div class="accordion" id="accordionOnItems">
+
+  <div class="card text-black">
+    <div class="card-header" id="heading<%= $item->{id} %>">
+      <h2 class="mb-0">
+
+        <div style="display: flex; align-items: center;">
+          <form action="/update_item" method="post">
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="active<%= $item->{id} %>" style="margin-top: 0px;" checked title="Remove item from list" onchange="this.form.submit();">
+            </div>
             <input type="hidden" name="list" value="<%= $list %>">
             <input type="hidden" name="sort" value="<%= $sort %>">
             <input type="hidden" name="item" value="<%= $item->{id} %>">
@@ -65,129 +60,214 @@
             <input type="hidden" name="cost" value="<%= $item->{cost} %>">
             <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
             <input type="hidden" name="assigned" value="<%= $item->{assigned} %>">
-        </form>
-        </div>
-        <div class="cell">
-        <form action="/update_item" method="post">
-            <input type="hidden" name="active" value="1">
-            <input type="hidden" name="list" value="<%= $list %>">
-            <input type="hidden" name="sort" value="<%= $sort %>">
-            <input type="hidden" name="item" value="<%= $item->{id} %>">
-            <input type="hidden" name="note" value="<%= $item->{note} %>">
-            <input type="hidden" name="category" value="<%= $item->{category} %>">
-            <input type="hidden" name="cost" value="<%= $item->{cost} %>">
-            <input type="number" name="quantity" placeholder="#" value="<%= $item->{quantity} %>" style="width:4em;">
-        </form>
-        <%= $item->{name} %>
+          </form>
+          &nbsp; &nbsp;
+          <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->{id} %>" aria-expanded="true" aria-controls="collapse<%= $item->{id} %>">
+            <%= $item->{quantity} %> x <%= $item->{name} %>
+
             % if ($item->{note}) {
-        - <%= $item->{note} %>
+
+            - <%= $item->{note} %>
+
             % }
-            % unless ($item->{assigned}) {
-        <form action="/move_item" method="post">
-            <input type="hidden" name="item" value="<%= $item->{id} %>">
-            <input type="hidden" name="list" value="<%= $list %>">
-            <input type="hidden" name="sort" value="<%= $sort %>">
-            <select name="move_to_list" onchange="this.form.submit();">
-                <option value="">Move to...</option>
+
+          </button>
+        </div>
+
+      </h2>
+    </div>
+
+    <div id="collapse<%= $item->{id} %>" class="collapse" aria-labelledby="heading<%= $item->{id} %>" data-parent="#accordionOnItems">
+      <div class="card-body">
+
+<form action="/update_item" method="post">
+  <input type="hidden" name="active" value="1">
+  <input type="hidden" name="list" value="<%= $list %>">
+  <input type="hidden" name="sort" value="<%= $sort %>">
+  <input type="hidden" name="item" value="<%= $item->{id} %>">
+  <div class="form-row">
+    <div class="col">
+      <input type="text" name="name" value="<%= $item->{name} %>" class="form-control" placeholder="Item name">
+    </div>
+    <div class="col">
+      <input type="text" name="note" value="<%= $item->{note} %>" class="form-control" placeholder="Note">
+    </div>
+    <div class="col">
+      <input type="text" name="category" value="<%= $item->{category} %>" class="form-control" placeholder="Category">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <p></p>
+      <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
+    </div>
+    <div class="col">
+      <p></p>
+      <input type="number" name="quantity" value="<%= $item->{quantity} %>" class="form-control" placeholder="Quantity">
+    </div>
+    <div class="col">
+      <p></p>
+      <select name="move_to_list" class="form-control">
+        <option selected>Move to...</option>
+
             % for my $shop_list (@$shop_lists) {
                 % if ($shop_list->{name} ne $name) {
-                <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
+
+        <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
+
                 % }
             % }
-            </select>
-            % }
-        </form>
+
+      </select>
+    </div>
+  </div>
+      <p></p>
+  <button type="submit" class="btn btn-primary"><i class="fa fa-repeat fa-lg"></i> Update</button>
+  <button type="submit" class="btn btn-secondary" style="float: right;"><i class="fa fa-trash-o fa-lg"></i> Delete</button>
+</form>
+
       </div>
     </div>
   </div>
-        </div>
+
         % }
-    </li>
+
+  </div>
+
     % }
-</ul>
+
+  <p></p>
+
 % } else {
+
 <p>No items yet.</p>
+
 % }
 
 % if ($sort eq 'alpha') {
 <div>
 <a href="#Letters" id="letters"></a>
-% for my $letter ('A' .. 'Z') {
-<a href="#<%= $letter %>" class="button" style="width: 40px; border: 1px solid #bbb;"><%= $letter %></a>
-% }
+    % for my $letter ('A' .. 'Z') {
+<a href="#<%= $letter %>" class="btn" style="width: 40px; border: 1px solid #bbb;"><%= $letter %></a>
+    % }
 </div>
 % }
 
 % if (@$off_items) {
 <p></p>
-<div>
-<div>
-<ul>
+
+<div class="accordion" id="accordionOffItems">
+
     % for my $item (@$off_items) {
-    <li>
+
         % if ($item->{title}) {
-        <b><%= $item->{title} %></b>
+
+  <b><%= $item->{title} %></b>
+
         % } else {
-<a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
-<div class="border-rounded yellow-background">
-  <div class="tablewrapper">
-    <div class="table">
-      <div class="row">
-        <div class="cell">
-        <form action="/update_item" method="post">
-            <input type="checkbox" name="active" id="active" value="<%= $item->{id} %>" onchange="this.form.submit();" title="Add item to list">
-            <input type="hidden" name="list" value="<%= $list %>">
-            <input type="hidden" name="sort" value="<%= $sort %>">
-            <input type="hidden" name="item" value="<%= $item->{id} %>">
-            <input type="hidden" name="note" value="<%= $item->{note} %>">
-            <input type="hidden" name="category" value="<%= $item->{category} %>">
-            <input type="hidden" name="cost" value="<%= $item->{cost} %>">
-            <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
-            <input type="hidden" name="assigned" value="<%= $item->{assigned} %>">
-        </form>
+
+  <a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
+
+  <div class="card text-black">
+    <div class="card-header" id="heading<%= $item->{id} %>">
+      <h2 class="mb-0">
+
+        <div style="display: flex; align-items: center;">
+          <form action="/update_item" method="post">
+            <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck<%= $item->{id} %>" name="active" id="active" value="<%= $item->{id} %>" onchange="this.form.submit();" title="Add item to list" style="margin-top: 0px;">
+              <input type="hidden" name="list" value="<%= $list %>">
+              <input type="hidden" name="sort" value="<%= $sort %>">
+              <input type="hidden" name="item" value="<%= $item->{id} %>">
+              <input type="hidden" name="note" value="<%= $item->{note} %>">
+              <input type="hidden" name="category" value="<%= $item->{category} %>">
+              <input type="hidden" name="cost" value="<%= $item->{cost} %>">
+              <input type="hidden" name="quantity" value="<%= $item->{quantity} %>">
+              <input type="hidden" name="assigned" value="<%= $item->{assigned} %>">
+            </div>
+          </form>
+          &nbsp; &nbsp;
+          <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->{id} %>" aria-expanded="true" aria-controls="collapse<%= $item %>">
+            <%= $item->{name} %>
+          </button>
         </div>
-        <div class="cell">
-        <form action="/update_item" method="post">
-            <input type="hidden" name="active" value="0">
-            <input type="hidden" name="item" value="<%= $item->{id} %>">
-            <input type="hidden" name="list" value="<%= $list %>">
-            <input type="hidden" name="sort" value="<%= $sort %>">
-            <input type="text" name="name" placeholder="Item name" value="<%= $item->{name} %>">
-            <input type="text" name="note" placeholder="Note" value="<%= $item->{note} %>">
-            <input type="text" name="category" placeholder="Category" value="<%= $item->{category} %>" list="category">
-            <input type="text" name="cost" placeholder="Cost" value="<%= $item->{cost} %>" size="6">
-            <input type="hidden" name="quantity" placeholder="Quantity" value="<%= $item->{quantity} %>">
-            <datalist id="category">
-        % for my $cat (@$cats) {
-                <option><%= $cat %></option>
-        % }
-            </datalist>
-            <select name="assigned">
-                <option value="">Assign...</option>
-        % for my $shop_list (@$shop_lists) {
-                <option value="<%= $shop_list->{id} %>"
-            % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
-                selected
+
+      </h2>
+    </div>
+
+    <div id="collapse<%= $item->{id} %>" class="collapse" aria-labelledby="heading<%= $item->{id} %>" data-parent="#accordionOffItems">
+      <div class="card-body">
+
+<form action="/update_item" method="post">
+  <input type="hidden" name="active" value="0">
+  <input type="hidden" name="item" value="<%= $item->{id} %>">
+  <input type="hidden" name="list" value="<%= $list %>">
+  <input type="hidden" name="sort" value="<%= $sort %>">
+  <div class="form-row">
+    <div class="col">
+      <input type="text" name="name" value="<%= $item->{name} %>" class="form-control" placeholder="Item name">
+    </div>
+    <div class="col">
+      <input type="text" name="note" value="<%= $item->{note} %>" class="form-control" placeholder="Note">
+    </div>
+    <div class="col">
+      <input type="text" name="category" value="<%= $item->{category} %>" class="form-control" placeholder="Category" list="category">
+      <datalist id="category">
+
+            % for my $cat (@$cats) {
+
+          <option><%= $cat %></option>
+
             % }
-                ><%= $shop_list->{name} %></option>
-        % }
-            </select>
-            <button type="submit" title="Update item"><input type="image" name="new" src="/images/incoming-colored.png" class="img-btn" onchange="this.form.submit();"></button>
-        </form>
-        <a href="/delete_item?item=<%= $item->{id} %>&list=<%= $list %>&sort=<%= $sort %>" class="button" onclick="if(!confirm('Are you sure you want to remove this item forever?')) return false;" title="Delete item">
-            <input type="image" name="delete" src="/images/minus-colored.png" class="img-btn">
-        </a>
-        </div>
+
+      </datalist>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <p></p>
+      <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
+    </div>
+    <div class="col">
+      <p></p>
+      <input type="number" name="quantity" value="<%= $item->{quantity} %>" class="form-control" placeholder="Quantity">
+    </div>
+    <div class="col">
+      <p></p>
+      <select name="assigned" class="form-control">
+        <option value="">Assign...</option>
+
+            % for my $shop_list (@$shop_lists) {
+
+        <option value="<%= $shop_list->{id} %>"
+
+                % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
+
+        selected
+
+                % }
+
+        ><%= $shop_list->{name} %></option>
+
+            % }
+
+      </select>
+    </div>
+  </div>
+      <p></p>
+  <button type="submit" class="btn btn-primary"><i class="fa fa-repeat fa-lg"></i> Update</button>
+  <button type="submit" class="btn btn-secondary" style="float: right;"><i class="fa fa-trash-o fa-lg"></i> Delete</button>
+</form>
+
       </div>
     </div>
   </div>
-</div>
+
+        % }
     % }
-    </li>
-    % }
-</ul>
+
 </div>
-</div>
+
 % }
 
 %= tag 'p'
