@@ -11,6 +11,10 @@ sub register {
         return state $schema = Schema->connect( $c->config('database'), '', '' );
     } );
 
+    $app->helper(rs => sub {
+        return shift->schema->resultset(@_);
+    });
+
     $app->helper( auth => sub {
         my ( $c, $user, $pass ) = @_;
 
