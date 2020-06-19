@@ -368,11 +368,11 @@ sub update_item {
         my $quantity = $v->param('quantity');
         my $result = $self->rs('Item')->find($v->param('item'));
         if ($v->param('active')) {
-            $result->list_id($v->param('list'));
-            $quantity ||= 1;
-            if ($v->param('quantity') == $result->quantity) {
+            if ($v->param('list') != $result->list_id) {
                 $self->rs('ItemCount')->update_or_create($self->session->{auth}, $result->id);
             }
+            $result->list_id($v->param('list'));
+            $quantity ||= 1;
         }
         else {
             $result->list_id(undef);
