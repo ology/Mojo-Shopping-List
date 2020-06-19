@@ -23,7 +23,7 @@ sub logout {
 
 sub lists {
     my ($self) = @_;
-    my $account = $self->schema->resultset('Account')->find($self->session->{auth});
+    my $account = $self->rs('Account')->find($self->session->{auth});
     my $lists = $account->lists->search({}, { order_by => { -asc => \'LOWER(name)' } });
     $self->render(lists => $lists);
 }
@@ -36,7 +36,7 @@ sub new_list {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        $self->schema->resultset('List')->create({
+        $self->rs('List')->create({
             name       => $v->param('name'),
             account_id => $self->session->{auth},
         });
@@ -53,7 +53,7 @@ sub update_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        my $result = $self->schema->resultset('List')->find($v->param('list'));
+        my $result = $self->rs('List')->find($v->param('list'));
         $result->update({ name => $v->param('name') });
     }
     return $self->redirect_to('lists');
@@ -67,7 +67,7 @@ sub delete_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        my $result = $self->schema->resultset('List')->find($v->param('list'));
+        my $result = $self->rs('List')->find($v->param('list'));
         $result->delete;
     }
     return $self->redirect_to('lists');
@@ -107,7 +107,7 @@ sub view_list {
         }
         my %on_cats;
         my %off_cats;
-        my $result = $self->schema->resultset('List')->find($v->param('list'));
+        my $result = $self->rs('List')->find($v->param('list'));
         $name = $result->name;
         my $items = $result->items->search({}, { %$order });
         # Add the on-items & categories
@@ -131,7 +131,7 @@ sub view_list {
             }
         }
         # Add the off-items & categories
-        $items = $self->schema->resultset('Item')->search(
+        $items = $self->rs('Item')->search(
             {
                 account_id => $self->session->{auth},
                 list_id    => undef,
@@ -183,7 +183,7 @@ sub view_list {
         while (my $cat = $categories->next) {
             push @$cats, $cat->category;
         }
-        my $lists = $self->schema->resultset('List')->search(
+        my $lists = $self->rs('List')->search(
             {
                 account_id => $self->session->{auth},
             },
@@ -197,7 +197,7 @@ sub view_list {
         if ($v->param('suggest')) {
             my $exclude_cookie = $self->cookie('exclude') || '';
             my $exclude = [ split /,/, $exclude_cookie ];
-            my $list_items = $self->schema->resultset('Item')->search(
+            my $list_items = $self->rs('Item')->search(
                 {
                     account_id => $self->session->{auth},
                     list_id    => { '!=' => undef },
@@ -206,7 +206,7 @@ sub view_list {
             while (my $item = $list_items->next) {
                 push @$exclude, $item->id;
             }
-            my $result = $self->schema->resultset('ItemCount')->search(
+            my $result = $self->rs('ItemCount')->search(
                 {
                     account_id => $self->session->{auth},
                     item_id    => { -not_in => $exclude },
@@ -216,7 +216,7 @@ sub view_list {
                 }
             )->first;
             if ($result) {
-                my $item = $self->schema->resultset('Item')->find($result->item_id);
+                my $item = $self->rs('Item')->find($result->item_id);
                 $suggest = $item->name . '?';
                 push @$exclude, $result->item_id;
             }
@@ -274,7 +274,7 @@ sub print_list {
         }
         my %on_cats;
         my %off_cats;
-        my $result = $self->schema->resultset('List')->find($v->param('list'));
+        my $result = $self->rs('List')->find($v->param('list'));
         $name = $result->name;
         my $items = $result->items->search({}, { %$order });
         while (my $item = $items->next) {
@@ -296,7 +296,7 @@ sub print_list {
                 push @{ $on_cats{$cat} }, $struct;
             }
         }
-        $items = $self->schema->resultset('Item')->search(
+        $items = $self->rs('Item')->search(
             {
                 account_id => $self->session->{auth},
                 list_id    => undef,
@@ -366,12 +366,12 @@ sub update_item {
     }
     else {
         my $quantity = $v->param('quantity');
-        my $result = $self->schema->resultset('Item')->find($v->param('item'));
+        my $result = $self->rs('Item')->find($v->param('item'));
         if ($v->param('active')) {
             $result->list_id($v->param('list'));
             $quantity ||= 1;
             if ($v->param('quantity') == $result->quantity) {
-                $self->schema->resultset('ItemCount')->update_or_create($self->session->{auth}, $result->id);
+                $self->rs('ItemCount')->update_or_create($self->session->{auth}, $result->id);
             }
         }
         else {
@@ -400,10 +400,10 @@ sub update_item_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        my $result = $self->schema->resultset('Item')->find($v->param('item'));
+        my $result = $self->rs('Item')->find($v->param('item'));
         $result->update({ list_id => $v->param('move_to_list') });
         if ($v->param('move_to_list')) {
-            $self->schema->resultset('ItemCount')->update_or_create($self->session->{auth}, $result->id);
+            $self->rs('ItemCount')->update_or_create($self->session->{auth}, $result->id);
         }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
@@ -419,9 +419,9 @@ sub delete_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $result = $self->schema->resultset('Item')->find($v->param('item'));
+        my $result = $self->rs('Item')->find($v->param('item'));
         $result->delete;
-        $result = $self->schema->resultset('ItemCount')->search({ item_id => $v->param('item') })->first;
+        $result = $self->rs('ItemCount')->search({ item_id => $v->param('item') })->first;
         $result->delete if $result;
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
@@ -438,7 +438,7 @@ sub move_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $result = $self->schema->resultset('Item')->find($v->param('item'));
+        my $result = $self->rs('Item')->find($v->param('item'));
         $result->update({ list_id => $v->param('move_to_list') });
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
@@ -458,7 +458,7 @@ sub view_items {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $account = $self->schema->resultset('Account')->find($self->session->{auth});
+        my $account = $self->rs('Account')->find($self->session->{auth});
         my $all_items = $account->items;
         while (my $item = $all_items->next) {
             push @$names, $item->name;
@@ -523,7 +523,7 @@ sub new_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $item = $self->schema->resultset('Item')->create({
+        my $item = $self->rs('Item')->create({
             account_id => $self->session->{auth},
             name       => $v->param('name'),
             note       => $v->param('note'),
@@ -533,7 +533,7 @@ sub new_item {
             list_id    => $v->param('shop_list'),
         });
         if ($v->param('shop_list')) {
-            $self->schema->resultset('ItemCount')->update_or_create($self->session->{auth}, $item->id);
+            $self->rs('ItemCount')->update_or_create($self->session->{auth}, $item->id);
         }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
