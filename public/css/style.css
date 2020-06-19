@@ -95,8 +95,10 @@ select {
   padding: 15px; /* Some padding */
   border-radius: 10px; /* Rounded corners */
   font-size: 18px; /* Increase font size */
+  height: 45px;
+  line-height: 20px;
 }
 
-#top_button:hover {
-  background-color: #555; /* Add a dark-grey background on hover */
-}
+//#top_button:hover {
+//  background-color: #555; /* Add a dark-grey background on hover */
+//}
