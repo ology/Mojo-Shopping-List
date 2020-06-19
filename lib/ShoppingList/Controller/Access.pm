@@ -177,7 +177,7 @@ sub view_list {
             {
                 distinct => 1,
                 columns  => [qw/category/],
-                order_by => { -asc => 'category' },
+                order_by => { -asc => \'LOWER(category)' },
             }
         );
         while (my $cat = $categories->next) {
@@ -188,7 +188,7 @@ sub view_list {
                 account_id => $self->session->{auth},
             },
             {
-                order_by => { -asc => 'name' },
+                order_by => { -asc => \'LOWER(name)' },
             }
         );
         while (my $list = $lists->next) {
