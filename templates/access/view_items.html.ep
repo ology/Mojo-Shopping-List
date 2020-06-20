@@ -17,9 +17,8 @@
 </form>
 </div>
 
-<p></p>
-
 <div id="new_item" style="display: none">
+<p></p>
 <div class="card text-black">
   <div class="card-body">
 <form action="/new_item" method="post">
