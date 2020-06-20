@@ -7,7 +7,7 @@ use Schema;
 
 my ($name, $pass) = @ARGV;
 
-my $config = do 'shopping_list.conf';
+my $config = do './shopping_list.conf';
 
 my $schema = Schema->connect($config->{database}, '', '');
 

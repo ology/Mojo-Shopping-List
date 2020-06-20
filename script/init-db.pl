@@ -8,7 +8,7 @@ use Schema;
 
 my ($name, $pass) = @ARGV;
 
-my $config = do 'shopping_list.conf';
+my $config = do './shopping_list.conf';
 
 (my $db_file = $config->{database}) =~ s/^.*?=(.*)$/$1/;
 
