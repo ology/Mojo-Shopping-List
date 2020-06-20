@@ -120,7 +120,7 @@
     <div class="col">
       <p></p>
       <select name="move_to_list" class="form-control">
-        <option selected>Move to...</option>
+        <option value="">Move to...</option>
 
             % for my $shop_list (@$shop_lists) {
                 % if ($shop_list->{name} ne $name) {
