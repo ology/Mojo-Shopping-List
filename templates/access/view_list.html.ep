@@ -29,12 +29,17 @@
 <p></p>
 
 % if (@$on_items) {
-    % if ($sort ne 'category') {
+    % if ($sort eq 'category') {
+
+<p>$<%= $cost %></p>
+
+    % } else {
 
 <p><%= scalar @$on_items %> / <%= scalar @$off_items %> items for $<%= $cost %></p>
-<p></p>
 
     % }
+
+<p></p>
 
 <div class="accordion" id="accordionOnItems">
 
