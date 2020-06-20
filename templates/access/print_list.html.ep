@@ -14,9 +14,9 @@
 % }
 <p></p>
 % my $i = 0;
-<ul>
 % for my $item (@$on_items) {
-    <li>
+  <div class="card text-black">
+    <div class="card-body">
     % if ($item->{title}) {
         <b><%= $item->{title} %></b>
     % } else {
@@ -27,7 +27,7 @@
         % $msg .= " - $item->{note}" if $item->{note};
         <%= $msg %>
     % }
-    </li>
+  </div>
+</div>
 % }
-</ul>
 </div>
