@@ -124,9 +124,7 @@
 
             % for my $shop_list (@$shop_lists) {
                 % if ($shop_list->{name} ne $name) {
-
         <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
-
                 % }
             % }
 
@@ -231,9 +229,7 @@
       <datalist id="category">
 
             % for my $cat (@$cats) {
-
           <option><%= $cat %></option>
-
             % }
 
       </datalist>
@@ -258,9 +254,7 @@
         <option value="<%= $shop_list->{id} %>"
 
                 % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
-
         selected
-
                 % }
 
         ><%= $shop_list->{name} %></option>
