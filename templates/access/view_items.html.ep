@@ -1,53 +1,65 @@
 % layout 'default';
 % title 'View Items';
 %= include 'access/_flash'
+<div class="container">
 
-<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" class="button" title="Return to list">
-    <input type="image" name="go" src="/images/backward-colored.png" class="img-btn">
-</a>
-
-<form action="/view_items" method="get">
-    <input type="hidden" name="list" value="<%= $list %>">
+<div class="form-row align-items-center">
+<form action="/view_items" method="get" class="form-inline">
+<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg"></i></a>
+    <input type="hidden" name="list" value="<%= $list %>" >
     <input type="hidden" name="sort" value="<%= $sort %>">
-    <input type="text" name="query" value="<%= $query %>" placeholder="Search">
-    <button type="submit" title="Search items"><input type="image" name="search" src="/images/magnifying-glass-colored.png" class="img-btn"></button>
+    <div class="col-auto">
+    <input type="text" name="query" value="<%= $query %>" placeholder="Search" class="form-control">
+    </div>
+    <button type="submit" title="Search items" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
 </form>
+</div>
 
 <p></p>
-<div class="tablewrapper">
-  <div class="table">
-    <div class="row">
-      <div class="cell" style="width:38px;">
-      </div>
-      <div class="cell">
+
+<div class="card text-black">
+  <div class="card-body">
 <form action="/new_item" method="post">
-    <input type="hidden" name="list" value="<%= $list %>">
-    <input type="hidden" name="sort" value="<%= $sort %>">
-    <input type="text" name="name" placeholder="Item name" list="item_names">
-    <datalist id="item_names">
+  <input type="hidden" name="list" value="<%= $list %>">
+  <input type="hidden" name="sort" value="<%= $sort %>">
+  <div class="form-row">
+    <div class="col-auto">
+      <input type="text" name="name" class="form-control" placeholder="Item name" list="item_names">
+      <datalist id="item_names">
 % for my $name (@$names) {
         <option><%= $name %></option>
 % }
-    </datalist>
-    <input type="text" name="category" placeholder="Category" list="category">
-    <datalist id="category">
+      </datalist>
+    </div>
+    <div class="col-auto">
+      <input type="text" name="note" class="form-control" placeholder="Note">
+    </div>
+    <div class="col-auto">
+      <input type="text" name="category" class="form-control" placeholder="Category" list="category">
+      <datalist id="category">
 % for my $cat (@$cats) {
         <option><%= $cat %></option>
 % }
-    </datalist>
-    <input type="text" name="note" placeholder="Note">
-    <input type="text" name="quantity" size="3" placeholder="Quantity">
-    <input type="text" name="cost" size="3" placeholder="Cost">
-    <select name="shop_list">
-        <option value="">List...</option>
+      </datalist>
+    </div>
+    <div class="col-auto">
+      <input type="text" name="cost" class="form-control" placeholder="Cost">
+    </div>
+    <div class="col-auto">
+      <input type="number" name="quantity" class="form-control" placeholder="Quantity">
+    </div>
+    <div class="col-auto">
+      <select name="shop_list" class="form-control">
+        <option selected>List...</option>
 % for my $shop_list (@$shop_lists) {
         <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
 % }
-    </select>
-    <button type="submit" title="New item"><input type="image" name="new" src="/images/plus-colored.png" class="img-btn" onchange="this.form.submit();"></button>
-</form>
-      </div>
+      </select>
     </div>
+  </div>
+      <p></p>
+  <button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-lg"></i> New Item</button>
+</form>
   </div>
 </div>
 
@@ -101,3 +113,4 @@
 
 %= tag 'p'
 %= link_to Logout => 'logout'
+</div>
