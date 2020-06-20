@@ -5,7 +5,7 @@
 
 <div class="form-row align-items-center">
 <form action="/view_items" method="get" class="form-inline">
-<a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg"></i></a>
+    <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg"></i></a>
     <input type="hidden" name="list" value="<%= $list %>" >
     <input type="hidden" name="sort" value="<%= $sort %>">
     <div class="col-auto">
@@ -15,8 +15,11 @@
 </form>
 </div>
 
+<button type="button" id="new_item_toggle" title="New item" class="btn btn-secondary btn-sm"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+
 <p></p>
 
+<div id="new_item" style="display: none">
 <div class="card text-black">
   <div class="card-body">
 <form action="/new_item" method="post">
@@ -24,7 +27,7 @@
   <input type="hidden" name="sort" value="<%= $sort %>">
   <div class="form-row">
     <div class="col-auto">
-      <input type="text" name="name" class="form-control" placeholder="Item name" list="item_names">
+      <input type="text" name="name" id="item_name" class="form-control" placeholder="Item name" list="item_names">
       <datalist id="item_names">
 % for my $name (@$names) {
         <option><%= $name %></option>
@@ -61,6 +64,7 @@
   <button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-lg"></i> New Item</button>
 </form>
   </div>
+</div>
 </div>
 
 % if ($items) {
@@ -111,3 +115,16 @@
 %= tag 'p'
 %= link_to Logout => 'logout'
 </div>
+
+<script>
+$(document).ready(
+    function() {
+        $('#new_item_toggle').click(
+            function() {
+                $('#new_item').toggle();
+                $("#item_name").focus();
+            }
+        );
+    }
+);
+</script>
