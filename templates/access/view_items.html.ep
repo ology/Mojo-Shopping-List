@@ -9,7 +9,7 @@
     <input type="hidden" name="list" value="<%= $list %>" >
     <input type="hidden" name="sort" value="<%= $sort %>">
     <div class="col-auto">
-    <input type="text" name="query" value="<%= $query %>" placeholder="Search" class="form-control">
+    <input type="text" name="query" value="<%= $query %>" placeholder="Item search" class="form-control">
     </div>
     <button type="submit" title="Search items" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
 </form>
@@ -65,14 +65,10 @@
 
 % if ($items) {
 <p></p>
-<ul>
     % while (my $item = $items->next) {
-    <li>
-        % if ($item->list_id) {
-        <div class="border-rounded green-background">
-        % } else {
-        <div class="border-rounded yellow-background">
-        % }
+  <div class="card text-black">
+    <div class="card-body">
+
         <%= $item->name %>
             % if ($item->note) {
         - <%= $item->note %>
@@ -101,14 +97,15 @@
         </form>
         % }
         % if ($item->list_id) {
-        <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="button">
-            <input type="image" name="go" src="/images/forward-colored.png" class="img-btn" title="Go to list">
+        <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="btn btn-success btn-sm" title="Go to list">
+          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
         </a>
         % }
-        </div>
-    </li>
+
+  </div>
+</div>
+
     % }
-</ul>
 % }
 
 %= tag 'p'
