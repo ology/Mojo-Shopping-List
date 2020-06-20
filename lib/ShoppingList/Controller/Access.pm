@@ -361,6 +361,7 @@ sub update_item {
     $v->optional('cost', 'not_empty');
     $v->optional('quantity', 'not_empty');
     $v->optional('assigned', 'not_empty');
+    $v->optional('move_to_list', 'not_empty');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
@@ -371,7 +372,12 @@ sub update_item {
             if ($v->param('list') != $result->list_id) {
                 $self->rs('ItemCount')->update_or_create($self->session->{auth}, $result->id);
             }
-            $result->list_id($v->param('list'));
+            if ($v->param('move_to_list')) {
+                $result->list_id($v->param('move_to_list'));
+            }
+            else {
+                $result->list_id($v->param('list'));
+            }
             $quantity ||= 1;
         }
         else {
