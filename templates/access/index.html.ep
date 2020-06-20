@@ -1,13 +1,12 @@
 % layout 'default';
 % title 'Login';
+<div class="container">
 %= tag h1 => 'Login'
 %= include 'access/_flash'
 %= form_for login => (method => 'post') => begin
-    %= label_for username => 'Username:'
-    %= text_field 'username'
+    %= text_field 'username', class => 'form-control w-25', placeholder => 'Username'
+    %= password_field 'password', class => 'form-control w-25', placeholder => 'Password'
     %= tag 'br'
-    %= label_for password => 'Password:'
-    %= password_field 'password'
-    %= tag 'br'
-    %= submit_button 'Login'
+    %= submit_button 'Login', class => 'btn btn-primary'
 %= end
+</div>
