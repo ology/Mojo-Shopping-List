@@ -159,7 +159,7 @@
 <div>
 <a href="#Letters" id="letters"></a>
     % for my $letter ('A' .. 'Z') {
-<a href="#<%= $letter %>" class="btn" style="width: 40px; border: 1px solid #bbb;"><%= $letter %></a>
+<a href="#<%= $letter %>" class="btn" style="width: 38px; border: 1px solid #bbb;"><%= $letter %></a>
     % }
 </div>
 % }
