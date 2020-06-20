@@ -1,30 +1,48 @@
 % layout 'default';
 % title 'Lists';
+%= include 'access/_flash'
+<div class="container">
 <p>
 %= tag b => 'Shopping lists'
 </p>
-%= include 'access/_flash'
 
 <form method="post">
-    <input type="text" name="name" placeholder="New list name">
-    <button type="submit" title="New list"><input type="image" src="/images/plus-colored.png" class="img-btn"></button>
+  <div class="form-row align-items-center">
+    <div class="col-auto">
+      <input type="text" name="name" class="form-control" placeholder="New list name">
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-warning btn-sm" title="New list"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+    </div>
+  </div>
 </form>
-<p>
+<p></p>
 <ul>
 % while (my $list = $lists->next) {
     <li>
-        <form action="/update_list" method="post">
-            <input type="hidden" name="list" value="<%= $list->id %>">
-            <input type="text" name="name" placeholder="List name" value="<%= $list->name %>">
-            <button type="submit" title="New list name"><input type="image" src="/images/incoming-colored.png" class="img-btn" onchange="this.form.submit();"></button>
+        <form action="/update_list" method="post" class="form-inline">
+          <input type="hidden" name="list" value="<%= $list->id %>">
+  <div class="form-row align-items-center">
+    <div class="col-auto">
+          <input type="text" name="name" placeholder="List name" value="<%= $list->name %>" class="form-control">
+    </div>
+<!--
+    <div class="col-auto">
+          <button type="submit" class="btn btn-primary btn-sm" title="Update list name"><i class="fa fa-repeat fa-lg"></i></button>
+    </div>
+-->
+    <div class="col-auto">
+          <a href="/delete_list?list=<%= $list->id %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;" title="Delete this list">
+          <i class="fa fa-minus fa-lg" aria-hidden="true"></i>
+          </a>
+    </div>
+    <div class="col-auto">
+          <a href="/view_list?list=<%= $list->id %>" class="btn btn-success btn-sm" title="View this list"><i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i></a>
+    </div>
+    </div>
         </form>
-        <a href="/delete_list?list=<%= $list->id %>" class="button" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;">
-            <input type="image" src="/images/minus-colored.png" class="img-btn" title="Delete list">
-        </a>
-        <a href="/view_list?list=<%= $list->id %>" class="button">
-            <input type="image" src="/images/forward-colored.png" class="img-btn" title="Go to list">
-        </a>
     </li>
 % }
 </ul>
 %= link_to Logout => 'logout'
+</div>
