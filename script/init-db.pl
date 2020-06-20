@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 
+__END__
 use lib 'lib';
 use Schema;
 

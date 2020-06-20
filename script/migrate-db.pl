@@ -2,6 +2,7 @@
 use strict;
 use warnings;
 
+__END__
 use DBI;
 
 use lib 'lib';
