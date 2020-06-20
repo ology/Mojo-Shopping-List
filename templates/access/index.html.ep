@@ -4,8 +4,8 @@
 %= tag h1 => 'Login'
 %= include 'access/_flash'
 %= form_for login => (method => 'post') => begin
-    %= text_field 'username', class => 'form-control w-25', placeholder => 'Username'
-    %= password_field 'password', class => 'form-control w-25', placeholder => 'Password'
+    %= text_field 'username', class => 'form-control w-50', placeholder => 'Username'
+    %= password_field 'password', class => 'form-control w-50', placeholder => 'Password'
     %= tag 'br'
     %= submit_button 'Login', class => 'btn btn-primary'
 %= end
