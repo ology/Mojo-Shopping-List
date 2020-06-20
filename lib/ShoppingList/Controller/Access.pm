@@ -68,6 +68,10 @@ sub delete_list {
     }
     else {
         my $result = $self->rs('List')->find($v->param('list'));
+        my $items = $result->items;
+        while (my $item = $items->next) {
+            $item->update({ list_id => undef });
+        }
         $result->delete;
     }
     return $self->redirect_to('lists');
