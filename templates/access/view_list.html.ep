@@ -2,7 +2,9 @@
 % title $name;
 %= include 'access/_flash'
 
+% if ($sort eq 'alpha') {
 <button onclick="topFunction()" id="top_button" title="Go to top">^</button> 
+% }
 
 <div class="container">
 
