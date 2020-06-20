@@ -78,9 +78,7 @@
             <%= $item->{quantity} %> x <%= $item->{name} %>
 
             % if ($item->{note}) {
-
             - <%= $item->{note} %>
-
             % }
 
           </button>
@@ -200,6 +198,11 @@
           &nbsp; &nbsp;
           <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->{id} %>" aria-expanded="true" aria-controls="collapse<%= $item %>">
             <%= $item->{name} %>
+
+            % if ($item->{note}) {
+            - <%= $item->{note} %>
+            % }
+
           </button>
         </div>
 
