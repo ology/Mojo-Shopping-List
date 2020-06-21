@@ -22,8 +22,7 @@
     % } else {
         % $i++;
         % my $msg = "$i. ";
-        % $msg .= "<b>$item->{quantity}</b> &times; ";
-        % $msg .= "<b>$item->{name}</b>";
+        % $msg .= "<b>$item->{quantity}</b> &times; <b>$item->{name}</b>";
         % $msg .= " - $item->{note}" if $item->{note};
         <%== $msg %>
     % }
