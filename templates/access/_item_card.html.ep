@@ -7,11 +7,11 @@
             <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="active<%= $item->{id} %>" name="active" value="<%= $item->{id} %>" onchange="this.form.submit();"
 
-            % if ($assign_list) {
+% if ($assign_list) {
               title="Add item to list"
-            % } else {
+% } else {
               title="Remove item from list" checked
-            % }
+% }
 
               >
             </div>
@@ -27,15 +27,15 @@
           &nbsp; &nbsp;
           <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->{id} %>" aria-expanded="true" aria-controls="collapse<%= $item->{id} %>">
 
-            % unless ($assign_list) {
+% unless ($assign_list) {
             <b><%= $item->{quantity} %></b> &times;
-            % }
+% }
 
             <b><%= $item->{name} %></b>
 
-            % if ($item->{note}) {
+% if ($item->{note}) {
             - <%= $item->{note} %>
-            % }
+% }
 
           </button>
         </div>
@@ -72,9 +72,9 @@
       <input type="text" name="category" value="<%= $item->{category} %>" class="form-control" placeholder="Category" list="category">
       <datalist id="category">
 
-            % for my $cat (@$cats) {
+% for my $cat (@$cats) {
           <option><%= $cat %></option>
-            % }
+% }
 
       </datalist>
     </div>
@@ -83,28 +83,28 @@
       <select name="assigned" class="form-control">
         <option value="">Assign...</option>
 
-            % for my $shop_list (@$shop_lists) {
+    % for my $shop_list (@$shop_lists) {
 
         <option value="<%= $shop_list->{id} %>"
 
-                % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
+        % if ($item->{assigned} && $item->{assigned} == $shop_list->{id}) {
         selected
-                % }
+        % }
 
         ><%= $shop_list->{name} %></option>
 
-            % }
+    % }
 
       </select>
 % } else {
       <select name="move_to_list" class="form-control">
         <option value="">Move to...</option>
 
-            % for my $shop_list (@$shop_lists) {
-                % if ($shop_list->{name} ne $name) {
+    % for my $shop_list (@$shop_lists) {
+        % if ($shop_list->{name} ne $name) {
         <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
-                % }
-            % }
+        % }
+    % }
 
       </select>
 
