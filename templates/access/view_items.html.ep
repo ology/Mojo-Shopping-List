@@ -73,7 +73,7 @@
     <div class="card-body">
       <div class="form-row align-items-center">
 
-        <%= $item->name %>
+        <b><%= $item->name %></b>
             % if ($item->note) {
         - <%= $item->note %>
             % }
