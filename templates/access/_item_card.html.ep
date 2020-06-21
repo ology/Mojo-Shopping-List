@@ -112,8 +112,10 @@
     </div>
   </div>
       <p></p>
+<div class="pull-right">
   <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-repeat fa-lg" aria-hidden="true"></i> Update</button>
-  <a href="/delete_item?list=<%= $list %>&sort=<%= $sort %>&item=<%= $item->{id} %>" class="btn btn-secondary btn-sm" style="float: right;" onclick="if(!confirm('Are you sure you want to delete this item?')) return false;" title="Delete this item"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</a>
+  <a href="/delete_item?list=<%= $list %>&sort=<%= $sort %>&item=<%= $item->{id} %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this item?')) return false;" title="Delete this item"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</a>
+</div>
 </form>
 
       </div>
