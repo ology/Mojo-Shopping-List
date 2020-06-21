@@ -71,6 +71,7 @@
     % while (my $item = $items->next) {
   <div class="card text-black">
     <div class="card-body">
+      <div class="form-row align-items-center">
 
         <%= $item->name %>
             % if ($item->note) {
@@ -105,8 +106,9 @@
         </a>
         % }
 
+      </div>
+    </div>
   </div>
-</div>
 
     % }
 % }
