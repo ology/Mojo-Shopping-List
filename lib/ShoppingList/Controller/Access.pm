@@ -199,6 +199,7 @@ sub view_list {
         while (my $list = $lists->next) {
             push @$shop_lists, { id => $list->id, name => $list->name };
         }
+        # Suggestion logic
         my $exclude_cookie = $self->cookie('exclude') || '';
         my $exclude = [ split /,/, $exclude_cookie ];
         my $list_items = $self->rs('Item')->search(
@@ -207,7 +208,6 @@ sub view_list {
                 list_id    => { '!=' => undef },
             }
         );
-        # Suggestion logic
         while (my $item = $list_items->next) {
             push @$exclude, $item->id;
         }
