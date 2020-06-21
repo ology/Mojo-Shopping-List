@@ -28,10 +28,10 @@
           <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->{id} %>" aria-expanded="true" aria-controls="collapse<%= $item->{id} %>">
 
             % unless ($assign_list) {
-            <%= $item->{quantity} %> &times;
+            <b><%= $item->{quantity} %></b> &times;
             % }
 
-            <%= $item->{name} %>
+            <b><%= $item->{name} %></b>
 
             % if ($item->{note}) {
             - <%= $item->{note} %>
