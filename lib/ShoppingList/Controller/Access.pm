@@ -91,6 +91,7 @@ sub view_list {
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
+    $v->optional('next');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
@@ -243,6 +244,7 @@ sub view_list {
         cats       => $cats,
         suggest    => $suggest,
         suggest_id => $suggest_id,
+        next       => $v->param('next'),
     );
 }
 
