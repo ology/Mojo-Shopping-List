@@ -11,4 +11,11 @@ my $config = do './shopping_list.conf';
 
 my $schema = Schema->connect($config->{database}, '', '');
 
-$schema->resultset('Account')->create({ username => $name, password => $pass });
+my $account = $schema->resultset('Account')->search({ username => $name })->first;
+
+if ($account) {
+    $account->update({ password => $pass });
+}
+else {
+    $schema->resultset('Account')->create({ username => $name, password => $pass });
+}
