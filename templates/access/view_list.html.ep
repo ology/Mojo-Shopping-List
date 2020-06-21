@@ -159,9 +159,11 @@ function topFunction() {
 </script>
 
 <script>
+% if ($next) {
 $(window).on('load', function() {
     $('#suggestModal').modal('show');
 });
+% }
 $(document).ready(
     function() {
         if ($('#suggest_id').val() == 0) {
