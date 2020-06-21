@@ -82,7 +82,7 @@
 
         % } else {
 
-            %= include 'access/_item_form', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOnItems', assign_list => 0
+            %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOnItems', assign_list => 0
 
         % }
     % }
@@ -121,7 +121,7 @@
 
   <a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
 
-            %= include 'access/_item_form', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOffItems', assign_list => 1
+            %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOffItems', assign_list => 1
 
         % }
     % }
