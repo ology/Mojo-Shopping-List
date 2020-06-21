@@ -7,7 +7,7 @@
 <form action="/view_items" method="get" class="form-inline">
     <input type="hidden" name="list" value="<%= $list %>" >
     <input type="hidden" name="sort" value="<%= $sort %>">
-    <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg"></i></a>
+    <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
     &nbsp;
     <input type="text" name="query" value="<%= $query %>" placeholder="Item search" class="form-control w-50">
     &nbsp;
@@ -60,7 +60,7 @@
     </div>
   </div>
       <p></p>
-  <button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-lg"></i> New Item</button>
+  <button type="submit" class="btn btn-primary"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> New Item</button>
 </form>
   </div>
 </div>

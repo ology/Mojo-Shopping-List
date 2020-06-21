@@ -28,7 +28,7 @@
     </div>
 <!--
     <div class="col-auto">
-          <button type="submit" class="btn btn-primary btn-sm" title="Update list name"><i class="fa fa-repeat fa-lg"></i></button>
+          <button type="submit" class="btn btn-primary btn-sm" title="Update list name"><i class="fa fa-repeat fa-lg" aria-hidden="true"></i></button>
     </div>
 -->
     <div class="col-auto">

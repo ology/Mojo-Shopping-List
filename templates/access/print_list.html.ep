@@ -4,7 +4,7 @@
 <div class="container">
 
 <div class="form-row">
-  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn" title="Return to list"><i class="fa fa-arrow-left fa-2x"></i></a>
+  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn" title="Return to list"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></a>
   <span style="font-weight: bold; margin: 10px;"><%= $name %></span>
 </div>
 % if ($sort eq 'category') {

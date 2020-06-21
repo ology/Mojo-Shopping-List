@@ -9,13 +9,13 @@
 <div class="container">
 
 <div class="form-row align-items-center">
-  <a href="/lists" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg"></i></a>
+  <a href="/lists" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="/print_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-info btn-sm" title="Print list"><i class="fa fa-print fa-lg"></i></a>
+  <a href="/print_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-info btn-sm" title="Print list"><i class="fa fa-print fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-primary btn-sm" title="Add and view items"><i class="fa fa-search-plus fa-lg"></i></a>
+  <a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-primary btn-sm" title="Add and view items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggest=1" type="button" class="btn btn-warning btn-sm" title="Make a suggestion" style="width: 35px;"><i class="fa fa-question fa-lg"></i></a>
+  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggest=1" type="button" class="btn btn-warning btn-sm" title="Make a suggestion" style="width: 35px;"><i class="fa fa-question fa-lg" aria-hidden="true"></i></a>
   &nbsp;
 
   <div class="dropdown" style="margin-top: 5px;">
