@@ -455,6 +455,7 @@ sub move_item {
     else {
         my $result = $self->rs('Item')->find($v->param('item'));
         $result->update({ list_id => $v->param('move_to_list') });
+        $self->rs('ItemCount')->update_or_create($self->session->{auth}, $v->param('item'));
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
