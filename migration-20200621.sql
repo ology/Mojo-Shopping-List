@@ -1,1 +1,1 @@
-ALTER TABLE accounts ADD email text NOT NULL;
+ALTER TABLE accounts ADD email text DEFAULT 'foo@example.com' NOT NULL;
