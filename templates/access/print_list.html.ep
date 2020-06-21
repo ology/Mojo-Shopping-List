@@ -3,8 +3,8 @@
 
 <div class="container">
 
-<div class="form-row">
-  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn" title="Return to list"><i class="fa fa-arrow-left fa-2x" aria-hidden="true"></i></a>
+<div class="form-row align-items-center">
+  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-sm" title="Return to list" style="border: 1px solid #bbb;"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   <span style="font-weight: bold; margin: 10px;"><%= $name %></span>
 </div>
 % if ($sort eq 'category') {
@@ -22,10 +22,10 @@
     % } else {
         % $i++;
         % my $msg = "$i. ";
-        % $msg .= "$item->{quantity} x ";
-        % $msg .= $item->{name};
+        % $msg .= "<b>$item->{quantity}</b> &times; ";
+        % $msg .= "<b>$item->{name}</b>";
         % $msg .= " - $item->{note}" if $item->{note};
-        <%= $msg %>
+        <%== $msg %>
     % }
   </div>
 </div>
