@@ -58,6 +58,16 @@
     <div class="col">
       <input type="text" name="note" value="<%= $item->{note} %>" class="form-control" placeholder="Note">
     </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
+    </div>
+    <div class="col">
+      <input type="number" name="quantity" value="<%= $item->{quantity} %>" class="form-control" placeholder="Quantity">
+    </div>
+  </div>
+  <div class="form-row">
     <div class="col">
       <input type="text" name="category" value="<%= $item->{category} %>" class="form-control" placeholder="Category" list="category">
       <datalist id="category">
@@ -68,18 +78,7 @@
 
       </datalist>
     </div>
-  </div>
-  <div class="form-row">
     <div class="col">
-      <p></p>
-      <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
-    </div>
-    <div class="col">
-      <p></p>
-      <input type="number" name="quantity" value="<%= $item->{quantity} %>" class="form-control" placeholder="Quantity">
-    </div>
-    <div class="col">
-      <p></p>
 % if ($assign_list) {
       <select name="assigned" class="form-control">
         <option value="">Assign...</option>
