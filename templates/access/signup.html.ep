@@ -4,7 +4,7 @@
 %= tag h1 => 'Signup'
 %= include 'access/_flash'
 %= form_for signup => (method => 'post') => begin
-    %= text_field 'username', id => 'username', class => 'form-control w-50', placeholder => 'Username (letters, numbers or _)'
+    %= text_field 'username', id => 'username', class => 'form-control w-50', placeholder => 'Username (letters, numbers and _)'
     %= password_field 'password', class => 'form-control w-50', placeholder => 'Password (between 4 and 20 characters)'
     %= password_field 'confirm', class => 'form-control w-50', placeholder => 'Confirm password'
     %= tag 'br'
