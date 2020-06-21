@@ -4,6 +4,7 @@
 %= tag h1 => 'Signup'
 %= include 'access/_flash'
 %= form_for signup => (method => 'post') => begin
+    %= email_field 'email', id => 'email', class => 'form-control w-50', placeholder => 'Email address', required => undef
     %= text_field 'username', id => 'username', class => 'form-control w-50', placeholder => 'Username (letters, numbers and _)', required => undef
     %= password_field 'password', class => 'form-control w-50', placeholder => 'Password (between 4 and 20 characters)', required => undef
     %= password_field 'confirm', class => 'form-control w-50', placeholder => 'Confirm password', required => undef
@@ -15,7 +16,7 @@
 <script>
 $(document).ready(
     function() {
-        $("#username").focus();
+        $("#email").focus();
     }
 );
 </script>

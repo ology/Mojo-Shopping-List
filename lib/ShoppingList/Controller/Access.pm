@@ -566,6 +566,7 @@ sub signup { shift->render }
 sub new_user {
     my ($self) = @_;
     my $v = $self->validation;
+    $v->required('email');
     $v->required('username')->like(qr/^\w+$/);
     $v->required('password')->size(4, 20);
     $v->required('confirm')->equal_to('password');
@@ -573,14 +574,15 @@ sub new_user {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('/signup');
     }
-    my $account = $self->rs('Account')->search({ username => $self->param('username') })->first;
+    my $account = $self->rs('Account')->search({ username => $v->param('username') })->first;
     if ($account) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('/signup');
     }
     $self->rs('Account')->create({
-        username => $self->param('username'),
-        password => $self->param('password'),
+        email    => $v->param('email'),
+        username => $v->param('username'),
+        password => $v->param('password'),
     });
     return $self->redirect_to('/');
 }

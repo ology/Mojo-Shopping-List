@@ -6,7 +6,7 @@ __END__
 use lib 'lib';
 use Schema;
 
-my ($name, $pass) = @ARGV;
+my ($email, $name, $pass) = @ARGV;
 
 my $config = do './shopping_list.conf';
 
@@ -21,6 +21,10 @@ my $schema = Schema->connect($config->{database}, '', '');
 
 $schema->deploy({ add_drop_table => 1 });
 
-if ($name && $pass) {
-    $schema->resultset('Account')->create({ username => $name, password => $pass });
+if ($email && $name && $pass) {
+    $schema->resultset('Account')->create({
+        email    => $email,
+        username => $name,
+        password => $pass,
+    });
 }
