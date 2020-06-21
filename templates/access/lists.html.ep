@@ -12,7 +12,7 @@
       <input type="text" name="name" class="form-control" placeholder="New list name">
     </div>
     <div class="col-auto">
-      <button type="submit" class="btn btn-warning btn-sm" title="New list"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+      <button type="submit" class="btn btn-warning btn-sm" title="Add new list"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
     </div>
   </div>
 </form>
