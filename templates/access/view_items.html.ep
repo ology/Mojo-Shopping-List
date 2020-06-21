@@ -102,6 +102,7 @@
         </form>
         % }
         % if ($item->list_id) {
+        &nbsp;
         <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="btn btn-success btn-sm" title="Go to list">
           <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
         </a>
