@@ -9,6 +9,9 @@
     %= tag 'br'
     %= submit_button 'Login', class => 'btn btn-primary'
 %= end
+
+%= tag 'p'
+%= link_to Signup => 'signup'
 </div>
 
 <script>
