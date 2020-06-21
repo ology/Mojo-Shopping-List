@@ -39,7 +39,7 @@
   <input type="hidden" name="move_to_list" value="<%= $list %>">
   <button type="submit" class="btn btn-primary btn-sm" id="suggest_button">Add to list</button>
 </form>
-        <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-secondary btn-sm">Next</i></a>
+        <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&next=1" type="button" class="btn btn-secondary btn-sm">Next</i></a>
       </div>
     </div>
   </div>
@@ -159,6 +159,9 @@ function topFunction() {
 </script>
 
 <script>
+$(window).on('load', function() {
+    $('#suggestModal').modal('show');
+});
 $(document).ready(
     function() {
         if ($('#suggest_id').val() == 0) {
