@@ -207,6 +207,7 @@ sub view_list {
                 list_id    => { '!=' => undef },
             }
         );
+        # Suggestion logic
         while (my $item = $list_items->next) {
             push @$exclude, $item->id;
         }
