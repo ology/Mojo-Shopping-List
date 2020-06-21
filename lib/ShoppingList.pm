@@ -23,6 +23,8 @@ sub startup {
   $r->get('/')->to('access#index')->name('login');
   $r->post('/')->to('access#login');
   $r->get('/logout')->to('access#logout')->name('logout');
+  $r->get('/signup')->to('access#signup')->name('signup');
+  $r->post('/signup')->to('access#new_user');
   $auth->get('/lists')->to('access#lists');
   $auth->post('/lists')->to('access#new_list');
   $auth->post('/update_list')->to('access#update_list');
