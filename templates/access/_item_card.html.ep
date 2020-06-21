@@ -2,7 +2,7 @@
     <div class="card-header" id="heading<%= $item->{id} %>">
       <h2 class="mb-0">
 
-        <div style="display: flex; align-items: center;">
+        <div class="form-row align-items-center">
           <form action="/update_item" method="post">
             <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="active<%= $item->{id} %>" name="active" value="<%= $item->{id} %>" onchange="this.form.submit();"
@@ -13,7 +13,7 @@
               title="Remove item from list" checked
             % }
 
-              style="margin-top: 0px;">
+              >
             </div>
             <input type="hidden" name="list" value="<%= $list %>">
             <input type="hidden" name="sort" value="<%= $sort %>">
