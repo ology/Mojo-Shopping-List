@@ -15,7 +15,32 @@
   &nbsp;
   <a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-primary btn-sm" title="Add and view items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&suggest=1" type="button" class="btn btn-warning btn-sm" title="Make a suggestion" style="width: 35px;"><i class="fa fa-question fa-lg" aria-hidden="true"></i></a>
+
+<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#suggestModal" style="width: 35px;">
+  <i class="fa fa-question fa-lg" aria-hidden="true"></i>
+</button>
+<div class="modal fade" id="suggestModal" tabindex="-1" role="dialog" aria-labelledby="suggestModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="suggestModalLabel">Suggestion</h5>
+      </div>
+      <div class="modal-body">
+        <%= $suggest %>
+      </div>
+      <div class="modal-footer">
+        <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-secondary btn-sm">Close</i></a>
+<form action="/move_item" method="post">
+  <input type="hidden" name="list" value="<%= $list %>">
+  <input type="hidden" name="sort" value="<%= $sort %>">
+  <input type="hidden" name="item" value="<%= $suggest_id %>">
+  <input type="hidden" name="move_to_list" value="<%= $list %>">
+  <button type="submit" class="btn btn-primary btn-sm">Add to list</button>
+</form>
+      </div>
+    </div>
+  </div>
+</div>
   &nbsp;
 
   <div class="dropdown" style="margin-top: 5px;">
@@ -111,10 +136,6 @@
 <a href="/reset?list=<%= $list %>&sort=<%= $sort %>">Reset</a>
 
 <script>
-% if ($suggest) {
-    alert('<%= $suggest %>');
-% }
-
 mybutton = document.getElementById("top_button");
 
 // When the user scrolls down 20px from the top of the document, show the button

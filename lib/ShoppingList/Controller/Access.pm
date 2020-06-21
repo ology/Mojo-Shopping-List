@@ -87,10 +87,10 @@ sub view_list {
     my $name = '';
     my $cost = 0;
     my $suggest = '';
+    my $suggest_id = 0;
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
-    $v->optional('suggest');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
@@ -198,39 +198,38 @@ sub view_list {
         while (my $list = $lists->next) {
             push @$shop_lists, { id => $list->id, name => $list->name };
         }
-        if ($v->param('suggest')) {
-            my $exclude_cookie = $self->cookie('exclude') || '';
-            my $exclude = [ split /,/, $exclude_cookie ];
-            my $list_items = $self->rs('Item')->search(
-                {
-                    account_id => $self->session->{auth},
-                    list_id    => { '!=' => undef },
-                }
-            );
-            while (my $item = $list_items->next) {
-                push @$exclude, $item->id;
+        my $exclude_cookie = $self->cookie('exclude') || '';
+        my $exclude = [ split /,/, $exclude_cookie ];
+        my $list_items = $self->rs('Item')->search(
+            {
+                account_id => $self->session->{auth},
+                list_id    => { '!=' => undef },
             }
-            my $result = $self->rs('ItemCount')->search(
-                {
-                    account_id => $self->session->{auth},
-                    item_id    => { -not_in => $exclude },
-                },
-                {
-                    order_by => { -desc => 'count' },
-                }
-            )->first;
-            if ($result) {
-                my $item = $self->rs('Item')->find($result->item_id);
-                $suggest = $item->name . '?';
-                push @$exclude, $result->item_id;
+        );
+        while (my $item = $list_items->next) {
+            push @$exclude, $item->id;
+        }
+        $result = $self->rs('ItemCount')->search(
+            {
+                account_id => $self->session->{auth},
+                item_id    => { -not_in => $exclude },
+            },
+            {
+                order_by => { -desc => 'count' },
             }
-            if ($suggest) {
-                $self->cookie(exclude => join(',', @$exclude));
-            }
-            else {
-                $suggest = 'Nothing to suggest';
-                $self->cookie(exclude => '');
-            }
+        )->first;
+        if ($result) {
+            my $item = $self->rs('Item')->find($result->item_id);
+            $suggest = $item->name . '?';
+            $suggest_id = $item->id;
+            push @$exclude, $result->item_id;
+        }
+        if ($suggest) {
+            $self->cookie(exclude => join(',', @$exclude));
+        }
+        else {
+            $suggest = 'Nothing to suggest';
+            $self->cookie(exclude => '');
         }
     }
     $self->render(
@@ -243,6 +242,7 @@ sub view_list {
         shop_lists => $shop_lists,
         cats       => $cats,
         suggest    => $suggest,
+        suggest_id => $suggest_id,
     );
 }
 
