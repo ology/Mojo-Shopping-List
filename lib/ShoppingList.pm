@@ -16,7 +16,7 @@ sub startup {
     my ($self) = @_;
     my $session = $self->session('auth') // '';
     return 1 if $session;
-    $self->render(text => 'Denied!');
+    return $self->redirect_to('login');
     return 0;
   });
 
