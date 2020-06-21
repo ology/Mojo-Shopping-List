@@ -222,7 +222,9 @@ sub view_list {
         )->first;
         if ($result) {
             my $item = $self->rs('Item')->find($result->item_id);
-            $suggest = $item->name . '?';
+            $suggest = $item->name;
+            $suggest .= ' - ' . $item->note if $item->note;
+            $suggest .= '?';
             $suggest_id = $item->id;
             push @$exclude, $result->item_id;
         }
