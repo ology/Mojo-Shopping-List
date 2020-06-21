@@ -13,20 +13,21 @@
 <p><%= scalar @$on_items %> items for $<%= $cost %></p>
 % }
 <p></p>
-% my $i = 0;
+<ol>
 % for my $item (@$on_items) {
+  <li>
   <div class="card text-black">
     <div class="card-body">
     % if ($item->{title}) {
         <b><%= $item->{title} %></b>
     % } else {
-        % $i++;
-        % my $msg = "$i. ";
-        % $msg .= "<b>$item->{quantity}</b> &times; <b>$item->{name}</b>";
+        % my $msg = "<b>$item->{quantity}</b> &times; <b>$item->{name}</b>";
         % $msg .= " - $item->{note}" if $item->{note};
         <%== $msg %>
     % }
+    </div>
   </div>
-</div>
+  </li>
 % }
+</ol>
 </div>
