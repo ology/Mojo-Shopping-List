@@ -33,9 +33,9 @@
 <form action="/move_item" method="post">
   <input type="hidden" name="list" value="<%= $list %>">
   <input type="hidden" name="sort" value="<%= $sort %>">
-  <input type="hidden" name="item" value="<%= $suggest_id %>">
+  <input type="hidden" name="item" value="<%= $suggest_id %>" id="suggest_id">
   <input type="hidden" name="move_to_list" value="<%= $list %>">
-  <button type="submit" class="btn btn-primary btn-sm">Add to list</button>
+  <button type="submit" class="btn btn-primary btn-sm" id="suggest_button">Add to list</button>
 </form>
       </div>
     </div>
@@ -153,4 +153,14 @@ function topFunction() {
     var letters = document.getElementById('letters');
     letters.scrollIntoView();
 }
+</script>
+
+<script>
+$(document).ready(
+    function() {
+        if ($('#suggest_id').val() == 0) {
+            $('#suggest_button').prop('disabled', true);
+        }
+    }
+);
 </script>
