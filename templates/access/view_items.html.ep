@@ -84,6 +84,7 @@
             % my $result = $self->schema->resultset('List')->find($item->assigned);
             [ <%= $result->name %> ]
         % } else {
+        &nbsp;
         <form action="/update_item_list" method="post">
             <input type="hidden" name="item" value="<%= $item->id %>">
             <input type="hidden" name="list" value="<%= $list %>">
