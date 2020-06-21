@@ -555,4 +555,28 @@ sub reset {
     return $self->redirect_to('/view_list?list=' . $self->param('list') . '&sort=' . $self->param('sort'));
 }
 
+sub signup { shift->render }
+
+sub new_user {
+    my ($self) = @_;
+    my $v = $self->validation;
+    $v->required('username')->like(qr/^\w+$/);
+    $v->required('password')->size(4, 20);
+    $v->required('confirm')->equal_to('password');
+    if ($v->has_error) {
+        $self->flash(error => ERROR_MSG);
+        return $self->redirect_to('/signup');
+    }
+    my $account = $self->rs('Account')->search({ username => $self->param('username') })->first;
+    if ($account) {
+        $self->flash(error => ERROR_MSG);
+        return $self->redirect_to('/signup');
+    }
+    $self->rs('Account')->create({
+        username => $self->param('username'),
+        password => $self->param('password'),
+    });
+    return $self->redirect_to('/');
+}
+
 1;
