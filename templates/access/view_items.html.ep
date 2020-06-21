@@ -26,7 +26,7 @@
   <input type="hidden" name="sort" value="<%= $sort %>">
   <div class="form-row">
     <div class="col-auto">
-      <input type="text" name="name" id="item_name" class="form-control" placeholder="Item name" list="item_names">
+      <input type="text" name="name" id="item_name" class="form-control" placeholder="Item name" list="item_names" required>
       <datalist id="item_names">
 % for my $name (@$names) {
         <option><%= $name %></option>

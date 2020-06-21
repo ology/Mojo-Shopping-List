@@ -9,7 +9,7 @@
 <form method="post">
   <div class="form-row align-items-center">
     <div class="col-auto">
-      <input type="text" name="name" class="form-control" placeholder="New list name">
+      <input type="text" name="name" class="form-control" placeholder="New list name" required>
     </div>
     <div class="col-auto">
       <button type="submit" class="btn btn-warning btn-sm" title="Add new list"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
@@ -24,7 +24,7 @@
           <input type="hidden" name="list" value="<%= $list->id %>">
   <div class="form-row align-items-center">
     <div class="col-auto">
-          <input type="text" name="name" placeholder="List name" value="<%= $list->name %>" class="form-control">
+          <input type="text" name="name" placeholder="List name" value="<%= $list->name %>" class="form-control" required>
     </div>
 <!--
     <div class="col-auto">
