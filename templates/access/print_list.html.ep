@@ -10,7 +10,7 @@
 % if ($sort eq 'category') {
 <p>$<%= $cost %></p>
 % } else {
-<p><%= scalar @$on_items %> / <%= scalar @$off_items %> items for $<%= $cost %></p>
+<p><%= scalar @$on_items %> items for $<%= $cost %></p>
 % }
 <p></p>
 % my $i = 0;
