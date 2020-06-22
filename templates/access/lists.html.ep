@@ -8,10 +8,10 @@
 
 <form method="post">
   <div class="form-row align-items-center">
-    <div class="col-auto">
+    <div class="col">
       <input type="text" name="name" class="form-control" placeholder="New list name" required>
     </div>
-    <div class="col-auto">
+    <div class="col">
       <button type="submit" class="btn btn-warning btn-sm" title="Add new list"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
     </div>
   </div>
@@ -23,7 +23,7 @@
         <form action="/update_list" method="post" class="form-inline">
           <input type="hidden" name="list" value="<%= $list->id %>">
   <div class="form-row align-items-center">
-    <div class="col-auto">
+    <div class="col">
           <input type="text" name="name" placeholder="List name" value="<%= $list->name %>" class="form-control" required>
     </div>
 <!--
@@ -31,12 +31,10 @@
           <button type="submit" class="btn btn-primary btn-sm" title="Update list name"><i class="fa fa-repeat fa-lg" aria-hidden="true"></i></button>
     </div>
 -->
-    <div class="col-auto">
+    <div class="col">
           <a href="/delete_list?list=<%= $list->id %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;" title="Delete this list">
           <i class="fa fa-minus fa-lg" aria-hidden="true"></i>
           </a>
-    </div>
-    <div class="col-auto">
           <a href="/view_list?list=<%= $list->id %>" class="btn btn-success btn-sm" title="View this list"><i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i></a>
     </div>
     </div>
