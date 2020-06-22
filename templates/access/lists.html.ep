@@ -1,10 +1,10 @@
 % layout 'default';
 % title 'Lists';
 <div class="container">
-%= include 'access/_flash'
 <p>
 %= tag b => 'Shopping lists'
 </p>
+%= include 'access/_flash'
 
 <form method="post">
   <div class="form-row align-items-center">
