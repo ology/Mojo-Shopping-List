@@ -1,12 +1,12 @@
 % layout 'default';
 % title $name;
-%= include 'access/_flash'
 
 % if ($sort eq 'alpha') {
 <button onclick="topFunction()" id="top_button" title="Go to top" style="width: 38px;">^</button> 
 % }
 
 <div class="container">
+%= include 'access/_flash'
 
 <div class="form-row align-items-center">
   <a href="/lists" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>

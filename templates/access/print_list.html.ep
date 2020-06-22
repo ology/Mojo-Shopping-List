@@ -2,6 +2,7 @@
 % title $name;
 
 <div class="container">
+%= include 'access/_flash'
 
 <div class="form-row align-items-center">
   <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-sm" title="Return to list" style="border: 1px solid #bbb;"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>

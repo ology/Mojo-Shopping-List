@@ -1,7 +1,7 @@
 % layout 'default';
 % title 'Lists';
-%= include 'access/_flash'
 <div class="container">
+%= include 'access/_flash'
 <p>
 %= tag b => 'Shopping lists'
 </p>

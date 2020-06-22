@@ -1,7 +1,7 @@
 % layout 'default';
 % title 'View Items';
-%= include 'access/_flash'
 <div class="container">
+%= include 'access/_flash'
 
 <div class="form-row align-items-center">
 <form action="/view_items" method="get" class="form-inline">
