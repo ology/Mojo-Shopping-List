@@ -24,6 +24,11 @@ sub register {
             if $result && $result->check_password($pass);
     } );
 
+    $app->helper( owner => sub {
+        my ( $c, $account, $list ) = @_;
+        return $c->schema->resultset('Account')->find($account)->lists->find($list));
+    });
+
 }
 
 1;
