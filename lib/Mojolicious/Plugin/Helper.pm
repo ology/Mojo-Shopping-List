@@ -26,7 +26,7 @@ sub register {
 
     $app->helper( owner => sub {
         my ( $c, $account, $list ) = @_;
-        return $c->schema->resultset('Account')->find($account)->lists->find($list));
+        return $c->schema->resultset('Account')->find($account)->lists->find($list);
     });
 
 }
