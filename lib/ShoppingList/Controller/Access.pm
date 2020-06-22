@@ -87,6 +87,10 @@ sub view_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
+    unless ($self->rs('Account')->find($self->session->{auth})->lists->find($v->param('list'))) {
+        $self->flash(error => ERROR_MSG);
+        return $self->redirect_to('lists');
+    }
     my $sort = '';
     my $on = [];
     my $off = [];
@@ -255,6 +259,10 @@ sub print_list {
     $v->required('list', 'not_empty');
     $v->optional('sort');
     if ($v->has_error) {
+        $self->flash(error => ERROR_MSG);
+        return $self->redirect_to('lists');
+    }
+    unless ($self->rs('Account')->find($self->session->{auth})->lists->find($v->param('list'))) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
