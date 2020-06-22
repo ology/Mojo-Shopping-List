@@ -87,7 +87,7 @@ sub view_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
-    unless ($self->rs('Account')->find($self->session->{auth})->lists->find($v->param('list'))) {
+    unless ($self->owner($self->session->{auth}, $v->param('list'))) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
@@ -262,7 +262,7 @@ sub print_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
-    unless ($self->rs('Account')->find($self->session->{auth})->lists->find($v->param('list'))) {
+    unless ($self->owner($self->session->{auth}, $v->param('list'))) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
