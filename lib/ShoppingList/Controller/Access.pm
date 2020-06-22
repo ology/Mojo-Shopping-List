@@ -458,57 +458,56 @@ sub move_item {
 
 sub view_items {
     my ($self) = @_;
-    my $names = [];
-    my $cats = [];
-    my $shop_lists = [];
-    my $list_items;
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
     $v->optional('query');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
+        return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
     }
-    else {
-        my $account = $self->rs('Account')->find($self->session->{auth});
-        my $all_items = $account->items;
-        while (my $item = $all_items->next) {
-            push @$names, $item->name;
-        }
-        my $categories = $all_items->search(
-            {},
-            {
-                distinct => 1,
-                columns  => [qw/category/],
-                order_by => { -asc => 'category' },
-            }
-        );
-        while (my $cat = $categories->next) {
-            push @$cats, $cat->category;
-        }
-        my $lists = $account->lists->search(
-            {},
-            {
-                order_by => { -asc => \'LOWER(name)' },
-            }
-        );
-        while (my $list = $lists->next) {
-            push @$shop_lists, { id => $list->id, name => $list->name };
-        }
-        my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
-        $list_items = $all_items->search(
-            {
-                -or => [
-                    name     => { like => $query },
-                    note     => { like => $query },
-                    category => { like => $query },
-                ],
-            },
-            {
-                order_by => { -asc => \'LOWER(name)' },
-            }
-        ) if $v->param('query');
+    my $names = [];
+    my $cats = [];
+    my $shop_lists = [];
+    my $list_items;
+    my $account = $self->rs('Account')->find($self->session->{auth});
+    my $all_items = $account->items;
+    while (my $item = $all_items->next) {
+        push @$names, $item->name;
     }
+    my $categories = $all_items->search(
+        {},
+        {
+            distinct => 1,
+            columns  => [qw/category/],
+            order_by => { -asc => 'category' },
+        }
+    );
+    while (my $cat = $categories->next) {
+        push @$cats, $cat->category;
+    }
+    my $lists = $account->lists->search(
+        {},
+        {
+            order_by => { -asc => \'LOWER(name)' },
+        }
+    );
+    while (my $list = $lists->next) {
+        push @$shop_lists, { id => $list->id, name => $list->name };
+    }
+    my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
+    $list_items = $all_items->search(
+        {
+            -or => [
+                name     => { like => $query },
+                note     => { like => $query },
+                category => { like => $query },
+            ],
+        },
+        {
+            order_by => { -asc => \'LOWER(name)' },
+        }
+    ) if $v->param('query');
     $self->render(
         list       => $v->param('list'),
         sort       => $v->param('sort'),
