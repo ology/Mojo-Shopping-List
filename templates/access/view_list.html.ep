@@ -51,9 +51,27 @@
     Sort
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=added">Added</a>
-      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=alpha">Alpha</a>
-      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=category">Category</a>
+      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=added">Added
+
+% if ($sort eq 'added') {
+      <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+% }
+
+</a>
+      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=alpha">Alpha
+
+% if ($sort eq 'alpha') {
+      <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+% }
+
+</a>
+      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=category">Category
+
+% if ($sort eq 'category') {
+      <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+% }
+
+</a>
     </div>
   </div>
 
