@@ -530,7 +530,7 @@ sub new_item {
             note       => $v->param('note'),
             category   => $v->param('category'),
             cost       => $v->param('cost'),
-            quantity   => $v->param('quantity'),
+            quantity   => $v->param('quantity') || 1,
             list_id    => $v->param('shop_list'),
         });
         if ($v->param('shop_list')) {
