@@ -120,16 +120,7 @@ sub view_list {
     my $items = $result->items->search({}, { %$order });
     # Add the on-items & categories
     while (my $item = $items->next) {
-        my $struct = {
-            id       => $item->id,
-            name     => $item->name,
-            category => $item->category,
-            note     => $item->note,
-            quantity => $item->quantity,
-            cost     => $item->cost,
-            list_id  => $item->list_id,
-            assigned => $item->assigned,
-        };
+        my $struct = { $item->get_columns };
         push @$on_items, $struct;
         $cost += $item->cost * $item->quantity
             if $item->cost && $item->quantity;
@@ -150,16 +141,7 @@ sub view_list {
     );
     while (my $item = $items->next) {
         next if $item->assigned && $item->assigned != $v->param('list');
-        my $struct = {
-            id       => $item->id,
-            name     => $item->name,
-            category => $item->category,
-            note     => $item->note,
-            quantity => $item->quantity,
-            cost     => $item->cost,
-            list_id  => $item->list_id,
-            assigned => $item->assigned,
-        };
+        my $struct = { $item->get_columns };
         push @$off_items, $struct;
         if ($sort eq 'category') {
             my $cat = $item->category ? ucfirst(lc $item->category) : 'Uncategorized';
