@@ -52,7 +52,7 @@
     </div>
     <div class="col-auto">
       <select name="shop_list" class="form-control">
-        <option selected>List...</option>
+        <option value="">List...</option>
 % for my $shop_list (@$shop_lists) {
         <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
 % }
