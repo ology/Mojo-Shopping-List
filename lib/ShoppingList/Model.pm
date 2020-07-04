@@ -174,6 +174,7 @@ sub lists_by_account {
             order_by => { -asc => \'LOWER(name)' },
         }
     );
+    return $lists;
 }
 
 sub query_items {
