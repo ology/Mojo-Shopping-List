@@ -377,6 +377,9 @@ sub view_items {
     my $shop_lists = [];
     my $list_items;
     my $account = $self->model->find_account($self->schema, $self->session->{auth});
+    unless ($account) {
+        return $self->redirect_to('login');
+    }
     my $all_items = $account->items;
     while (my $item = $all_items->next) {
         push @$names, $item->name;
