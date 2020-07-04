@@ -161,7 +161,7 @@ sub view_list {
     }
     $result = $self->model->suggestion($self->session->{auth}, $exclude);
     if ($result) {
-        my $item = $self->rs('Item')->find($result->item_id);
+        my $item = $self->model->find_item($result->item_id);
         $suggest = $item->name;
         $suggest .= ' - ' . $item->note if $item->note;
         $suggest .= '?';
@@ -456,7 +456,7 @@ sub new_user {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('/signup');
     }
-    my $account = $self->rs('Account')->search({ username => $v->param('username') })->first;
+    my $account = $self->model->search_username($v->param('username'));
     if ($account) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('/signup');

@@ -209,6 +209,12 @@ sub new_item {
     return $item;
 }
 
+sub search_username {
+    my ($self, $user) = @_;
+    my $account = $self->schema->resultset('Account')->search({ username => $user })->first;
+    return $account;
+}
+
 sub new_user {
     my ($self, $email, $user, $pass) = @_;
     $self->schema->resultset('Account')->create({
