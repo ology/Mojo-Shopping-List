@@ -5,17 +5,17 @@ use ShoppingList::Model;
 use Schema;
 
 sub register {
-    my ( $self, $app ) = @_;
+    my ($self, $app) = @_;
 
-    $app->helper( schema => sub {
+    $app->helper(schema => sub {
         my ($c) = @_;
-        return state $schema = Schema->connect( $c->config('database'), '', '' );
-    } );
+        return state $schema = Schema->connect($c->config('database'), '', '');
+    });
 
-    $app->helper( model => sub {
+    $app->helper(model => sub {
         my ($c) = @_;
         return state $model = ShoppingList::Model->new(schema => $c->schema);
-    } );
+    });
 
 }
 
