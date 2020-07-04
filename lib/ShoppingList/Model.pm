@@ -21,7 +21,7 @@ sub lists {
 
 sub list_owner {
     my ($self, $schema, $account, $list) = @_;
-    my $result = $schema->resultset('Account')->find($account);
+    my $result = $account ? $schema->resultset('Account')->find($account) : undef;
     return $result ? $result->lists->find($list) : 0;
 }
 
