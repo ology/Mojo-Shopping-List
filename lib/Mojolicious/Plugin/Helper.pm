@@ -12,10 +12,6 @@ sub register {
         return state $schema = Schema->connect( $c->config('database'), '', '' );
     } );
 
-    $app->helper( rs => sub {
-        return shift->schema->resultset(@_);
-    });
-
     $app->helper( model => sub {
         my ($c) = @_;
         return state $model = ShoppingList::Model->new(schema => $c->schema);
