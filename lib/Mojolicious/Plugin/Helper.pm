@@ -1,6 +1,7 @@
 package Mojolicious::Plugin::Helper;
 use Mojo::Base 'Mojolicious::Plugin';
 
+use ShoppingList::Model;
 use Schema;
 
 sub register {
@@ -11,24 +12,13 @@ sub register {
         return state $schema = Schema->connect( $c->config('database'), '', '' );
     } );
 
-    $app->helper(rs => sub {
+    $app->helper( rs => sub {
         return shift->schema->resultset(@_);
     });
 
-    $app->helper( auth => sub {
-        my ( $c, $user, $pass ) = @_;
-
-        my $result = $c->schema->resultset('Account')->search({ username => $user })->first;
-
-        return $result
-            if $result && $result->check_password($pass);
+    $app->helper( model => sub {
+        return state $model = ShoppingList::Model->new;
     } );
-
-    $app->helper( owner => sub {
-        my ( $c, $account, $list ) = @_;
-        my $result = $c->schema->resultset('Account')->find($account);
-        return $result ? $result->lists->find($list) : 0;
-    });
 
 }
 
