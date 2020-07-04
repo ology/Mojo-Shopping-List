@@ -163,7 +163,7 @@ sub move_item {
 
 sub find_account {
     my ($self, $schema, $account) = @_;
-    my $result = $schema->resultset('Account')->find($account);
+    my $result = $account ? $schema->resultset('Account')->find($account) : undef;
     return $result;
 }
 
