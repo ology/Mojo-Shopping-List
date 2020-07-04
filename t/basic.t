@@ -98,4 +98,12 @@ $t->get_ok('/delete_item?list=1&sort=alpha&item=2')
   ->status_is(200)
   ->content_isnt('Another Item');
 
+$t->get_ok('/delete_list?list=1')
+  ->status_is(200)
+  ->content_isnt('Test List!');
+
+$t->get_ok('/view_items' => form => { query => 'item', list => 1, sort => 'alpha' })
+  ->status_is(200)
+  ->content_like(qr/Test Item!/);
+
 done_testing();
