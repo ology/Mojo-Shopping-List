@@ -17,7 +17,8 @@ sub register {
     });
 
     $app->helper( model => sub {
-        return state $model = ShoppingList::Model->new;
+        my ($c) = @_;
+        return state $model = ShoppingList::Model->new(schema => $c->schema);
     } );
 
 }

@@ -7,7 +7,7 @@ sub index { shift->render }
 
 sub login {
     my ($self) = @_;
-    if (my $user = $self->model->auth($self->schema, $self->param('username'), $self->param('password'))) {
+    if (my $user = $self->model->auth($self->param('username'), $self->param('password'))) {
         $self->session(auth => $user->id);
         return $self->redirect_to('lists');
     }
@@ -23,7 +23,7 @@ sub logout {
 
 sub lists {
     my ($self) = @_;
-    my $lists = $self->model->lists($self->schema, $self->session->{auth});
+    my $lists = $self->model->lists($self->session->{auth});
     $self->render(lists => $lists);
 }
 
@@ -35,7 +35,7 @@ sub new_list {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        $self->model->new_list($self->schema, $self->session->{auth}, $v->param('name'));
+        $self->model->new_list($self->session->{auth}, $v->param('name'));
     }
     return $self->redirect_to('lists');
 }
@@ -49,7 +49,7 @@ sub update_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        $self->model->update_list($self->schema, $v->param('list'), $v->param('name'));
+        $self->model->update_list($v->param('list'), $v->param('name'));
     }
     return $self->redirect_to('lists');
 }
@@ -62,7 +62,7 @@ sub delete_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        $self->model->delete_list($self->schema, $v->param('list'));
+        $self->model->delete_list($v->param('list'));
     }
     return $self->redirect_to('lists');
 }
@@ -77,7 +77,7 @@ sub view_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
-    unless ($self->model->list_owner($self->schema, $self->session->{auth}, $v->param('list'))) {
+    unless ($self->model->list_owner($self->session->{auth}, $v->param('list'))) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
@@ -105,7 +105,7 @@ sub view_list {
     }
     my %on_cats;
     my %off_cats;
-    my $result = $self->model->find_list($self->schema, $v->param('list'));
+    my $result = $self->model->find_list($v->param('list'));
     $name = $result->name;
     my $items = $self->model->ordered_items($result, $order);
     # Add the on-items & categories
@@ -120,7 +120,7 @@ sub view_list {
         }
     }
     # Add the off-items & categories
-    $items = $self->model->off_items($self->schema, $self->session->{auth}, $order);
+    $items = $self->model->off_items($self->session->{auth}, $order);
     while (my $item = $items->next) {
         next if $item->assigned && $item->assigned != $v->param('list');
         my $struct = { $item->get_columns };
@@ -148,18 +148,18 @@ sub view_list {
     while (my $cat = $categories->next) {
         push @$cats, $cat->category;
     }
-    my $lists = $self->model->account_lists($self->schema, $self->session->{auth});
+    my $lists = $self->model->account_lists($self->session->{auth});
     while (my $list = $lists->next) {
         push @$shop_lists, { id => $list->id, name => $list->name };
     }
     # Suggestion logic
     my $exclude_cookie = $self->cookie('exclude') || '';
     my $exclude = [ split /,/, $exclude_cookie ];
-    my $list_items = $self->model->list_items($self->schema, $self->session->{auth});
+    my $list_items = $self->model->list_items($self->session->{auth});
     while (my $item = $list_items->next) {
         push @$exclude, $item->id;
     }
-    $result = $self->model->suggestion($self->schema, $self->session->{auth}, $exclude);
+    $result = $self->model->suggestion($self->session->{auth}, $exclude);
     if ($result) {
         my $item = $self->rs('Item')->find($result->item_id);
         $suggest = $item->name;
@@ -199,7 +199,7 @@ sub print_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
-    unless ($self->model->list_owner($self->schema, $self->session->{auth}, $v->param('list'))) {
+    unless ($self->model->list_owner($self->session->{auth}, $v->param('list'))) {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
@@ -225,7 +225,7 @@ sub print_list {
     }
     my %on_cats;
     my %off_cats;
-    my $result = $self->model->find_list($self->schema, $v->param('list'));
+    my $result = $self->model->find_list($v->param('list'));
     $name = $result->name;
     my $items = $self->model->ordered_items($result, $order);
     while (my $item = $items->next) {
@@ -284,10 +284,10 @@ sub update_item {
     }
     else {
         my $quantity = $v->param('quantity');
-        my $result = $self->model->find_item($self->schema, $v->param('item'));
+        my $result = $self->model->find_item($v->param('item'));
         if ($v->param('active')) {
             if ($v->param('list') != $result->list_id) {
-                $self->model->update_or_create($self->schema, $self->session->{auth}, $result->id);
+                $self->model->update_or_create($self->session->{auth}, $result->id);
             }
             if ($v->param('move_to_list')) {
                 $result->list_id($v->param('move_to_list'));
@@ -323,9 +323,9 @@ sub update_item_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        my $result = $self->model->update_item_list($self->schema, $v->param('item'), $v->param('move_to_list'));
+        my $result = $self->model->update_item_list($v->param('item'), $v->param('move_to_list'));
         if ($v->param('move_to_list')) {
-            $self->model->update_or_create($self->schema, $self->session->{auth}, $result->id);
+            $self->model->update_or_create($self->session->{auth}, $result->id);
         }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
@@ -341,7 +341,7 @@ sub delete_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        $self->model->delete_item($self->schema, $v->param('item'));
+        $self->model->delete_item($v->param('item'));
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
@@ -357,7 +357,7 @@ sub move_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        $self->model->move_item($self->schema, $self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
+        $self->model->move_item($self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
     }
     return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
@@ -376,7 +376,7 @@ sub view_items {
     my $cats = [];
     my $shop_lists = [];
     my $list_items;
-    my $account = $self->model->find_account($self->schema, $self->session->{auth});
+    my $account = $self->model->find_account($self->session->{auth});
     unless ($account) {
         return $self->redirect_to('login');
     }
@@ -422,7 +422,6 @@ sub new_item {
     }
     else {
         my $item = $self->model->new_item(
-            schema     => $self->schema,
             account_id => $self->session->{auth},
             name       => $v->param('name'),
             note       => $v->param('note'),
@@ -432,7 +431,7 @@ sub new_item {
             list_id    => $v->param('shop_list'),
         );
         if ($v->param('shop_list')) {
-            $self->model->update_or_create($self->schema, $self->session->{auth}, $item->id);
+            $self->model->update_or_create($self->session->{auth}, $item->id);
         }
     }
     return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
@@ -462,7 +461,7 @@ sub new_user {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('/signup');
     }
-    $self->model->new_user($self->schema, $v->param('email'), $v->param('username'), $v->param('password'));
+    $self->model->new_user($v->param('email'), $v->param('username'), $v->param('password'));
     return $self->redirect_to('/');
 }
 

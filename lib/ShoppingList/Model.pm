@@ -1,33 +1,32 @@
 package ShoppingList::Model;
 
-use strict;
-use warnings;
+use Mojo::Base -base;
 
-sub new { bless {}, shift }
+has 'schema';
 
 sub auth {
-    my ($self, $schema, $user, $pass) = @_;
-    my $result = $schema->resultset('Account')->search({ username => $user })->first;
+    my ($self, $user, $pass) = @_;
+    my $result = $self->schema->resultset('Account')->search({ username => $user })->first;
     return $result
         if $result && $result->check_password($pass);
 }
 
 sub lists {
-    my ($self, $schema, $account) = @_;
-    my $result = $schema->resultset('Account')->find($account);
+    my ($self, $account) = @_;
+    my $result = $self->schema->resultset('Account')->find($account);
     my $lists = $result->lists->search({}, { order_by => { -asc => \'LOWER(name)' } });
     return $lists;
 }
 
 sub list_owner {
-    my ($self, $schema, $account, $list) = @_;
-    my $result = $account ? $schema->resultset('Account')->find($account) : undef;
+    my ($self, $account, $list) = @_;
+    my $result = $account ? $self->schema->resultset('Account')->find($account) : undef;
     return $result ? $result->lists->find($list) : 0;
 }
 
 sub new_list {
-    my ($self, $schema, $account, $name) = @_;
-    my $result = $schema->resultset('List')->create({
+    my ($self, $account, $name) = @_;
+    my $result = $self->schema->resultset('List')->create({
         name       => $name,
         account_id => $account,
     });
@@ -35,15 +34,15 @@ sub new_list {
 }
 
 sub update_list {
-    my ($self, $schema, $list, $name) = @_;
-    my $result = $schema->resultset('List')->find($list);
+    my ($self, $list, $name) = @_;
+    my $result = $self->schema->resultset('List')->find($list);
     $result->update({ name => $name });
     return $result;
 }
 
 sub delete_list {
-    my ($self, $schema, $list) = @_;
-    my $result = $schema->resultset('List')->find($list);
+    my ($self, $list) = @_;
+    my $result = $self->schema->resultset('List')->find($list);
     my $items = $result->items;
     while (my $item = $items->next) {
         $item->update({ list_id => undef });
@@ -52,8 +51,8 @@ sub delete_list {
 }
 
 sub find_list {
-    my ($self, $schema, $list) = @_;
-    my $result = $schema->resultset('List')->find($list);
+    my ($self, $list) = @_;
+    my $result = $self->schema->resultset('List')->find($list);
     return $result;
 }
 
@@ -64,8 +63,8 @@ sub ordered_items {
 }
 
 sub off_items {
-    my ($self, $schema, $account, $order) = @_;
-    my $items = $schema->resultset('Item')->search(
+    my ($self, $account, $order) = @_;
+    my $items = $self->schema->resultset('Item')->search(
         {
             account_id => $account,
             list_id    => undef,
@@ -91,8 +90,8 @@ sub categories {
 }
 
 sub account_lists {
-    my ($self, $schema, $account) = @_;
-    my $lists = $schema->resultset('List')->search(
+    my ($self, $account) = @_;
+    my $lists = $self->schema->resultset('List')->search(
         {
             account_id => $account,
         },
@@ -104,8 +103,8 @@ sub account_lists {
 }
 
 sub list_items {
-    my ($self, $schema, $account) = @_;
-    my $list_items = $schema->resultset('Item')->search(
+    my ($self, $account) = @_;
+    my $list_items = $self->schema->resultset('Item')->search(
         {
             account_id => $account,
             list_id    => { '!=' => undef },
@@ -115,8 +114,8 @@ sub list_items {
 }
 
 sub suggestion {
-    my ($self, $schema, $account, $exclude) = @_;
-    my $result = $schema->resultset('ItemCount')->search(
+    my ($self, $account, $exclude) = @_;
+    my $result = $self->schema->resultset('ItemCount')->search(
         {
             account_id => $account,
             item_id    => { -not_in => $exclude },
@@ -129,25 +128,25 @@ sub suggestion {
 }
 
 sub find_item {
-    my ($self, $schema, $item) = @_;
-    my $result = $schema->resultset('Item')->find($item);
+    my ($self, $item) = @_;
+    my $result = $self->schema->resultset('Item')->find($item);
     return $result;
 }
 
 sub update_or_create {
-    my ($self, $schema, $account, $id) = @_;
-    $schema->resultset('ItemCount')->update_or_create($account, $id);
+    my ($self, $account, $id) = @_;
+    $self->schema->resultset('ItemCount')->update_or_create($account, $id);
 }
 
 sub update_item_list {
-    my ($self, $schema, $item, $list) = @_;
-    my $result = $schema->resultset('Item')->find($item);
+    my ($self, $item, $list) = @_;
+    my $result = $self->schema->resultset('Item')->find($item);
     $result->update({ list_id => $list });
     return $result;
 }
 
 sub delete_item {
-    my ($self, $schema, $item) = @_;
+    my ($self, $item) = @_;
     my $result = $self->rs('Item')->find($item);
     $result->delete;
     $result = $self->rs('ItemCount')->search({ item_id => $item })->first;
@@ -155,15 +154,15 @@ sub delete_item {
 }
 
 sub move_item {
-    my ($self, $schema, $account, $item, $list) = @_;
+    my ($self, $account, $item, $list) = @_;
     my $result = $self->rs('Item')->find($item);
     $result->update({ list_id => $list });
     $self->rs('ItemCount')->update_or_create($account, $item);
 }
 
 sub find_account {
-    my ($self, $schema, $account) = @_;
-    my $result = $account ? $schema->resultset('Account')->find($account) : undef;
+    my ($self, $account) = @_;
+    my $result = $account ? $self->schema->resultset('Account')->find($account) : undef;
     return $result;
 }
 
@@ -197,7 +196,7 @@ sub query_items {
 sub new_item {
     my $self = shift;
     my %args = @_;
-    my $item = $args{schema}->resultset('Item')->create({
+    my $item = $self->schema->resultset('Item')->create({
         account_id => $args{account_id},
         name       => $args{name},
         note       => $args{note},
@@ -210,8 +209,8 @@ sub new_item {
 }
 
 sub new_user {
-    my ($self, $schema, $email, $user, $pass) = @_;
-    $$schema->resultset('Account')->create({
+    my ($self, $email, $user, $pass) = @_;
+    $self->schema->resultset('Account')->create({
         email    => $email,
         username => $user,
         password => $pass,
