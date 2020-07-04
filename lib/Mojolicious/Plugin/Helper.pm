@@ -1,8 +1,8 @@
 package Mojolicious::Plugin::Helper;
 use Mojo::Base 'Mojolicious::Plugin';
 
-use ShoppingList::Model;
 use Schema;
+use ShoppingList::Model;
 
 sub register {
     my ($self, $app) = @_;
