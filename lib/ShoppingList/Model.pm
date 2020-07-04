@@ -147,17 +147,17 @@ sub update_item_list {
 
 sub delete_item {
     my ($self, $item) = @_;
-    my $result = $self->rs('Item')->find($item);
+    my $result = $self->schema->resultset('Item')->find($item);
     $result->delete;
-    $result = $self->rs('ItemCount')->search({ item_id => $item })->first;
+    $result = $self->schema->resultset('ItemCount')->search({ item_id => $item })->first;
     $result->delete if $result;
 }
 
 sub move_item {
     my ($self, $account, $item, $list) = @_;
-    my $result = $self->rs('Item')->find($item);
+    my $result = $self->schema->resultset('Item')->find($item);
     $result->update({ list_id => $list });
-    $self->rs('ItemCount')->update_or_create($account, $item);
+    $self->schema->resultset('ItemCount')->update_or_create($account, $item);
 }
 
 sub find_account {
