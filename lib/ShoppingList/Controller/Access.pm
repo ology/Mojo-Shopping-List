@@ -48,6 +48,9 @@ sub update_list {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
+    elsif (!$self->model->list_owner($self->session->{auth}, $v->param('list'))) {
+        $self->flash(error => ERROR_MSG);
+    }
     else {
         $self->model->update_list($v->param('list'), $v->param('name'));
     }
@@ -285,6 +288,9 @@ sub update_item {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
+    elsif (!$self->model->item_owner($self->session->{auth}, $v->param('item'))) {
+        $self->flash(error => ERROR_MSG);
+    }
     else {
         my $quantity = $v->param('quantity');
         my $result = $self->model->find_item($v->param('item'));
@@ -325,6 +331,12 @@ sub update_item_list {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
+    elsif (
+        !$self->model->list_owner($self->session->{auth}, $v->param('list'))
+        || !$self->model->item_owner($self->session->{auth}, $v->param('item'))
+    ) {
+        $self->flash(error => ERROR_MSG);
+    }
     else {
         my $result = $self->model->update_item_list($v->param('item'), $v->param('move_to_list'));
         if ($v->param('move_to_list')) {
@@ -361,6 +373,12 @@ sub move_item {
     $v->optional('sort');
     $v->optional('next');
     if ($v->has_error) {
+        $self->flash(error => ERROR_MSG);
+    }
+    elsif (
+        !$self->model->list_owner($self->session->{auth}, $v->param('list'))
+        || !$self->model->item_owner($self->session->{auth}, $v->param('item'))
+    ) {
         $self->flash(error => ERROR_MSG);
     }
     else {
