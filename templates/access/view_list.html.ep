@@ -41,7 +41,7 @@
   <input type="hidden" name="move_to_list" value="<%= $list %>">
   <button type="submit" class="btn btn-primary btn-sm" id="suggest_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add to list</button>
 </form>
-        <a href="<%= url_for('view_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Next</i></a>
+        <a href="<%= url_for('view_list')->query(list => $list, sort => $sort, next => 1) %>" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Next</i></a>
       </div>
     </div>
   </div>
