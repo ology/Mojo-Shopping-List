@@ -34,6 +34,7 @@
       </div>
       <div class="modal-footer">
 <form action="/move_item" method="post">
+  <input type="hidden" name="next" value="1">
   <input type="hidden" name="list" value="<%= $list %>">
   <input type="hidden" name="sort" value="<%= $sort %>">
   <input type="hidden" name="item" value="<%= $suggest_id %>" id="suggest_id">

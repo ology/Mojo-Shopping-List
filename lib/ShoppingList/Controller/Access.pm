@@ -353,13 +353,14 @@ sub move_item {
     $v->required('item', 'not_empty');
     $v->required('move_to_list', 'not_empty');
     $v->optional('sort');
+    $v->optional('next');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
     else {
         $self->model->move_item($self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
     }
-    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
+    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&next=' . $v->param('next'));
 }
 
 sub view_items {
