@@ -15,7 +15,7 @@ my $schema = Schema->connect($sqlite->dsn);
 isa_ok $schema, 'Schema';
 $schema->deploy;
 
-# Get a new modle object
+# Get a new model object
 my $model = new_ok 'ShoppingList::Model' => [schema => $schema];
 
 # Create a new account
