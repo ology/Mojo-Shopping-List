@@ -41,10 +41,10 @@ $t->post_ok('/update_list' => form => { list => 2, name => 'Test List!' })
   ->status_is(200)
   ->content_like(qr/Invalid fields/);
 
-# Test that the list can be viewed
-$t->get_ok('/view_list?list=1')
+# Test that the wrong list cannot be viewed
+$t->get_ok('/view_list?list=2')
   ->status_is(200)
-  ->content_like(qr/Test List/);
+  ->content_like(qr/Invalid fields/);
 
 # Create a new item not on the list
 $t->post_ok('/new_item' => form => { name => 'Test Item', list => 1, sort => 'alpha' })
