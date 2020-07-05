@@ -13,20 +13,23 @@ sub auth {
 
 sub lists {
     my ($self, $account) = @_;
-    my $result = $self->schema->resultset('Account')->find($account);
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
+    return unless $result;
     my $lists = $result->lists->search({}, { order_by => { -asc => \'LOWER(name)' } });
     return $lists;
 }
 
 sub list_owner {
     my ($self, $account, $list) = @_;
-    my $result = $account ? $self->schema->resultset('Account')->find($account) : undef;
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
+    return unless $result;
     return $result ? $result->lists->find($list) : 0;
 }
 
 sub item_owner {
     my ($self, $account, $item) = @_;
-    my $result = $account ? $self->schema->resultset('Account')->find($account) : undef;
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
+    return unless $result;
     return $result ? $result->items->find($item) : 0;
 }
 
@@ -41,14 +44,16 @@ sub new_list {
 
 sub update_list {
     my ($self, $list, $name) = @_;
-    my $result = $self->schema->resultset('List')->find($list);
+    my $result = $self->schema->resultset('List')->search({ id => $list })->first;
+    return unless $result;
     $result->update({ name => $name });
     return $result;
 }
 
 sub delete_list {
     my ($self, $list) = @_;
-    my $result = $self->schema->resultset('List')->find($list);
+    my $result = $self->schema->resultset('List')->search({ id => $list })->first;
+    return unless $result;
     my $items = $result->items;
     while (my $item = $items->next) {
         $item->update({ list_id => undef });
@@ -58,7 +63,7 @@ sub delete_list {
 
 sub find_list {
     my ($self, $list) = @_;
-    my $result = $self->schema->resultset('List')->find($list);
+    my $result = $self->schema->resultset('List')->search({ id => $list })->first;
     return $result;
 }
 
@@ -135,7 +140,7 @@ sub suggestion {
 
 sub find_item {
     my ($self, $item) = @_;
-    my $result = $self->schema->resultset('Item')->find($item);
+    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
     return $result;
 }
 
@@ -146,14 +151,16 @@ sub update_or_create {
 
 sub update_item_list {
     my ($self, $item, $list) = @_;
-    my $result = $self->schema->resultset('Item')->find($item);
+    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    return unless $result;
     $result->update({ list_id => $list });
     return $result;
 }
 
 sub delete_item {
     my ($self, $item) = @_;
-    my $result = $self->schema->resultset('Item')->find($item);
+    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    return unless $result;
     $result->delete;
     $result = $self->schema->resultset('ItemCount')->search({ item_id => $item })->first;
     $result->delete if $result;
@@ -161,7 +168,8 @@ sub delete_item {
 
 sub move_item {
     my ($self, $account, $item, $list) = @_;
-    my $result = $self->schema->resultset('Item')->find($item);
+    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    return unless $result;
     $result->update({ list_id => $list });
     $self->schema->resultset('ItemCount')->update_or_create($account, $item);
     return $result;
@@ -169,7 +177,7 @@ sub move_item {
 
 sub find_account {
     my ($self, $account) = @_;
-    my $result = $account ? $self->schema->resultset('Account')->find($account) : undef;
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
     return $result;
 }
 
