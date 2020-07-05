@@ -62,7 +62,7 @@ sub delete_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        $self->model->delete_list($v->param('list'));
+        $self->model->delete_list($self->session->{auth}, $v->param('list'));
     }
     return $self->redirect_to('lists');
 }

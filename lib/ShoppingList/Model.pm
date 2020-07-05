@@ -41,8 +41,9 @@ sub update_list {
 }
 
 sub delete_list {
-    my ($self, $list) = @_;
-    my $result = $self->schema->resultset('List')->find($list);
+    my ($self, $account, $list) = @_;
+    my $result = $self->list_owner($account, $list);
+    die 'Invalid list' unless $result;
     my $items = $result->items;
     while (my $item = $items->next) {
         $item->update({ list_id => undef });
