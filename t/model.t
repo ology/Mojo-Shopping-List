@@ -143,7 +143,7 @@ is $got->list_id, $list->id, 'move_item';
 $got = $schema->resultset('ItemCount');
 is $got->count, 1, 'counts';
 
-# Test that the item count can be updated
+# Test that the item count can be updated again
 $model->update_or_create($account->id, $item->id);
 $got = $schema->resultset('ItemCount');
 while (my $i = $got->next) {
