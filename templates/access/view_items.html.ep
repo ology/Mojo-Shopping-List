@@ -4,10 +4,10 @@
 %= include 'access/_flash'
 
 <div class="form-row align-items-center">
-<form action="/view_items" method="get" class="form-inline">
+<form action="<%= url_for('view_items') %>" method="get" class="form-inline">
     <input type="hidden" name="list" value="<%= $list %>" >
     <input type="hidden" name="sort" value="<%= $sort %>">
-    <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+    <a href="<%= url_for('view_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
     &nbsp;
     <input type="text" name="query" value="<%= $query %>" placeholder="Item search" class="form-control w-50">
     &nbsp;
@@ -21,7 +21,7 @@
 <p></p>
 <div class="card text-black">
   <div class="card-body">
-<form action="/new_item" method="post">
+<form action="<%= url_for('new_item') %>" method="post">
   <input type="hidden" name="list" value="<%= $list %>">
   <input type="hidden" name="sort" value="<%= $sort %>">
   <div class="form-row">
@@ -85,7 +85,7 @@
             [ <%= $result->name %> ]
         % } else {
         &nbsp;
-        <form action="/update_item_list" method="post">
+        <form action="<%= url_for('update_item_list') %>" method="post">
             <input type="hidden" name="item" value="<%= $item->id %>">
             <input type="hidden" name="list" value="<%= $list %>">
             <input type="hidden" name="query" value="<%= $query %>">
@@ -103,7 +103,7 @@
         % }
         % if ($item->list_id) {
         &nbsp;
-        <a href="/view_list?list=<%= $item->list_id %>&sort=<%= $sort %>" class="btn btn-success btn-sm" title="Go to list">
+        <a href="<%= url_for('view_list')->query(list => $item->list_id, sort => $sort) %>" class="btn btn-success btn-sm" title="Go to list">
           <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
         </a>
         % }

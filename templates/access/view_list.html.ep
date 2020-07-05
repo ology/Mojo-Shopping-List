@@ -9,11 +9,11 @@
 %= include 'access/_flash'
 
 <div class="form-row align-items-center">
-  <a href="/lists" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('lists') %>" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="/print_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-info btn-sm" title="Print list"><i class="fa fa-print fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('print_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-info btn-sm" title="Print list"><i class="fa fa-print fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="/view_items?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-primary btn-sm" title="Add and view items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('view_items')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-primary btn-sm" title="Add and view items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
   &nbsp;
 
   <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#suggestModal" style="width: 35px;">
@@ -33,7 +33,7 @@
         <%= $suggest %>
       </div>
       <div class="modal-footer">
-<form action="/move_item" method="post">
+<form action="<%= url_for('move_item') %>" method="post">
   <input type="hidden" name="next" value="1">
   <input type="hidden" name="list" value="<%= $list %>">
   <input type="hidden" name="sort" value="<%= $sort %>">
@@ -41,7 +41,7 @@
   <input type="hidden" name="move_to_list" value="<%= $list %>">
   <button type="submit" class="btn btn-primary btn-sm" id="suggest_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add to list</button>
 </form>
-        <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>&next=1" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Next</i></a>
+        <a href="<%= url_for('view_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Next</i></a>
       </div>
     </div>
   </div>
@@ -52,21 +52,21 @@
     Sort
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=added">Added
+      <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'added') %>">Added
 
 % if ($sort eq 'added') {
       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
 % }
 
 </a>
-      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=alpha">Alpha
+      <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'alpha') %>">Alpha
 
 % if ($sort eq 'alpha') {
       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
 % }
 
 </a>
-      <a class="dropdown-item" href="/view_list?list=<%= $list %>&sort=category">Category
+      <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'category') %>">Category
 
 % if ($sort eq 'category') {
       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -159,7 +159,7 @@
 %= tag 'p'
 <%= link_to Logout => 'logout' %>
 |
-<a href="/reset?list=<%= $list %>&sort=<%= $sort %>">Reset</a>
+<a href="<%= url_for('reset')->query(list => $list, sort => $sort) %>">Reset</a>
 
 <script>
 mybutton = document.getElementById("top_button");

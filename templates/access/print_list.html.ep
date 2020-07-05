@@ -5,7 +5,7 @@
 %= include 'access/_flash'
 
 <div class="form-row align-items-center">
-  <a href="/view_list?list=<%= $list %>&sort=<%= $sort %>" type="button" class="btn btn-sm" title="Return to list" style="border: 1px solid #bbb;"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('view_list', list => $list, sort => $sort) %>" type="button" class="btn btn-sm" title="Return to list" style="border: 1px solid #bbb;"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   <span style="font-weight: bold; margin: 10px;"><%= $name %></span>
 </div>
 % if ($sort eq 'category') {

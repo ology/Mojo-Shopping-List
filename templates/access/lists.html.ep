@@ -20,7 +20,7 @@
 <ul>
 % while (my $list = $lists->next) {
     <li>
-        <form action="/update_list" method="post" class="form-inline">
+        <form action="<%= url_for('update_list') %>" method="post" class="form-inline">
           <input type="hidden" name="list" value="<%= $list->id %>">
   <div class="form-row align-items-center">
     <div class="col">
@@ -32,10 +32,10 @@
     </div>
 -->
     <div class="col">
-          <a href="/delete_list?list=<%= $list->id %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;" title="Delete this list">
+          <a href="<%= url_for('delete_list')->query(list => $list->id) %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;" title="Delete this list">
           <i class="fa fa-minus fa-lg" aria-hidden="true"></i>
           </a>
-          <a href="/view_list?list=<%= $list->id %>" class="btn btn-success btn-sm" title="View this list"><i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i></a>
+          <a href="<%= url_for('view_list')->query(list => $list->id) %>" class="btn btn-success btn-sm" title="View this list"><i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i></a>
     </div>
     </div>
         </form>
