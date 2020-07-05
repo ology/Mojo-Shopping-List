@@ -317,7 +317,7 @@ sub update_item {
         $result->quantity($quantity);
         $result->update;
     }
-    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
+    return $self->redirect_to('/a/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
 
 sub update_item_list {
@@ -343,7 +343,7 @@ sub update_item_list {
             $self->model->update_or_create($self->session->{auth}, $result->id);
         }
     }
-    return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
+    return $self->redirect_to('/a/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('query'));
 }
 
 sub delete_item {
@@ -361,7 +361,7 @@ sub delete_item {
     else {
         $self->model->delete_item($v->param('item'));
     }
-    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
+    return $self->redirect_to('/a/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort'));
 }
 
 sub move_item {
@@ -384,7 +384,7 @@ sub move_item {
     else {
         $self->model->move_item($self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
     }
-    return $self->redirect_to('/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&next=' . $v->param('next'));
+    return $self->redirect_to('/a/view_list?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&next=' . $v->param('next'));
 }
 
 sub view_items {
@@ -395,7 +395,7 @@ sub view_items {
     $v->optional('query');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
-        return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
+        return $self->redirect_to('/a/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
     }
     my $names = [];
     my $cats = [];
@@ -459,13 +459,13 @@ sub new_item {
             $self->model->update_or_create($self->session->{auth}, $item->id);
         }
     }
-    return $self->redirect_to('/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
+    return $self->redirect_to('/a/view_items?list=' . $v->param('list') . '&sort=' . $v->param('sort') . '&query=' . $v->param('name'));
 }
 
 sub reset {
     my ($self) = @_;
     $self->cookie(exclude => '');
-    return $self->redirect_to('/view_list?list=' . $self->param('list') . '&sort=' . $self->param('sort'));
+    return $self->redirect_to('/a/view_list?list=' . $self->param('list') . '&sort=' . $self->param('sort'));
 }
 
 sub signup { shift->render }
