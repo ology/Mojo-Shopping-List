@@ -12,7 +12,7 @@ sub startup {
 
   my $r = $self->routes;
 
-  my $auth = $r->under('/' => sub {
+  my $auth = $r->under('/a' => sub {
     my ($self) = @_;
     my $session = $self->session('auth') // '';
     return 1 if $session;
