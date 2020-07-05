@@ -37,3 +37,7 @@ input[type=checkbox]
   height: 45px;
   line-height: 20px;
 }
+
+.modal-backdrop {
+    background-color: rgba(0,0,0,.0001) !important;
+}
