@@ -22,14 +22,12 @@ sub lists {
 sub list_owner {
     my ($self, $account, $list) = @_;
     my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
-    return unless $result;
     return $result ? $result->lists->find($list) : 0;
 }
 
 sub item_owner {
     my ($self, $account, $item) = @_;
     my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
-    return unless $result;
     return $result ? $result->items->find($item) : 0;
 }
 
