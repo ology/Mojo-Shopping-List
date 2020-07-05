@@ -22,6 +22,9 @@ my $model = new_ok 'ShoppingList::Model' => [schema => $schema];
 my $account = $model->new_user('test@example.com', 'test', 'test');
 isa_ok $account, 'Schema::Result::Account';
 
+# Test that authorization fails
+ok !$model->auth($account->username, 'foo'), 'auth';
+
 # Test that authorization works
 ok $model->auth($account->username, 'test'), 'auth';
 
