@@ -57,8 +57,8 @@ sub find_list {
 }
 
 sub ordered_items {
-    my ($self, $result, $order) = @_;
-    my $items = $result->items->search({}, { %$order });
+    my ($self, $list, $order) = @_;
+    my $items = $list->items->search({}, { %$order });
     return $items;
 }
 
@@ -158,6 +158,7 @@ sub move_item {
     my $result = $self->schema->resultset('Item')->find($item);
     $result->update({ list_id => $list });
     $self->schema->resultset('ItemCount')->update_or_create($account, $item);
+    return $result;
 }
 
 sub find_account {
