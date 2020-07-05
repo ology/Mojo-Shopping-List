@@ -23,12 +23,14 @@ sub logout {
 
 sub lists {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $lists = $self->model->lists($self->session->{auth});
     $self->render(lists => $lists);
 }
 
 sub new_list {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('name', 'not_empty');
     if ($v->has_error) {
@@ -42,6 +44,7 @@ sub new_list {
 
 sub update_list {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->required('name', 'not_empty');
@@ -59,6 +62,7 @@ sub update_list {
 
 sub delete_list {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     if ($v->has_error) {
@@ -75,6 +79,7 @@ sub delete_list {
 
 sub view_list {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
@@ -198,6 +203,7 @@ sub view_list {
 
 sub print_list {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->optional('sort');
@@ -273,6 +279,7 @@ sub print_list {
 
 sub update_item {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->required('item', 'not_empty');
@@ -322,6 +329,7 @@ sub update_item {
 
 sub update_item_list {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('item', 'not_empty');
     $v->required('list', 'not_empty');
@@ -366,6 +374,7 @@ sub delete_item {
 
 sub move_item {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->required('item', 'not_empty');
@@ -433,6 +442,7 @@ sub view_items {
 
 sub new_item {
     my ($self) = @_;
+    return $self->redirect_to('login') unless $self->session->{auth};
     my $v = $self->validation;
     $v->required('list', 'not_empty');
     $v->required('name', 'not_empty');
