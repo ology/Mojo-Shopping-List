@@ -24,6 +24,12 @@ sub list_owner {
     return $result ? $result->lists->find($list) : 0;
 }
 
+sub item_owner {
+    my ($self, $account, $item) = @_;
+    my $result = $account ? $self->schema->resultset('Account')->find($account) : undef;
+    return $result ? $result->items->find($item) : 0;
+}
+
 sub new_list {
     my ($self, $account, $name) = @_;
     my $result = $self->schema->resultset('List')->create({

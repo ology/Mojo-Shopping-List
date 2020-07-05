@@ -343,6 +343,9 @@ sub delete_item {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
+    elsif (!$self->model->item_owner($self->session->{auth}, $v->param('item'))) {
+        $self->flash(error => ERROR_MSG);
+    }
     else {
         $self->model->delete_item($v->param('item'));
     }
