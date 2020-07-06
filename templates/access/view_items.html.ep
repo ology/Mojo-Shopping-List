@@ -16,7 +16,7 @@
     &nbsp;
     <button type="submit" title="Search items" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
     &nbsp;
-    <button type="button" id="new_item_toggle" title="New item" class="btn btn-secondary btn-sm"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+    <button type="button" id="new_item_toggle" title="New item" class="btn btn-warning btn-sm"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
 </form>
 </div>
 
