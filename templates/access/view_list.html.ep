@@ -49,7 +49,7 @@
 
   <div class="dropdown" style="margin-top: 5px;">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Sort items">
-    Sort
+    <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'added') %>">Added
