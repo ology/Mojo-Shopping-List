@@ -69,7 +69,7 @@
 </div>
 </div>
 
-% if ($items) {
+% if ($items && $items->count) {
 <p></p>
     % while (my $item = $items->next) {
   <div class="card text-black">
@@ -116,6 +116,9 @@
   </div>
 
     % }
+% } elsif ($query) {
+<p></p>
+No items found.
 % }
 
 %= tag 'p'
