@@ -447,15 +447,15 @@ sub new_user {
     $v->required('confirm')->equal_to('password');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
-        return $self->redirect_to('/signup');
+        return $self->redirect_to('signup');
     }
     my $account = $self->model->search_username($v->param('username'));
     if ($account) {
         $self->flash(error => ERROR_MSG);
-        return $self->redirect_to('/signup');
+        return $self->redirect_to('signup');
     }
     $self->model->new_user($v->param('email'), $v->param('username'), $v->param('password'));
-    return $self->redirect_to('/');
+    return $self->redirect_to('login');
 }
 
 1;
