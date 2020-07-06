@@ -62,12 +62,12 @@
       <input type="text" name="name" value="<%= $item->{name} %>" class="form-control" placeholder="Item name" required>
     </div>
     <div class="col">
-      <input type="text" name="note" value="<%= $item->{note} %>" class="form-control" placeholder="Note">
+      <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
     </div>
   </div>
   <div class="form-row">
     <div class="col">
-      <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
+      <input type="text" name="note" value="<%= $item->{note} %>" class="form-control" placeholder="Note">
     </div>
     <div class="col">
       <input type="number" name="quantity" value="<%= $item->{quantity} %>" class="form-control" placeholder="Quantity">
