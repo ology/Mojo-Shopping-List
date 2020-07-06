@@ -13,7 +13,7 @@
   &nbsp;
   <a href="<%= url_for('print_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-info btn-sm" title="Print list"><i class="fa fa-print fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="<%= url_for('view_items')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-primary btn-sm" title="Add and view items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('view_items')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-primary btn-sm" title="Search or add items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
   &nbsp;
 
   <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#suggestModal" style="width: 35px;">
