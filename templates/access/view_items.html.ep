@@ -2,6 +2,9 @@
 % title 'View Items';
 <div class="container">
 %= include 'access/_flash'
+<p>
+%= tag b => 'Search / Add items'
+</p>
 
 <div class="form-row align-items-center">
 <form action="<%= url_for('view_items') %>" method="get" class="form-inline">

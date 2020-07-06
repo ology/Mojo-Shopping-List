@@ -77,6 +77,9 @@ sub view_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
+    if ($v->param('list') == 0) {
+        return $self->redirect_to('lists');
+    }
     my $sort = '';
     my $on = [];
     my $off = [];
