@@ -12,7 +12,7 @@
     <input type="hidden" name="sort" value="<%= $sort %>">
     <a href="<%= url_for('view_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-success btn-sm" title="Return to list"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
     &nbsp;
-    <input type="text" name="query" value="<%= $query %>" placeholder="Item search" class="form-control w-50">
+    <input type="text" name="query" id="query" value="<%= $query %>" placeholder="Item search" class="form-control w-50">
     &nbsp;
     <button type="submit" title="Search items" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
     &nbsp;
@@ -127,6 +127,7 @@ $(document).ready(
     function() {
         $('#new_item_toggle').click(
             function() {
+                $('#item_name').val($('#query').val());
                 $('#new_item').toggle();
                 $("#item_name").focus();
             }
