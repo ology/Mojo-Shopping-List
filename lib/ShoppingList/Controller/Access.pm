@@ -77,10 +77,6 @@ sub view_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
-    unless ($self->model->list_owner($self->session->{auth}, $v->param('list'))) {
-        $self->flash(error => ERROR_MSG);
-        return $self->redirect_to('lists');
-    }
     my $sort = '';
     my $on = [];
     my $off = [];
@@ -105,7 +101,7 @@ sub view_list {
     }
     my %on_cats;
     my %off_cats;
-    my $result = $self->model->find_list($v->param('list'));
+    my $result = $self->model->find_list($self->session->{auth}, $v->param('list'));
     $name = $result->name;
     my $items = $self->model->ordered_items($result, $order);
     # Add the on-items & categories
@@ -199,10 +195,6 @@ sub print_list {
         $self->flash(error => ERROR_MSG);
         return $self->redirect_to('lists');
     }
-    unless ($self->model->list_owner($self->session->{auth}, $v->param('list'))) {
-        $self->flash(error => ERROR_MSG);
-        return $self->redirect_to('lists');
-    }
     my $sort = '';
     my $on = [];
     my $off = [];
@@ -225,7 +217,7 @@ sub print_list {
     }
     my %on_cats;
     my %off_cats;
-    my $result = $self->model->find_list($v->param('list'));
+    my $result = $self->model->find_list($self->session->{auth}, $v->param('list'));
     $name = $result->name;
     my $items = $self->model->ordered_items($result, $order);
     while (my $item = $items->next) {

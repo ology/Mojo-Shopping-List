@@ -19,18 +19,6 @@ sub lists {
     return $lists;
 }
 
-sub list_owner {
-    my ($self, $account, $list) = @_;
-    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
-    return $result ? $result->lists->find($list) : 0;
-}
-
-sub item_owner {
-    my ($self, $account, $item) = @_;
-    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
-    return $result ? $result->items->find($item) : 0;
-}
-
 sub new_list {
     my ($self, $account, $name) = @_;
     my $result = $self->schema->resultset('List')->create({
@@ -42,7 +30,7 @@ sub new_list {
 
 sub update_list {
     my ($self, $account, $list, $name) = @_;
-    my $result = $self->schema->resultset('List')->search({ account_id => $account, id => $list })->first;
+    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->first;
     return unless $result;
     $result->update({ name => $name });
     return $result;
@@ -50,7 +38,7 @@ sub update_list {
 
 sub delete_list {
     my ($self, $account, $list) = @_;
-    my $result = $self->schema->resultset('List')->search({ account_id => $account, id => $list })->first;
+    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->first;
     return unless $result;
     my $items = $result->items;
     while (my $item = $items->next) {
@@ -60,8 +48,8 @@ sub delete_list {
 }
 
 sub find_list {
-    my ($self, $list) = @_;
-    my $result = $self->schema->resultset('List')->search({ id => $list })->first;
+    my ($self, $account, $list) = @_;
+    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->first;
     return $result;
 }
 

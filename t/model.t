@@ -40,18 +40,6 @@ is $got->id, $account->id, 'search_username';
 my $list = $model->new_list($account->id, 'Test list');
 isa_ok $list, 'Schema::Result::List';
 
-# Test that a bogus account doesn't own the list
-$got = $model->list_owner(0, $list->id);
-ok !$got, 'list_owner';
-
-# Test that the account doesn't own a bogus list
-$got = $model->list_owner($account->id, 0);
-ok !$got, 'list_owner';
-
-# Test that the account owns the list
-$got = $model->list_owner($account->id, $list->id);
-is $got->id, $list->id, 'list_owner';
-
 # Test that the list is in the account lists
 $got = $model->lists($account->id);
 while (my $i = $got->next) {
@@ -71,7 +59,7 @@ while (my $i = $got->next) {
 }
 
 # Test that the list can be found by id
-$got = $model->find_list($list->id);
+$got = $model->find_list($account->id, $list->id);
 is $got->id, $list->id, 'find_list';
 
 # Test that the list name can be updated
