@@ -3,7 +3,7 @@
 <div class="container">
 %= include 'access/_flash'
 <p>
-%= tag b => 'Search / Add items'
+%= tag b => 'Search | Add items'
 </p>
 
 <div class="form-row align-items-center">
