@@ -48,11 +48,8 @@ sub update_list {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
-    elsif (!$self->model->list_owner($self->session->{auth}, $v->param('list'))) {
-        $self->flash(error => ERROR_MSG);
-    }
     else {
-        $self->model->update_list($v->param('list'), $v->param('name'));
+        $self->model->update_list($self->session->{auth}, $v->param('list'), $v->param('name'));
     }
     return $self->redirect_to('lists');
 }
@@ -64,11 +61,8 @@ sub delete_list {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
-    elsif (!$self->model->list_owner($self->session->{auth}, $v->param('list'))) {
-        $self->flash(error => ERROR_MSG);
-    }
     else {
-        $self->model->delete_list($v->param('list'));
+        $self->model->delete_list($self->session->{auth}, $v->param('list'));
     }
     return $self->redirect_to('lists');
 }
@@ -288,12 +282,9 @@ sub update_item {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
-    elsif (!$self->model->item_owner($self->session->{auth}, $v->param('item'))) {
-        $self->flash(error => ERROR_MSG);
-    }
     else {
         my $quantity = $v->param('quantity');
-        my $result = $self->model->find_item($v->param('item'));
+        my $result = $self->model->find_item($self->session->{auth}, $v->param('item'));
         if ($v->param('active')) {
             if ($v->param('list') != $result->list_id) {
                 $self->model->update_or_create($self->session->{auth}, $result->id);
@@ -331,15 +322,9 @@ sub update_item_list {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
-    elsif (
-        !$self->model->list_owner($self->session->{auth}, $v->param('list'))
-        || !$self->model->item_owner($self->session->{auth}, $v->param('item'))
-    ) {
-        $self->flash(error => ERROR_MSG);
-    }
     else {
-        my $result = $self->model->update_item_list($v->param('item'), $v->param('move_to_list'));
-        if ($v->param('move_to_list')) {
+        my $result = $self->model->update_item_list($self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
+        if ($result && $v->param('move_to_list')) {
             $self->model->update_or_create($self->session->{auth}, $result->id);
         }
     }
@@ -355,11 +340,8 @@ sub delete_item {
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG);
     }
-    elsif (!$self->model->item_owner($self->session->{auth}, $v->param('item'))) {
-        $self->flash(error => ERROR_MSG);
-    }
     else {
-        $self->model->delete_item($v->param('item'));
+        $self->model->delete_item($self->session->{auth}, $v->param('item'));
     }
     return $self->redirect_to($self->url_for('view_list')->query(list => $v->param('list'), sort => $v->param('sort')));
 }
@@ -373,12 +355,6 @@ sub move_item {
     $v->optional('sort');
     $v->optional('next');
     if ($v->has_error) {
-        $self->flash(error => ERROR_MSG);
-    }
-    elsif (
-        !$self->model->list_owner($self->session->{auth}, $v->param('list'))
-        || !$self->model->item_owner($self->session->{auth}, $v->param('item'))
-    ) {
         $self->flash(error => ERROR_MSG);
     }
     else {

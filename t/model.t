@@ -75,7 +75,7 @@ $got = $model->find_list($list->id);
 is $got->id, $list->id, 'find_list';
 
 # Test that the list name can be updated
-$got = $model->update_list($list->id, 'Test list!');
+$got = $model->update_list($account->id, $list->id, 'Test list!');
 is $got->name, 'Test list!', 'update_list';
 
 # Create a new item for the account
@@ -88,7 +88,7 @@ my $item = $model->new_item(
 isa_ok $item, 'Schema::Result::Item';
 
 # Test that the item can be found by id
-$got = $model->find_item($item->id);
+$got = $model->find_item($account->id, $item->id);
 is $got->id, $item->id, 'find_item';
 
 # Test that the item can be queried for
@@ -115,7 +115,7 @@ $got = $model->ordered_items($list, {});
 ok !$got->count, 'ordered_items';
 
 # Add the item to the list
-$got = $model->update_item_list($item->id, $list->id);
+$got = $model->update_item_list($account->id, $item->id, $list->id);
 is $got->list_id, $list->id, 'update_item_list';
 
 # Test that the item is on the list
@@ -154,7 +154,7 @@ while (my $i = $got->next) {
 }
 
 # Remove the item from the list
-$got = $model->update_item_list($item->id, undef);
+$got = $model->update_item_list($account->id, $item->id, undef);
 is $got->list_id, undef, 'update_item_list';
 
 # Test that the item is suggested
@@ -162,11 +162,11 @@ $got = $model->suggestion($account->id, []);
 is $got->id, $item->id, 'suggestion';
 
 # Put the item back on the list
-$got = $model->update_item_list($item->id, $list->id);
+$got = $model->update_item_list($account->id, $item->id, $list->id);
 is $got->list_id, $list->id, 'update_item_list';
 
 # Test that the list can be deleted
-$model->delete_list($list->id);
+$model->delete_list($account->id, $list->id);
 $got = $model->lists($account->id);
 ok !$got->count, 'delete_list';
 
@@ -178,7 +178,7 @@ while (my $i = $got->next) {
 }
 
 # Test that the item can be deleted
-$model->delete_item($item->id);
+$model->delete_item($account->id, $item->id);
 $all_items = $account->items;
 ok !$all_items->count, 'delete_item';
 

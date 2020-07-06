@@ -41,16 +41,16 @@ sub new_list {
 }
 
 sub update_list {
-    my ($self, $list, $name) = @_;
-    my $result = $self->schema->resultset('List')->search({ id => $list })->first;
+    my ($self, $account, $list, $name) = @_;
+    my $result = $self->schema->resultset('List')->search({ account_id => $account, id => $list })->first;
     return unless $result;
     $result->update({ name => $name });
     return $result;
 }
 
 sub delete_list {
-    my ($self, $list) = @_;
-    my $result = $self->schema->resultset('List')->search({ id => $list })->first;
+    my ($self, $account, $list) = @_;
+    my $result = $self->schema->resultset('List')->search({ account_id => $account, id => $list })->first;
     return unless $result;
     my $items = $result->items;
     while (my $item = $items->next) {
@@ -137,8 +137,8 @@ sub suggestion {
 }
 
 sub find_item {
-    my ($self, $item) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    my ($self, $account, $item) = @_;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return $result;
 }
 
@@ -148,16 +148,16 @@ sub update_or_create {
 }
 
 sub update_item_list {
-    my ($self, $item, $list) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    my ($self, $account, $item, $list) = @_;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->update({ list_id => $list });
     return $result;
 }
 
 sub delete_item {
-    my ($self, $item) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    my ($self, $account, $item) = @_;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->delete;
     $result = $self->schema->resultset('ItemCount')->search({ item_id => $item })->first;
@@ -166,7 +166,7 @@ sub delete_item {
 
 sub move_item {
     my ($self, $account, $item, $list) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item })->first;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->update({ list_id => $list });
     $self->schema->resultset('ItemCount')->update_or_create($account, $item);
