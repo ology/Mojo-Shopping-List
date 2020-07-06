@@ -1,7 +1,7 @@
 % layout 'default';
 % title 'Shopping List Login';
 <div class="container">
-%= tag h1 => 'Shopping List Login'
+%= tag h1 => 'Shopping List'
 %= include 'access/_flash'
 %= form_for login => (method => 'post') => begin
     %= text_field 'username', id => 'username', class => 'form-control w-50', placeholder => 'Username', required => undef
