@@ -21,7 +21,7 @@ sub startup {
 
   $r->get('/')->to('access#index')->name('login');
   $r->post('/')->to('access#login')->name('auth');
-  $r->get('/logout')->to('access#logout')->name('logout');
+  $r->get('/logout')->to('access#logout');
   $r->get('/signup')->to('access#signup');
   $r->post('/signup')->to('access#new_user')->name('new_user');
   $auth->get('/lists')->to('access#lists');
