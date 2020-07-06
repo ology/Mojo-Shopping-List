@@ -20,12 +20,12 @@ sub startup {
   });
 
   $r->get('/')->to('access#index')->name('login');
-  $r->post('/')->to('access#login');
+  $r->post('/')->to('access#login')->name('auth');
   $r->get('/logout')->to('access#logout')->name('logout');
-  $r->get('/signup')->to('access#signup')->name('signup');
-  $r->post('/signup')->to('access#new_user');
+  $r->get('/signup')->to('access#signup');
+  $r->post('/signup')->to('access#new_user')->name('new_user');
   $auth->get('/lists')->to('access#lists');
-  $auth->post('/lists')->to('access#new_list');
+  $auth->post('/lists')->to('access#new_list')->name('new_list');
   $auth->post('/update_list')->to('access#update_list');
   $auth->get('/delete_list')->to('access#delete_list');
   $auth->get('/view_list')->to('access#view_list');
