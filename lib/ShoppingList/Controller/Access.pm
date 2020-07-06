@@ -161,7 +161,7 @@ sub view_list {
     }
     $result = $self->model->suggestion($self->session->{auth}, $exclude);
     if ($result) {
-        my $item = $self->model->find_item($result->item_id);
+        my $item = $self->model->find_item($self->session->{auth}, $result->item_id);
         $suggest = $item->name;
         $suggest .= ' - ' . $item->note if $item->note;
         $suggest .= '?';
