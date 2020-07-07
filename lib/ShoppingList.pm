@@ -16,7 +16,8 @@ sub startup {
     my ($self) = @_;
     my $session = $self->session('auth') // '';
     return 1 if $session;
-    return $self->redirect_to('login');
+    $self->redirect_to('login');
+    return 0;
   });
 
   $r->get('/')->to('access#index')->name('login');
