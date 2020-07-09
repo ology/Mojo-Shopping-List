@@ -8,7 +8,7 @@ sub update_or_create {
 
     die 'Required arguments not given' unless $account_id && $item_id;
 
-    my $item_count = $self->search({ item_id => $item_id })->first;
+    my $item_count = $self->search({ item_id => $item_id })->single;
 
     if ($item_count) {
         $item_count->update({ count => $item_count->count + 1 });

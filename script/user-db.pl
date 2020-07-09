@@ -11,7 +11,7 @@ my $config = do './shopping_list.conf';
 
 my $schema = Schema->connect($config->{database}, '', '');
 
-my $account = $schema->resultset('Account')->search({ username => $name })->first;
+my $account = $schema->resultset('Account')->search({ username => $name })->single;
 
 if ($account) {
     $account->update({ password => $pass });
