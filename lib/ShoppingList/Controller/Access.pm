@@ -152,7 +152,7 @@ sub view_list {
         push @$shop_lists, { id => $list->id, name => $list->name };
     }
     # Suggestion logic
-    my $exclude_cookie = $self->cookie('exclude') || '';
+    my $exclude_cookie = $self->session('exclude') || '';
     my $exclude = [ split /,/, $exclude_cookie ];
     my $list_items = $self->model->list_items($self->session->{auth});
     while (my $item = $list_items->next) {
@@ -168,11 +168,11 @@ sub view_list {
         push @$exclude, $result->item_id;
     }
     if ($suggest) {
-        $self->cookie(exclude => join(',', @$exclude));
+        $self->session(exclude => join(',', @$exclude));
     }
     else {
         $suggest = 'Nothing to suggest';
-        $self->cookie(exclude => '');
+        $self->session(exclude => '');
     }
     $self->render(
         list       => $v->param('list'),
@@ -435,7 +435,7 @@ sub new_item {
 
 sub reset {
     my ($self) = @_;
-    $self->cookie(exclude => '');
+    $self->session(exclude => '');
     return $self->redirect_to($self->url_for('view_list')->query(list => $self->param('list'), sort => $self->param('sort')));
 }
 
