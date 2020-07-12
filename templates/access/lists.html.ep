@@ -31,6 +31,7 @@
           <button type="submit" class="btn btn-info btn-sm" title="Update list name"><i class="fa fa-repeat fa-lg" aria-hidden="true"></i></button>
           <a href="<%= url_for('delete_list')->query(list => $list->id) %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this list?')) return false;" title="Delete this list"><i class="fa fa-minus fa-lg" aria-hidden="true"></i></a>
           <a href="<%= url_for('view_list')->query(list => $list->id) %>" class="btn btn-success btn-sm" title="View this list"><i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i></a>
+          <%= $list->items->count %>
     </div>
     </div>
         </form>
