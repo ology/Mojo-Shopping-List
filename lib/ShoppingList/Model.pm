@@ -120,7 +120,7 @@ sub suggestion {
         {
             order_by => { -desc => 'count' },
         }
-    )->single;
+    )->first;
     return $result;
 }
 
