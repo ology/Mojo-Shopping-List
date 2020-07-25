@@ -6,14 +6,14 @@ has 'schema';
 
 sub auth {
     my ($self, $user, $pass) = @_;
-    my $result = $self->schema->resultset('Account')->search({ username => $user })->single;
+    my $result = $self->schema->resultset('Account')->search({ username => $user })->first;
     return $result
         if $result && $result->check_password($pass);
 }
 
 sub lists {
     my ($self, $account) = @_;
-    my $result = $self->schema->resultset('Account')->search({ id => $account })->single;
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
     return unless $result;
     my $lists = $result->lists->search({}, { order_by => { -asc => \'LOWER(name)' } });
     return $lists;
@@ -30,7 +30,7 @@ sub new_list {
 
 sub update_list {
     my ($self, $account, $list, $name) = @_;
-    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->single;
+    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->first;
     return unless $result;
     $result->update({ name => $name });
     return $result;
@@ -38,7 +38,7 @@ sub update_list {
 
 sub delete_list {
     my ($self, $account, $list) = @_;
-    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->single;
+    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->first;
     return unless $result;
     my $items = $result->items;
     while (my $item = $items->next) {
@@ -49,7 +49,7 @@ sub delete_list {
 
 sub find_list {
     my ($self, $account, $list) = @_;
-    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->single;
+    my $result = $self->schema->resultset('List')->search({ id => $list, account_id => $account })->first;
     return $result;
 }
 
@@ -126,7 +126,7 @@ sub suggestion {
 
 sub find_item {
     my ($self, $account, $item) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->single;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return $result;
 }
 
@@ -137,7 +137,7 @@ sub update_or_create {
 
 sub update_item_list {
     my ($self, $account, $item, $list) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->single;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->update({ list_id => $list });
     return $result;
@@ -145,16 +145,16 @@ sub update_item_list {
 
 sub delete_item {
     my ($self, $account, $item) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->single;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->delete;
-    $result = $self->schema->resultset('ItemCount')->search({ item_id => $item })->single;
+    $result = $self->schema->resultset('ItemCount')->search({ item_id => $item })->first;
     $result->delete if $result;
 }
 
 sub move_item {
     my ($self, $account, $item, $list) = @_;
-    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->single;
+    my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->update({ list_id => $list });
     $self->schema->resultset('ItemCount')->update_or_create($account, $item);
@@ -163,7 +163,7 @@ sub move_item {
 
 sub find_account {
     my ($self, $account) = @_;
-    my $result = $self->schema->resultset('Account')->search({ id => $account })->single;
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
     return $result;
 }
 
@@ -212,7 +212,7 @@ sub new_item {
 
 sub search_username {
     my ($self, $user) = @_;
-    my $account = $self->schema->resultset('Account')->search({ username => $user })->single;
+    my $account = $self->schema->resultset('Account')->search({ username => $user })->first;
     return $account;
 }
 
