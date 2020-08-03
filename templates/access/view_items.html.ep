@@ -73,51 +73,107 @@
 
 % if ($items && $items->count) {
 <p></p>
-    % while (my $item = $items->next) {
-  <div class="card text-black">
-    <div class="card-body">
-      <div class="form-row align-items-center">
+<div class="accordion" id="accordionOnItems">
 
-        <b><%= $item->name %></b>
-            % if ($item->note) {
-        - <%= $item->note %>
-            % }
-            % if ($item->category) {
-        : <%= $item->category %>
-            % }
-        % if ($item->assigned) {
-            % my $result = $self->schema->resultset('List')->find($item->assigned);
-            [ <%= $result->name %> ]
-        % } else {
-        &nbsp;
-        <form action="<%= url_for('update_item_list') %>" method="post">
-            <input type="hidden" name="item" value="<%= $item->id %>">
-            <input type="hidden" name="list" value="<%= $list %>">
-            <input type="hidden" name="query" value="<%= $query %>">
-            <select name="move_to_list" onchange="this.form.submit();">
-                <option value="">Move to...</option>
-            % for my $shop_list (@$shop_lists) {
-                <option value="<%= $shop_list->{id} %>"
-                % if ($item->list_id && $shop_list->{id} == $item->list_id) {
-                    selected="selected"
-                % }
-                ><%= $shop_list->{name} %></option>
-            % }
-            </select>
-        </form>
+    % while (my $item = $items->next) {
+
+  <div class="card text-black">
+    <div class="card-header" id="heading<%= $item->id %>">
+      <h2 class="mb-0">
+
+        <div class="form-row align-items-center">
+          <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->id %>" aria-expanded="true" aria-controls="collapse<%= $item->id %>">
+
+            <b><%= $item->name %></b>
+
+% if ($item->note) {
+            - <%= $item->note %>
+% }
+% if ($item->category) {
+            : <%= $item->category %>
+% }
+
+          </button>
+        </div>
+
+      </h2>
+    </div>
+
+    <div id="collapse<%= $item->id %>" class="collapse" aria-labelledby="heading<%= $item->id %>" data-parent="#accordionOnItems">
+      <div class="card-body">
+
+<form action="<%= url_for('update_item') %>" method="post">
+
+% if ($item->list_id) {
+  <input type="hidden" name="active" value="1">
+% } else {
+  <input type="hidden" name="active" value="0">
+% }
+
+  <input type="hidden" name="redirect" value="view_items">
+  <input type="hidden" name="list" value="<%= $list %>">
+  <input type="hidden" name="sort" value="<%= $sort %>">
+  <input type="hidden" name="query" value="<%= $query %>">
+  <input type="hidden" name="item" value="<%= $item->id %>">
+  <div class="form-row">
+    <div class="col">
+      <input type="text" name="name" value="<%= $item->name %>" class="form-control" placeholder="Item name" required>
+    </div>
+    <div class="col">
+      <input type="text" name="cost" value="<%= $item->cost %>" class="form-control" placeholder="Cost">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <input type="text" name="note" value="<%= $item->note %>" class="form-control" placeholder="Note">
+    </div>
+    <div class="col">
+      <input type="number" name="quantity" value="<%= $item->quantity %>" class="form-control" placeholder="Quantity">
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col">
+      <input type="text" name="category" value="<%= $item->category %>" class="form-control" placeholder="Category" list="category">
+      <datalist id="category">
+
+% for my $cat (@$cats) {
+          <option><%= $cat %></option>
+% }
+
+      </datalist>
+    </div>
+    <div class="col">
+      <select name="move_to_list" class="form-control">
+        <option value="">Move to...</option>
+
+    % for my $shop_list (@$shop_lists) {
+        <option value="<%= $shop_list->{id} %>"
+
+        % if ($shop_list->{id} eq $item->list_id) {
+        selected
         % }
-        % if ($item->list_id) {
-        &nbsp;
-        <a href="<%= url_for('view_list')->query(list => $item->list_id, sort => $sort) %>" class="btn btn-success btn-sm" title="Go to list">
-          <i class="fa fa-arrow-right fa-lg" aria-hidden="true"></i>
-        </a>
-        % }
+
+        ><%= $shop_list->{name} %></option>
+
+    % }
+
+      </select>
+    </div>
+  </div>
+<div class="pull-right" style="margin: 10px;">
+  <button type="submit" class="btn btn-info btn-sm"><i class="fa fa-repeat fa-lg" aria-hidden="true"></i> Update</button>
+  <a href="<%= url_for('delete_item')->query(item => $item->id, list => $list, sort => $sort) %>" class="btn btn-secondary btn-sm" onclick="if(!confirm('Are you sure you want to delete this item?')) return false;" title="Delete this item"><i class="fa fa-trash-o fa-lg" aria-hidden="true"></i> Delete</a>
+</div>
+</form>
 
       </div>
     </div>
   </div>
 
     % }
+
+</div>
+
 % } elsif ($query) {
 <p></p>
 No items found.

@@ -274,6 +274,8 @@ sub update_item {
     $v->optional('quantity', 'not_empty');
     $v->optional('assigned', 'not_empty');
     $v->optional('move_to_list', 'not_empty');
+    $v->optional('redirect');
+    $v->optional('query');
     if ($v->has_error) {
         $self->flash(error => ERROR_MSG)
     }
@@ -303,7 +305,12 @@ sub update_item {
         $result->quantity($quantity);
         $result->update;
     }
-    return $self->redirect_to($self->url_for('view_list')->query(list => $v->param('list'), sort => $v->param('sort')));
+    if ($v->param('redirect') && $v->param('redirect') eq 'view_items') {
+        return $self->redirect_to($self->url_for('view_items')->query(list => $v->param('list'), sort => $v->param('sort'), query => $v->param('query')));
+    }
+    else {
+        return $self->redirect_to($self->url_for('view_list')->query(list => $v->param('list'), sort => $v->param('sort')));
+    }
 }
 
 sub update_item_list {
