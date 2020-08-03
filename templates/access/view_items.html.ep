@@ -181,6 +181,8 @@ No items found.
 
 %= tag 'p'
 %= link_to Logout => 'logout'
+|
+%= link_to 'Privacy Policy' => 'privacy'
 </div>
 
 <script>

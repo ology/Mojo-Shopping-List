@@ -446,6 +446,8 @@ sub reset {
     return $self->redirect_to($self->url_for('view_list')->query(list => $self->param('list'), sort => $self->param('sort')));
 }
 
+sub privacy { shift->render }
+
 sub signup { shift->render }
 
 sub new_user {

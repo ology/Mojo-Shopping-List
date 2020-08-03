@@ -11,6 +11,9 @@
     %= tag 'br'
     %= submit_button 'Signup', class => 'btn btn-primary'
 %= end
+
+%= tag 'p'
+%= link_to 'Privacy Policy' => 'privacy'
 </div>
 
 <script>

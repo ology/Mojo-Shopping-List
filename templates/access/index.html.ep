@@ -12,6 +12,8 @@
 
 %= tag 'p'
 %= link_to Signup => 'signup'
+|
+%= link_to 'Privacy Policy' => 'privacy'
 </div>
 
 <script>

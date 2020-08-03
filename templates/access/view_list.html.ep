@@ -159,6 +159,8 @@
 %= tag 'p'
 <%= link_to Logout => 'logout' %>
 |
+%= link_to 'Privacy Policy' => 'privacy'
+|
 <a href="<%= url_for('reset')->query(list => $list, sort => $sort) %>">Reset</a>
 
 <script>
