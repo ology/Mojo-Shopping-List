@@ -7,6 +7,7 @@ __PACKAGE__->load_components(qw/EncodedColumn/);
 
 __PACKAGE__->add_columns(
     id       => { data_type => 'int', is_nullable => 0, is_serializable => 1, is_auto_increment => 1 },
+    seen     => { data_type => 'int', is_nullable => 1, is_serializable => 1 },
     email    => { data_type => 'text', is_nullable => 0, is_serializable => 1 },
     username => { data_type => 'text', is_nullable => 0, is_serializable => 1 },
     password => { data_type => 'text', is_nullable => 0, is_serializable => 1,
