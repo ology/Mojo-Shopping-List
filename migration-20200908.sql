@@ -1,1 +1,1 @@
-ALTER TABLE accounts ADD last_seen int;
+ALTER TABLE accounts ADD seen int;
