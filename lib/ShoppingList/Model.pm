@@ -225,4 +225,12 @@ sub new_user {
     });
 }
 
+sub log_user {
+    my ($self, $account) = @_;
+    my $result = $self->schema->resultset('Account')->search({ id => $account })->first;
+    return unless $result;
+    $result->update({ seen => time() });
+    return $result;
+}
+
 1;

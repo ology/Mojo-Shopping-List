@@ -9,6 +9,7 @@ sub login {
     my ($self) = @_;
     if (my $user = $self->model->auth($self->param('username'), $self->param('password'))) {
         $self->session(auth => $user->id);
+        $self->model->log_user($user->id);
         return $self->redirect_to('lists');
     }
     $self->flash(error => 'Invalid login');
