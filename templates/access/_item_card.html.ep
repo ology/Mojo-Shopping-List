@@ -2,7 +2,7 @@
     <div class="card-header" id="heading<%= $item->{id} %>">
       <h2 class="mb-0">
 
-        <div class="form-row align-items-center">
+        <div class="row align-items-center">
           <form action="<%= url_for('update_item') %>" method="post">
             <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="active<%= $item->{id} %>" name="active" value="<%= $item->{id} %>" onchange="this.form.submit();"
