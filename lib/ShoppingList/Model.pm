@@ -233,4 +233,10 @@ sub log_user {
     return $result;
 }
 
+sub accounts {
+    my ($self) = @_;
+    my $result = $self->schema->resultset('Account');
+    return $result;
+}
+
 1;

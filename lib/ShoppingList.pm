@@ -39,6 +39,7 @@ sub startup {
   $auth->get('/view_items')->to('access#view_items');
   $auth->post('/update_item_list')->to('access#update_item_list');
   $auth->get('/reset')->to('access#reset');
+  $auth->get('/accounts')->to('access#accounts');
 }
 
 1;

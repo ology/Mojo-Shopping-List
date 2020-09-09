@@ -447,6 +447,15 @@ sub reset {
     return $self->redirect_to($self->url_for('view_list')->query(list => $self->param('list'), sort => $self->param('sort')));
 }
 
+sub accounts {
+    my ($self) = @_;
+    # XXX This is brittle:
+    return $self->reply->not_found
+        unless $self->session->{auth} == 1;
+    my $accounts = $self->model->accounts;
+    $self->render(accounts => $accounts);
+}
+
 sub privacy { shift->render }
 
 sub signup { shift->render }
