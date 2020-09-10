@@ -21,7 +21,7 @@
       <th scope="row"><%= $account->id %></th>
       <td><%= $account->username %></td>
       <td><a href="mailto:<%= $account->email %>"><%= $account->email %></a></td>
-      <td><%= $account->seen %></td>
+      <td><%= scalar localtime $account->seen %></td>
     </tr>
 
 % }
