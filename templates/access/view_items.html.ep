@@ -84,13 +84,13 @@
         <div class="form-row align-items-center">
           <button class="btn text-black collapsed" type="button" data-toggle="collapse" data-target="#collapse<%= $item->id %>" aria-expanded="true" aria-controls="collapse<%= $item->id %>">
 
-            <b><%= $item->name %></b>
+            <b><%= fix_latin($item->name) %></b>
 
 % if ($item->note) {
-            - <%= $item->note %>
+            - fix_latin(<%= $item->note) %>
 % }
 % if ($item->category) {
-            : <%= $item->category %>
+            : fix_latin(<%= $item->category) %>
 % }
 
           </button>

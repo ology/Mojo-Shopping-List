@@ -100,7 +100,7 @@
 
         % if ($item->{title}) {
 
-        <b><%= $item->{title} %></b>
+        <b><%= fix_latin($item->{title}) %></b>
 
         % } else {
 

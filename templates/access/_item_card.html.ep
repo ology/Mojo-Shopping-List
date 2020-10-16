@@ -31,10 +31,10 @@
             <b><%= $item->{quantity} %></b> &times;
 % }
 
-            <b><%= $item->{name} %></b>
+            <b><%= fix_latin($item->{name}) %></b>
 
 % if ($item->{note}) {
-            - <%= $item->{note} %>
+            - <%= fix_latin($item->{note}) %>
 % }
 
           </button>
@@ -59,7 +59,7 @@
   <input type="hidden" name="item" value="<%= $item->{id} %>">
   <div class="form-row">
     <div class="col">
-      <input type="text" name="name" value="<%= $item->{name} %>" class="form-control" placeholder="Item name" required>
+      <input type="text" name="name" value="<%= fix_latin($item->{name}) %>" class="form-control" placeholder="Item name" required>
     </div>
     <div class="col">
       <input type="text" name="cost" value="<%= $item->{cost} %>" class="form-control" placeholder="Cost">
@@ -67,7 +67,7 @@
   </div>
   <div class="form-row">
     <div class="col">
-      <input type="text" name="note" value="<%= $item->{note} %>" class="form-control" placeholder="Note">
+      <input type="text" name="note" value="<%= fix_latin($item->{note}) %>" class="form-control" placeholder="Note">
     </div>
     <div class="col">
       <input type="number" name="quantity" value="<%= $item->{quantity} %>" class="form-control" placeholder="Quantity">
@@ -75,7 +75,7 @@
   </div>
   <div class="form-row">
     <div class="col">
-      <input type="text" name="category" value="<%= $item->{category} %>" class="form-control" placeholder="Category" list="category">
+      <input type="text" name="category" value="<%= fix_latin($item->{category}) %>" class="form-control" placeholder="Category" list="category">
       <datalist id="category">
 
 % for my $cat (@$cats) {
