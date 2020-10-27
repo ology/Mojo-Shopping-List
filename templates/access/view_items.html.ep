@@ -87,10 +87,10 @@
             <b><%= fix_latin($item->name) %></b>
 
 % if ($item->note) {
-            - fix_latin(<%= $item->note) %>
+            - <%= fix_latin($item->note) %>
 % }
 % if ($item->category) {
-            : fix_latin(<%= $item->category) %>
+            : <%= fix_latin($item->category) %>
 % }
 
           </button>
