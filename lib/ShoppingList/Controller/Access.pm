@@ -287,10 +287,10 @@ sub update_item {
             if ($v->param('list') && $result->list_id && $v->param('list') != $result->list_id) {
                 $self->model->update_or_create($self->session->{auth}, $result->id);
             }
-            if ($v->param('move_to_list')) {
+            if ($v->param('move_to_list') && $v->param('redirect') eq 'view_items') {
                 $result->list_id($v->param('move_to_list'));
             }
-            else {
+            elsif ($v->param('redirect') ne 'view_items') {
                 $result->list_id($v->param('list'));
             }
             $quantity ||= 1;
