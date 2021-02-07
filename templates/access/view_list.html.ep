@@ -160,7 +160,7 @@
 <%= link_to Logout => 'logout' %>
 |
 %= link_to 'Privacy Policy' => 'privacy'
-<!-- | <a href="<%= url_for('reset')->query(list => $list, sort => $sort) %>">Reset</a> -->
+| <a href="<%= url_for('reset')->query(list => $list, sort => $sort) %>">Reset Suggest</a>
 
 <script>
 mybutton = document.getElementById("top_button");
