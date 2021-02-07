@@ -103,13 +103,7 @@
       <div class="card-body">
 
 <form action="<%= url_for('update_item') %>" method="post">
-
-% if ($item->list_id) {
   <input type="hidden" name="active" value="1">
-% } else {
-  <input type="hidden" name="active" value="0">
-% }
-
   <input type="hidden" name="redirect" value="view_items">
   <input type="hidden" name="list" value="<%= $list %>">
   <input type="hidden" name="sort" value="<%= $sort %>">
