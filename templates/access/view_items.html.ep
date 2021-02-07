@@ -149,7 +149,7 @@
     % for my $shop_list (@$shop_lists) {
         <option value="<%= $shop_list->{id} %>"
 
-        % if ($shop_list->{id} eq $item->list_id) {
+        % if ($shop_list->{id} && $item->list_id && $shop_list->{id} eq $item->list_id) {
         selected
         % }
 
