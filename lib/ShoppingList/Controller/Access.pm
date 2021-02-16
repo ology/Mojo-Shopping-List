@@ -289,7 +289,7 @@ sub update_item {
             if ($v->param('list') && $result->list_id && $v->param('list') != $result->list_id) {
                 $self->model->update_or_create($self->session->{auth}, $result->id);
             }
-            if ($v->param('move_to_list') && $v->param('redirect') && $v->param('redirect') eq 'view_items') {
+            if ($v->param('move_to_list')) {
                 $result->list_id($v->param('move_to_list'));
             }
             elsif (!$v->param('redirect') || $v->param('redirect') ne 'view_items') {
