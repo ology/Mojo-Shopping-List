@@ -1,5 +1,8 @@
 % layout 'default';
 % title $name;
+
+<button onclick="topFunction()" id="top_button" title="Go to top" style="width: 38px;">^</button> 
+
 <div class="container">
 %= include 'access/_flash'
 <p></p>
@@ -76,6 +79,15 @@
 </div>
 </div>
 
+<p></p>
+
+<div>
+<a href="#Letters" id="letters"></a>
+    % for my $letter ('A' .. 'Z') {
+<a href="#<%= $letter %>" class="btn" style="width: 38px; border: 1px solid #bbb;"><%= $letter %></a>
+    % }
+</div>
+
 % if (@$items) {
 
 <p></p>
@@ -83,6 +95,9 @@
 <div class="accordion" id="accordionOffItems">
 
     % for my $item (@$items) {
+
+  <a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
+
         %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOffItems', assign_list => 1, query => $query
     % }
 
@@ -96,6 +111,26 @@
 %= link_to 'Privacy Policy' => 'privacy'
 
 </div>
+
+<script>
+mybutton = document.getElementById("top_button");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+function topFunction() {
+    var letters = document.getElementById('letters');
+    letters.scrollIntoView();
+}
+</script>
 
 <script>
 $(document).ready(
