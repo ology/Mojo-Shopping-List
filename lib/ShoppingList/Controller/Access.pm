@@ -335,7 +335,7 @@ sub update_item {
             if ($v->param('move_to_list')) {
                 $result->list_id($v->param('move_to_list'));
             }
-            elsif (!$v->param('redirect') || $v->param('redirect') ne 'view_items') {
+            else {
                 $result->list_id($v->param('list'));
             }
             $quantity ||= 1;
@@ -351,7 +351,12 @@ sub update_item {
         $result->quantity($quantity);
         $result->update;
     }
-    return $self->redirect_to($self->url_for('view_section_items')->query(list => $v->param('list'), sort => $v->param('sort')));
+    if ($v->param('redirect') eq 'view_section') {
+        return $self->redirect_to($self->url_for('view_section')->query(list => $v->param('list'), query => $v->param('query')));
+    }
+    else {
+        return $self->redirect_to($self->url_for('view_section_items')->query(list => $v->param('list'), sort => $v->param('sort')));
+    }
 }
 
 sub update_item_list {
