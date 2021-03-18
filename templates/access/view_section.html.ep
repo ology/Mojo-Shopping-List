@@ -1,5 +1,5 @@
 % layout 'default';
-% title 'View Section';
+% title $name;
 <div class="container">
 %= include 'access/_flash'
 <p></p>
