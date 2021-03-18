@@ -14,7 +14,7 @@
 
 <p></p>
 
-<form action="<%= url_for('view_section') %>" method="get" class="form-inline">                                                                                                                                                         
+<form action="<%= url_for('view_section') %>" method="get" class="form-inline">
   <div class="form-row align-items-center">
     <div class="col">
       <input type="hidden" name="list" value="<%= $list %>" >
