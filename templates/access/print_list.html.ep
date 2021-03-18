@@ -11,7 +11,7 @@
 <p><%= scalar @$on_items %> items for $<%= $cost %></p>
 % }
 <p></p>
-<ol>
+<ul>
 % for my $item (@$on_items) {
   <li>
     % if ($item->{title}) {
