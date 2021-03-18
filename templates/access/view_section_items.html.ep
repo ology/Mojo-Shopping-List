@@ -1,5 +1,5 @@
 % layout 'default';
-% title $name;
+% title $name . ' items';
 
 <div class="container">
 %= include 'access/_flash'
