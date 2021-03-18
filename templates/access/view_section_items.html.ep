@@ -93,7 +93,7 @@
 
         % } else {
 
-            %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOnItems', assign_list => 0
+            %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOnItems', assign_list => 0, query => ''
 
         % }
     % }
