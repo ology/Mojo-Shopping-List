@@ -15,6 +15,12 @@
 
               >
             </div>
+
+% if ($assign_list) {
+            <input type="hidden" name="redirect" value="view_section">
+% }
+
+            <input type="hidden" name="query" value="<%= $query %>">
             <input type="hidden" name="list" value="<%= $list %>">
             <input type="hidden" name="sort" value="<%= $sort %>">
             <input type="hidden" name="item" value="<%= $item->{id} %>">
