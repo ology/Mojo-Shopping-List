@@ -1,22 +1,16 @@
 % layout 'default';
 % title $name;
 
-% if ($sort eq 'alpha') {
-<button onclick="topFunction()" id="top_button" title="Go to top" style="width: 38px;">^</button> 
-% }
-
 <div class="container">
 %= include 'access/_flash'
 
 <div class="form-row align-items-center">
-  <a href="<%= url_for('lists') %>" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('view_section')->query(list => $list) %>" type="button" class="btn btn-success btn-sm" title="Return to <%= $name %>"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   &nbsp;
   <a href="<%= url_for('print_list')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-info btn-sm" title="Print list"><i class="fa fa-print fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="<%= url_for('view_items')->query(list => $list, sort => $sort) %>" type="button" class="btn btn-primary btn-sm" title="Search or add items"><i class="fa fa-search-plus fa-lg" aria-hidden="true"></i></a>
-  &nbsp;
 
-  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#suggestModal" style="width: 35px;">
+  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#suggestModal" style="width: 35px;" title="Suggest a list item">
     <i class="fa fa-question fa-lg" aria-hidden="true"></i>
   </button>
   &nbsp;
@@ -36,12 +30,11 @@
 <form action="<%= url_for('move_item') %>" method="post">
   <input type="hidden" name="next" value="1">
   <input type="hidden" name="list" value="<%= $list %>">
-  <input type="hidden" name="sort" value="<%= $sort %>">
   <input type="hidden" name="item" value="<%= $suggest_id %>" id="suggest_id">
   <input type="hidden" name="move_to_list" value="<%= $list %>">
   <button type="submit" class="btn btn-primary btn-sm" id="suggest_button"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> Add to list</button>
 </form>
-        <a href="<%= url_for('view_list')->query(list => $list, sort => $sort, next => 1) %>" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Next</i></a>
+        <a href="<%= url_for('view_section_items')->query(list => $list, sort => $sort, next => 1) %>" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Next</i></a>
       </div>
     </div>
   </div>
@@ -52,21 +45,21 @@
     <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'added') %>">Added
+      <a class="dropdown-item" href="<%= url_for('view_section_items')->query(list => $list, sort => 'added') %>">Added
 
 % if ($sort eq 'added') {
       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
 % }
 
 </a>
-      <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'alpha') %>">Alpha
+      <a class="dropdown-item" href="<%= url_for('view_section_items')->query(list => $list, sort => 'alpha') %>">Alpha
 
 % if ($sort eq 'alpha') {
       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
 % }
 
 </a>
-      <a class="dropdown-item" href="<%= url_for('view_list')->query(list => $list, sort => 'category') %>">Category
+      <a class="dropdown-item" href="<%= url_for('view_section_items')->query(list => $list, sort => 'category') %>">Category
 
 % if ($sort eq 'category') {
       <i class="fa fa-check fa-lg" aria-hidden="true"></i>
@@ -85,10 +78,6 @@
     % if ($sort eq 'category') {
 
 <p>$<%= $cost %></p>
-
-    % } else {
-
-<p><%= scalar @$on_items %> / <%= scalar(@$on_items) + scalar(@$off_items) %> items for $<%= $cost %></p>
 
     % }
 
@@ -119,43 +108,6 @@
 
 % }
 
-% if ($sort eq 'alpha') {
-<div>
-<a href="#Letters" id="letters"></a>
-    % for my $letter ('A' .. 'Z') {
-<a href="#<%= $letter %>" class="btn" style="width: 38px; border: 1px solid #bbb;"><%= $letter %></a>
-    % }
-</div>
-% }
-
-% if (@$off_items) {
-    % if ($sort eq 'alpha') {
-<p></p>
-    % } else {
-<hr>
-    % }
-
-<div class="accordion" id="accordionOffItems">
-
-    % for my $item (@$off_items) {
-
-        % if ($item->{title}) {
-
-  <b><%= $item->{title} %></b>
-
-        % } else {
-
-  <a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
-
-            %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOffItems', assign_list => 1
-
-        % }
-    % }
-
-</div>
-
-% }
-
 %= tag 'p'
 <%= link_to Logout => 'logout' %>
 |
@@ -163,31 +115,11 @@
 | <a href="<%= url_for('reset')->query(list => $list, sort => $sort) %>">Reset Suggest</a>
 
 <script>
-mybutton = document.getElementById("top_button");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
-
-function topFunction() {
-    var letters = document.getElementById('letters');
-    letters.scrollIntoView();
-}
-</script>
-
-<script>
 % if ($next) {
 $(window).on('load', function() {
     $('#suggestModal').modal('show');
 });
-% }
+% }                                                                                                                                                                          
 $(document).ready(
     function() {
         if ($('#suggest_id').val() == 0) {

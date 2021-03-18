@@ -1,0 +1,114 @@
+% layout 'default';
+% title 'View Section';
+<div class="container">
+%= include 'access/_flash'
+<p></p>
+
+<div class="form-row align-items-center">
+  <a href="<%= url_for('lists') %>" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+  &nbsp;
+  <a href="<%= url_for('view_section_items')->query(list => $list) %>" type="button" class="btn btn-primary btn-sm" title="View list items"><i class="fa fa-check fa-lg" aria-hidden="true"></i></a>
+
+  <span style="font-weight: bold; margin: 10px;"><%= $name %></span>
+</div>
+
+<p></p>
+
+<form action="<%= url_for('view_section') %>" method="get" class="form-inline">
+<div class="form-row align-items-center">
+  <div class="col-auto">
+    <input type="hidden" name="list" value="<%= $list %>" >
+    <input type="text" name="query" id="query" value="<%= $query %>" placeholder="Item search" class="form-control">
+  </div>
+  <div class="col-auto">
+    <button type="submit" title="Search items" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
+  </div>
+  <div class="col-auto">
+<button type="button" id="new_item_toggle" title="New item" class="btn btn-info btn-sm"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
+  </div>
+</div>
+</form>
+
+<div id="new_item" style="display: none">
+<p></p>
+<div class="card text-black">
+  <div class="card-body">
+<form action="<%= url_for('new_item') %>" method="post">
+  <input type="hidden" name="list" value="<%= $list %>">
+  <div class="form-row">
+    <div class="col-auto">
+      <input type="text" name="name" id="item_name" class="form-control" placeholder="Item name" list="item_names" required>
+      <datalist id="item_names">
+% for my $name (@$names) {
+        <option><%= $name %></option>
+% }
+      </datalist>
+    </div>
+    <div class="col-auto">
+      <input type="text" name="note" class="form-control" placeholder="Note">
+    </div>
+    <div class="col-auto">
+      <input type="text" name="category" class="form-control" placeholder="Category" list="category">
+      <datalist id="category">
+% for my $cat (@$cats) {
+        <option><%= $cat %></option>
+% }
+      </datalist>
+    </div>
+    <div class="col-auto">
+      <input type="text" name="cost" class="form-control" placeholder="Cost">
+    </div>
+    <div class="col-auto">
+      <input type="number" name="quantity" class="form-control" placeholder="Quantity">
+    </div>
+    <div class="col-auto">
+      <select name="shop_list" class="form-control">
+        <option value="">List...</option>
+% for my $shop_list (@$shop_lists) {
+        <option value="<%= $shop_list->{id} %>"><%= $shop_list->{name} %></option>
+% }
+      </select>
+    </div>
+  </div>
+      <p></p>
+  <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-plus fa-lg" aria-hidden="true"></i> New Item</button>
+</form>
+  </div>
+</div>
+</div>
+
+% if (@$items) {
+
+<p></p>
+
+<div class="accordion" id="accordionOffItems">
+
+    % for my $item (@$items) {
+        %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOffItems', assign_list => 1
+    % }
+
+</div>
+
+% }
+
+%= tag 'p'
+<%= link_to Logout => 'logout' %>
+|
+%= link_to 'Privacy Policy' => 'privacy'
+
+</div>
+
+<script>
+$(document).ready(
+    function() {
+        $('#new_item_toggle').click(
+            function() {
+                $('#item_name').val($('#query').val());
+                $('#new_item').toggle();
+                $("#item_name").focus();
+            }
+        );
+    }
+);
+</script>
+

@@ -30,13 +30,13 @@ sub startup {
   $auth->post('/lists')->to('access#new_list')->name('new_list');
   $auth->post('/update_list')->to('access#update_list');
   $auth->get('/delete_list')->to('access#delete_list');
-  $auth->get('/view_list')->to('access#view_list');
+  $auth->get('/view_section')->to('access#view_section');
+  $auth->get('/view_section_items')->to('access#view_section_items');
   $auth->get('/print_list')->to('access#print_list');
   $auth->post('/new_item')->to('access#new_item');
   $auth->post('/update_item')->to('access#update_item');
   $auth->get('/delete_item')->to('access#delete_item');
   $auth->post('/move_item')->to('access#move_item');
-  $auth->get('/view_items')->to('access#view_items');
   $auth->post('/update_item_list')->to('access#update_item_list');
   $auth->get('/reset')->to('access#reset');
   $auth->get('/accounts')->to('access#accounts');

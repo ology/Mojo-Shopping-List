@@ -7,7 +7,7 @@
             <div class="form-group form-check">
               <input type="checkbox" class="form-check-input" id="active<%= $item->{id} %>" name="active" value="<%= $item->{id} %>" onchange="this.form.submit();"
 
-% if ($assign_list) {
+% if ($assign_list && (!$item->{list_id} || $item->{list_id} != $list)) {
               title="Add item to list"
 % } else {
               title="Remove item from list" checked
