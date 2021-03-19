@@ -83,9 +83,8 @@ sub view_section {
     unless ($account) {
         return $self->redirect_to('login');
     }
-    my $name = '';
-    my $result = $self->model->find_list($self->session->{auth}, $v->param('list'));
-    $name = $result->name;
+    my $list = $self->model->find_list($self->session->{auth}, $v->param('list'));
+    my $name = $list->name;
     my $all_items = $account->items;
     my $names = [];
     while (my $item = $all_items->next) {
@@ -93,9 +92,8 @@ sub view_section {
     }
     my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
     my $list_items = [];
-    my $query_items;
     if ($query) {
-        $query_items = $self->model->query_items($all_items, $query);
+        my $query_items = $self->model->query_items($all_items, $query);
         while (my $item = $query_items->next) {
             push @$list_items, {
                 id => $item->id,
