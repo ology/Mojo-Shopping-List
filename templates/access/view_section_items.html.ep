@@ -75,11 +75,8 @@
 <p></p>
 
 % if (@$on_items) {
-    % if ($sort eq 'category') {
 
-<p>$<%= $cost %></p>
-
-    % }
+<p><%= scalar @$on_items %> item(s) for $<%= $cost %></p>
 
 <p></p>
 
