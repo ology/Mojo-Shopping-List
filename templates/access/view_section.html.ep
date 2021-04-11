@@ -96,9 +96,6 @@
 <div class="accordion" id="accordionOffItems">
 
     % for my $item (@$items) {
-
-  <a name="<%= uc substr $item->{name}, 0, 1 %>"></a>
-
         %= include 'access/_item_card', item => $item, cats => $cats, shop_lists => $shop_lists, accordion => 'accordionOffItems', assign_list => 1, query => $query
     % }
 
