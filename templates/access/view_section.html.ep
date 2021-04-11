@@ -7,6 +7,8 @@
 %= include 'access/_flash'
 <p></p>
 
+<a href="#Top" id="top"></a>
+
 <div class="form-row align-items-center">
   <a href="<%= url_for('lists') %>" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   &nbsp;
@@ -82,9 +84,8 @@
 <p></p>
 
 <div>
-<a href="#Letters" id="letters"></a>
     % for my $letter ('A' .. 'Z') {
-<a href="#<%= $letter %>" class="btn" style="width: 38px; border: 1px solid #bbb;"><%= $letter %></a>
+<a href="<%= url_for('view_section')->query(list => $list, query => $letter . '%') %>" class="btn" style="width: 38px; border: 1px solid #bbb;"><%= $letter %></a>
     % }
 </div>
 
@@ -127,8 +128,8 @@ function scrollFunction() {
 }
 
 function topFunction() {
-    var letters = document.getElementById('letters');
-    letters.scrollIntoView();
+    var top = document.getElementById('top');
+    top.scrollIntoView();
 }
 </script>
 
