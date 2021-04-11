@@ -54,11 +54,7 @@
 
 <form action="<%= url_for('update_item') %>" method="post">
 
-% if ($assign_list) {
-  <input type="hidden" name="active" value="0">
-% } else {
-  <input type="hidden" name="active" value="1">
-% }
+  <input type="hidden" name="active" value="<%= $item->{list_id} ? 1 : 0 %>">
 
   <input type="hidden" name="list" value="<%= $list %>">
   <input type="hidden" name="sort" value="<%= $sort %>">
