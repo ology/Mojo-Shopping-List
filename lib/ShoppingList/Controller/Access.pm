@@ -90,7 +90,15 @@ sub view_section {
     while (my $item = $all_items->next) {
         push @$names, $item->name;
     }
-    my $query = $v->param('query') ? '%' . $v->param('query') . '%' : '';
+    my $query = '';
+    if ($v->param('query')) {
+      if ($v->param('query') =~ /%/) {
+        $query = $v->param('query');
+      }
+      else {
+        $query = '%' . $v->param('query') . '%';
+      }
+    }
     my $list_items = [];
     if ($query) {
         my $query_items = $self->model->query_items($all_items, $query);
