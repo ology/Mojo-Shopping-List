@@ -27,7 +27,6 @@
     </div>
     <div class="col">
       <button type="submit" title="Search items" class="btn btn-primary btn-sm"><i class="fa fa-search fa-lg" aria-hidden="true"></i></button>
-      <a href="<%= url_for('view_section')->query(list => $list, query => '%') %>" type="button" title="Show all items" class="btn btn-success btn-sm"><i class="fa fa-list fa-lg" aria-hidden="true"></i></a>
       <button type="button" id="new_item_toggle" title="New item" class="btn btn-info btn-sm"><i class="fa fa-plus fa-lg" aria-hidden="true"></i></button>
     </div>
   </div>
