@@ -103,16 +103,7 @@ sub view_section {
     if ($query) {
         my $query_items = $self->model->query_items($all_items, $query);
         while (my $item = $query_items->next) {
-            push @$list_items, {
-                id => $item->id,
-                name => $item->name,
-                note => $item->note,
-                category => $item->category,
-                cost => $item->cost,
-                quantity => $item->quantity,
-                assigned => $item->assigned,
-                list_id => $item->list_id,
-            };
+            push @$list_items, { $item->get_columns };
         }
     }
     my $cats = [];
