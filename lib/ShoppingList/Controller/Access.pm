@@ -204,11 +204,11 @@ sub view_section_items {
     if ($result) {
         my $item = $self->model->find_item($self->session->{auth}, $result->item_id);
         if (!$item->assigned || $item->assigned == $v->param('list')) {
-        $suggest = $item->name;
-        $suggest .= ' - ' . $item->note if $item->note;
-        $suggest .= '?';
-        $suggest_id = $item->id;
-        push @$exclude, $result->item_id;
+            $suggest = $item->name;
+            $suggest .= ' - ' . $item->note if $item->note;
+            $suggest .= '?';
+            $suggest_id = $item->id;
+            push @$exclude, $result->item_id;
         }
     }
     if ($suggest) {
