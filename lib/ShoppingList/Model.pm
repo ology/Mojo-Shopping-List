@@ -112,13 +112,14 @@ sub list_items {
 
 sub suggestion {
     my ($self, $account, $exclude) = @_;
-    my $result = $self->schema->resultset('ItemCount')->search(
+    my $result = $self->schema->resultset('Item')->search(
         {
             account_id => $account,
-            item_id    => { -not_in => $exclude },
+            id => { -not_in => $exclude },
+            list_id => undef,
         },
         {
-            order_by => { -desc => 'count' },
+#            order_by => { -desc => 'count' },
         }
     )->first;
     return $result;
