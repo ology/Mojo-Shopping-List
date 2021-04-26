@@ -116,10 +116,9 @@ sub suggestion {
         {
             account_id => $account,
             id => { -not_in => $exclude },
-            list_id => undef,
         },
         {
-#            order_by => { -desc => 'count' },
+            order_by => { -asc => \'LOWER(name)' },
         }
     )->first;
     return $result;
