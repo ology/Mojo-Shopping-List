@@ -185,7 +185,7 @@ sub query_items {
             -or => [
                 name     => { like => $query },
                 note     => { like => $query },
-                category => { like => $query },
+#                category => { like => $query },
             ],
         },
         {
