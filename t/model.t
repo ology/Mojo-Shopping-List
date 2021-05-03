@@ -118,10 +118,6 @@ while (my $i = $got->next) {
     is $i->id, $item->id, 'ordered_items';
 }
 
-# Test that the item count has not been updated
-$got = $schema->resultset('ItemCount');
-ok !$got->count, 'counts';
-
 # Test that there is nothing to suggest
 $got = $model->suggestion($account->id, []);
 ok !$got, 'suggestion';
@@ -129,17 +125,6 @@ ok !$got, 'suggestion';
 # Move the item to the list (and update the count)
 $got = $model->move_item($account->id, $item->id, $list->id);
 is $got->list_id, $list->id, 'move_item';
-
-# Test that the item count has been updated
-$got = $schema->resultset('ItemCount');
-is $got->count, 1, 'counts';
-
-# Test that the item count can be updated again
-$model->update_or_create($account->id, $item->id);
-$got = $schema->resultset('ItemCount');
-while (my $i = $got->next) {
-    is $i->count, 2, 'update_or_create';
-}
 
 # Remove the item from the list
 $got = $model->update_item_list($account->id, $item->id, undef);
@@ -169,9 +154,5 @@ while (my $i = $got->next) {
 $model->delete_item($account->id, $item->id);
 $all_items = $account->items;
 ok !$all_items->count, 'delete_item';
-
-# Test that the item count has been removed
-$got = $schema->resultset('ItemCount');
-ok !$got->count, 'counts';
 
 done_testing();

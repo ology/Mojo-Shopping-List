@@ -130,11 +130,6 @@ sub find_item {
     return $result;
 }
 
-sub update_or_create {
-    my ($self, $account, $id) = @_;
-    $self->schema->resultset('ItemCount')->update_or_create($account, $id);
-}
-
 sub update_item_list {
     my ($self, $account, $item, $list) = @_;
     my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;

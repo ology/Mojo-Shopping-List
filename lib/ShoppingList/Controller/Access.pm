@@ -326,9 +326,6 @@ sub update_item {
         my $quantity = $v->param('quantity');
         my $result = $self->model->find_item($self->session->{auth}, $v->param('item'));
         if ($v->param('active')) {
-            if ($v->param('list') && $result->list_id && $v->param('list') != $result->list_id) {
-                $self->model->update_or_create($self->session->{auth}, $result->id);
-            }
             if ($v->param('move_to_list')) {
                 $result->list_id($v->param('move_to_list'));
             }
@@ -367,10 +364,7 @@ sub update_item_list {
         $self->flash(error => ERROR_MSG)
     }
     else {
-        my $result = $self->model->update_item_list($self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
-        if ($result && $v->param('move_to_list')) {
-            $self->model->update_or_create($self->session->{auth}, $result->id);
-        }
+        $self->model->update_item_list($self->session->{auth}, $v->param('item'), $v->param('move_to_list'));
     }
     return $self->redirect_to($self->url_for('view_section_items')->query(list => $v->param('list'), sort => $v->param('sort')));
 }
@@ -422,7 +416,7 @@ sub new_item {
         $self->flash(error => ERROR_MSG);
     }
     else {
-        my $item = $self->model->new_item(
+        $self->model->new_item(
             account_id => $self->session->{auth},
             name       => $v->param('name'),
             note       => $v->param('note'),
@@ -431,9 +425,6 @@ sub new_item {
             quantity   => $v->param('quantity') || 1,
             list_id    => $v->param('shop_list'),
         );
-        if ($v->param('shop_list')) {
-            $self->model->update_or_create($self->session->{auth}, $item->id);
-        }
     }
     return $self->redirect_to($self->url_for('view_section')->query(list => $v->param('list'), sort => $v->param('sort'), query => $v->param('name')));
 }
