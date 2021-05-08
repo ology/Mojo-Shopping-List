@@ -143,8 +143,6 @@ sub delete_item {
     my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->delete;
-    $result = $self->schema->resultset('ItemCount')->search({ item_id => $item })->first;
-    $result->delete if $result;
 }
 
 sub move_item {
