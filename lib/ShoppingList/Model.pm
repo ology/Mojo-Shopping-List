@@ -152,7 +152,6 @@ sub move_item {
     my $result = $self->schema->resultset('Item')->search({ id => $item, account_id => $account })->first;
     return unless $result;
     $result->update({ list_id => $list });
-    $self->schema->resultset('ItemCount')->update_or_create($account, $item);
     return $result;
 }
 
