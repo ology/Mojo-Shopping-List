@@ -1,6 +1,8 @@
 package ShoppingList::Controller::Access;
 use Mojo::Base 'Mojolicious::Controller';
 
+use List::Util qw(uniq);
+
 use constant ERROR_MSG => 'Invalid fields';
 
 sub index { shift->render }
@@ -109,8 +111,9 @@ sub view_section {
     my $cats = [];
     my $categories = $self->model->categories($all_items);
     while (my $cat = $categories->next) {
-        push @$cats, $cat->category;
+        push @$cats, ucfirst $cat->category;
     }
+    @$cats = uniq @$cats;
     my $lists = $self->model->lists_by_account($account);
     my $shop_lists = [];
     while (my $list = $lists->next) {
@@ -187,8 +190,9 @@ sub view_section_items {
     }
     my $categories = $self->model->categories($items);
     while (my $cat = $categories->next) {
-        push @$cats, $cat->category;
+        push @$cats, ucfirst $cat->category;
     }
+    @$cats = uniq @$cats;
     my $lists = $self->model->account_lists($self->session->{auth});
     while (my $list = $lists->next) {
         push @$shop_lists, { id => $list->id, name => $list->name };
