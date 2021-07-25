@@ -10,10 +10,8 @@
 <a href="#Top" id="top"></a>
 
 <div class="form-row align-items-center">
-  <a href="<%= url_for('lists') %>" type="button" class="btn btn-success btn-sm" title="Return to lists"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
+  <a href="<%= url_for('view_section_items')->query(list => $list) %>" type="button" class="btn btn-success btn-sm" title="View list items"><i class="fa fa-arrow-left fa-lg" aria-hidden="true"></i></a>
   &nbsp;
-  <a href="<%= url_for('view_section_items')->query(list => $list) %>" type="button" class="btn btn-primary btn-sm" title="View list items"><i class="fa fa-check fa-lg" aria-hidden="true"></i></a>
-
   <span style="font-weight: bold; margin: 10px;"><%= $name %></span>
 </div>
 
